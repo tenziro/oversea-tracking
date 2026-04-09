@@ -3,6 +3,8 @@ import { Providers } from "./providers";
 import { Header } from "@/components/layout/header";
 import { BottomNav } from "@/components/layout/bottom-nav";
 import { InstallPrompt } from "@/components/install/install-prompt";
+import { OfflineBanner } from "@/components/pwa/offline-banner";
+import { UpdateBanner } from "@/components/pwa/update-banner";
 import "./globals.css";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://cargo.example.com";
@@ -96,6 +98,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             </main>
             <BottomNav />
           </div>
+          <OfflineBanner />
+          <UpdateBanner />
           <InstallPrompt />
         </Providers>
       </body>
