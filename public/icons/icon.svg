@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1B4F91;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0d3a7a;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <!-- Background -->
+  <rect width="512" height="512" rx="96" fill="url(#bg)"/>
+  <!-- Ship hull -->
+  <path d="M80 360L120 200H392L432 360" stroke="white" stroke-width="32" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  <!-- Ship cabin/containers -->
+  <rect x="170" y="100" width="172" height="100" rx="16" fill="white" opacity="0.9"/>
+  <!-- Container lines on cabin -->
+  <line x1="256" y1="100" x2="256" y2="200" stroke="#1B4F91" stroke-width="8" opacity="0.4"/>
+  <line x1="170" y1="150" x2="342" y2="150" stroke="#1B4F91" stroke-width="8" opacity="0.4"/>
+  <!-- Water/waves -->
+  <path d="M40 410C90 410 110 395 160 395s70 15 120 15 100-15 150-15 110 15 160 15 50-5 42-5" stroke="white" stroke-width="28" stroke-linecap="round" fill="none" opacity="0.85"/>
+  <path d="M60 450C110 450 130 438 180 438s70 12 120 12 100-12 150-12 110 12 140 12" stroke="white" stroke-width="18" stroke-linecap="round" fill="none" opacity="0.45"/>
+</svg>

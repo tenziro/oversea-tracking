@@ -1,0 +1,184 @@
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Maritime Blue Light Theme */
+    --background: 210 20% 98%;
+    --foreground: 220 30% 12%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 220 30% 12%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 220 30% 12%;
+
+    --primary: 214 85% 35%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 210 20% 94%;
+    --secondary-foreground: 220 30% 20%;
+
+    --muted: 210 20% 94%;
+    --muted-foreground: 220 15% 50%;
+
+    --accent: 210 20% 90%;
+    --accent-foreground: 220 30% 20%;
+
+    --destructive: 0 84% 55%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 214 20% 88%;
+    --input: 214 20% 88%;
+    --ring: 214 85% 35%;
+
+    --radius: 0.75rem;
+
+    /* Status colors */
+    --status-pending: 220 15% 65%;
+    --status-processing: 214 85% 50%;
+    --status-inspection: 40 95% 50%;
+    --status-cleared: 140 60% 38%;
+    --status-error: 0 84% 55%;
+
+    /* Safe area */
+    --sat: env(safe-area-inset-top, 0px);
+    --sar: env(safe-area-inset-right, 0px);
+    --sab: env(safe-area-inset-bottom, 0px);
+    --sal: env(safe-area-inset-left, 0px);
+  }
+
+  .dark {
+    /* Maritime Blue Dark Theme */
+    --background: 222 30% 9%;
+    --foreground: 210 20% 95%;
+
+    --card: 222 25% 13%;
+    --card-foreground: 210 20% 95%;
+
+    --popover: 222 25% 13%;
+    --popover-foreground: 210 20% 95%;
+
+    --primary: 214 80% 55%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 222 22% 18%;
+    --secondary-foreground: 210 20% 85%;
+
+    --muted: 222 22% 18%;
+    --muted-foreground: 215 15% 55%;
+
+    --accent: 222 22% 20%;
+    --accent-foreground: 210 20% 85%;
+
+    --destructive: 0 70% 50%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 222 20% 22%;
+    --input: 222 20% 22%;
+    --ring: 214 80% 55%;
+
+    /* Status colors (dark mode) */
+    --status-pending: 220 12% 50%;
+    --status-processing: 214 75% 60%;
+    --status-inspection: 40 90% 55%;
+    --status-cleared: 140 55% 48%;
+    --status-error: 0 70% 58%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans;
+    font-feature-settings: "rlig" 1, "calt" 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    /* Safe area padding for notched devices */
+    padding-top: env(safe-area-inset-top);
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+  }
+}
+
+@layer utilities {
+  /* Safe area utilities */
+  .pb-safe {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  .pt-safe {
+    padding-top: env(safe-area-inset-top);
+  }
+
+  .pl-safe {
+    padding-left: env(safe-area-inset-left);
+  }
+
+  .pr-safe {
+    padding-right: env(safe-area-inset-right);
+  }
+
+  .mb-safe {
+    margin-bottom: env(safe-area-inset-bottom);
+  }
+
+  .bottom-safe {
+    bottom: env(safe-area-inset-bottom);
+  }
+
+  .h-bottom-nav {
+    height: calc(3.5rem + env(safe-area-inset-bottom));
+  }
+
+  /* Shimmer animation for skeletons */
+  .shimmer {
+    background: linear-gradient(
+      90deg,
+      hsl(var(--muted)) 0%,
+      hsl(var(--accent)) 50%,
+      hsl(var(--muted)) 100%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 2s linear infinite;
+  }
+
+  /* PWA standalone mode */
+  @media (display-mode: standalone) {
+    .pwa-only {
+      display: block;
+    }
+
+    .browser-only {
+      display: none;
+    }
+  }
+
+  @media not (display-mode: standalone) {
+    .pwa-only {
+      display: none;
+    }
+  }
+
+  /* Hide scrollbar but keep scrollable */
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+}
