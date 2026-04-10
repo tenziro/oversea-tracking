@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>화물통관 조회 — 국제 화물 통관 현황 실시간 추적</title>
   <meta name="description" content="관세청 공식 API 기반 화물통관 조회 서비스. 화물관리번호, B/L번호로 통관 진행상황을 실시간으로 확인하세요.">
+  <meta name="theme-color" content="#09090b">
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.min.css">
   <script src="https://code.iconify.design/iconify-icon/2.3.0/iconify-icon.min.js"></script>
@@ -20,6 +21,8 @@
         theme = stored;
       }
       document.documentElement.setAttribute('data-theme', theme);
+      var meta = document.querySelector('meta[name="theme-color"]');
+      if (meta) meta.content = theme === 'dark' ? '#09090b' : '#f8fafc';
     })();
   </script>
   <script>
@@ -513,7 +516,7 @@
 
                   <!-- Cargo result card -->
                   <div class="px-4 pb-3 flex-shrink-0">
-                    <div class="bg-zinc-900/70 rounded-2xl p-4 border border-emerald-500/18">
+                    <div class="bg-zinc-900/70 rounded-2xl p-4 border border-emerald-500/30">
                       <div class="flex items-start justify-between mb-3">
                         <div>
                           <p class="text-[10px] font-mono text-zinc-600 mb-0.5">KRPUS24091234567</p>
@@ -541,7 +544,7 @@
                   <div class="px-4 flex-1 overflow-hidden">
                     <p class="text-[10px] font-bold text-zinc-600 uppercase tracking-widest mb-2.5">통관 타임라인</p>
                     <div class="space-y-2">
-                      <div class="flex items-start gap-2.5 bg-emerald-500/8 rounded-xl p-2.5 border border-emerald-500/15">
+                      <div class="flex items-start gap-2.5 bg-emerald-500/10 rounded-xl p-2.5 border border-emerald-500/20">
                         <div class="w-5 h-5 rounded-full bg-emerald-500/25 border border-emerald-500/40 flex items-center justify-center flex-shrink-0 mt-0.5">
                           <iconify-icon icon="solar:check-circle-bold" class="text-emerald-400" style="font-size:10px"></iconify-icon>
                         </div>
@@ -1479,6 +1482,8 @@
           ? (mq.matches ? 'dark' : 'light')
           : stored;
         html.setAttribute('data-theme', actual);
+        const meta = document.querySelector('meta[name="theme-color"]');
+        if (meta) meta.content = actual === 'dark' ? '#09090b' : '#f8fafc';
       }
 
       function syncIcon() {
