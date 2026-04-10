@@ -198,7 +198,7 @@
           <a href="#pwa"      data-nav="pwa"      class="nav-link text-sm text-zinc-400 hover:text-zinc-200 transition-colors duration-200">PWA</a>
         </div>
 
-        <a href="/app" target="_blank" rel="noopener noreferrer" class="btn-primary text-sm px-5 py-2.5 rounded-xl flex items-center gap-2">
+        <a href="/app" target="_blank" rel="noopener noreferrer" data-app-link class="btn-primary text-sm px-5 py-2.5 rounded-xl flex items-center gap-2">
           <iconify-icon icon="solar:magnifer-linear" style="font-size:14px"></iconify-icon>
           지금 조회하기
         </a>
@@ -232,7 +232,7 @@
           </p>
 
           <div class="anim-in d3 flex flex-col sm:flex-row gap-3 mb-12">
-            <a href="/app" target="_blank" rel="noopener noreferrer" class="btn-primary text-base px-8 py-4 rounded-2xl flex items-center justify-center gap-2.5">
+            <a href="/app" target="_blank" rel="noopener noreferrer" data-app-link class="btn-primary text-base px-8 py-4 rounded-2xl flex items-center justify-center gap-2.5">
               <iconify-icon icon="solar:magnifer-linear" style="font-size:18px"></iconify-icon>
               화물 조회 시작하기
             </a>
@@ -1090,12 +1090,12 @@
           </p>
 
           <div class="reveal flex flex-col sm:flex-row gap-4 justify-center mb-14">
-            <a href="/app" target="_blank" rel="noopener noreferrer" class="btn-primary text-lg px-12 py-5 rounded-2xl flex items-center justify-center gap-3 emerald-glow">
+            <a href="/app" target="_blank" rel="noopener noreferrer" data-app-link class="btn-primary text-lg px-12 py-5 rounded-2xl flex items-center justify-center gap-3 emerald-glow">
               <iconify-icon icon="solar:magnifer-linear" style="font-size:20px"></iconify-icon>
               무료로 조회 시작하기
               <iconify-icon icon="solar:arrow-right-bold" style="font-size:16px"></iconify-icon>
             </a>
-            <a href="/app" target="_blank" rel="noopener noreferrer" class="btn-ghost text-lg px-10 py-5 rounded-2xl flex items-center justify-center gap-3">
+            <a href="/app" target="_blank" rel="noopener noreferrer" data-app-link class="btn-ghost text-lg px-10 py-5 rounded-2xl flex items-center justify-center gap-3">
               <iconify-icon icon="solar:download-minimalistic-bold" class="text-emerald-400" style="font-size:20px"></iconify-icon>
               홈 화면에 설치하기
             </a>
@@ -1239,6 +1239,45 @@
       sectionIds.forEach(id => {
         const el = document.getElementById(id);
         if (el) observer.observe(el);
+      });
+    })();
+  </script>
+
+  <!-- 준비중 토스트 -->
+  <div id="wip-toast" style="
+    position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%) translateY(20px);
+    background: rgba(24,24,27,0.95); border: 1px solid rgba(16,185,129,0.25);
+    backdrop-filter: blur(16px); border-radius: 14px;
+    padding: 14px 20px; display: flex; align-items: center; gap: 10px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.25s ease, transform 0.25s ease;
+    z-index: 9999; white-space: nowrap;
+  ">
+    <iconify-icon icon="solar:clock-circle-bold" style="font-size:18px; color:#10b981; flex-shrink:0;"></iconify-icon>
+    <span style="font-size:14px; font-weight:600; color:#f4f4f5;">아직 준비중입니다.</span>
+  </div>
+
+  <script>
+    (function () {
+      const toast = document.getElementById('wip-toast');
+      let timer;
+
+      function showToast() {
+        clearTimeout(timer);
+        toast.style.opacity = '1';
+        toast.style.transform = 'translateX(-50%) translateY(0)';
+        timer = setTimeout(() => {
+          toast.style.opacity = '0';
+          toast.style.transform = 'translateX(-50%) translateY(20px)';
+        }, 2500);
+      }
+
+      document.querySelectorAll('[data-app-link]').forEach(el => {
+        el.addEventListener('click', e => {
+          e.preventDefault();
+          showToast();
+        });
       });
     })();
   </script>
