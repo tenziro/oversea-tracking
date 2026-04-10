@@ -5,7 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>화물통관 조회 — 국제 화물 통관 현황 실시간 추적</title>
   <meta name="description" content="관세청 공식 API 기반 화물통관 조회 서비스. 화물관리번호, B/L번호로 통관 진행상황을 실시간으로 확인하세요.">
-  <meta name="theme-color" content="transparent">
+  <meta id="tc-dark" name="theme-color" content="#09090b" media="(prefers-color-scheme: dark)">
+  <meta id="tc-light" name="theme-color" content="#f8fafc" media="(prefers-color-scheme: light)">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.min.css">
@@ -22,6 +23,18 @@
         theme = stored;
       }
       document.documentElement.setAttribute('data-theme', theme);
+      // Sync theme-color meta for Safari status bar
+      if (stored && stored !== 'system') {
+        var tcDark = document.getElementById('tc-dark');
+        var tcLight = document.getElementById('tc-light');
+        if (stored === 'dark') {
+          if (tcDark) tcDark.setAttribute('media', 'all');
+          if (tcLight) tcLight.setAttribute('media', 'not all');
+        } else {
+          if (tcDark) tcDark.setAttribute('media', 'not all');
+          if (tcLight) tcLight.setAttribute('media', 'all');
+        }
+      }
     })();
   </script>
   <script>
@@ -1483,6 +1496,19 @@
           : stored;
         html.setAttribute('data-theme', actual);
         html.style.colorScheme = actual;
+        // Sync theme-color meta for Safari status bar
+        const tcDark = document.getElementById('tc-dark');
+        const tcLight = document.getElementById('tc-light');
+        if (stored === 'system') {
+          tcDark.setAttribute('media', '(prefers-color-scheme: dark)');
+          tcLight.setAttribute('media', '(prefers-color-scheme: light)');
+        } else if (actual === 'dark') {
+          tcDark.setAttribute('media', 'all');
+          tcLight.setAttribute('media', 'not all');
+        } else {
+          tcDark.setAttribute('media', 'not all');
+          tcLight.setAttribute('media', 'all');
+        }
       }
 
       function syncIcon() {
