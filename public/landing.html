@@ -5,13 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>화물통관 조회 — 국제 화물 통관 현황 실시간 추적</title>
   <meta name="description" content="관세청 공식 API 기반 화물통관 조회 서비스. 화물관리번호, B/L번호로 통관 진행상황을 실시간으로 확인하세요.">
-  <meta name="theme-color" content="#09090b">
+  <meta name="theme-color" id="tc-dark"  media="(prefers-color-scheme: dark)"  content="#09090b">
+  <meta name="theme-color" id="tc-light" media="(prefers-color-scheme: light)" content="#f8fafc">
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.min.css">
   <script src="https://code.iconify.design/iconify-icon/2.3.0/iconify-icon.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js"></script>
   <script>
-    // Apply theme before paint to avoid flash
+    // Apply theme before paint — also force theme-color meta media attributes
     (function(){
       var stored = localStorage.getItem('landing-theme');
       var theme;
@@ -21,8 +22,15 @@
         theme = stored;
       }
       document.documentElement.setAttribute('data-theme', theme);
-      var meta = document.querySelector('meta[name="theme-color"]');
-      if (meta) meta.content = theme === 'dark' ? '#09090b' : '#f8fafc';
+      // Force theme-color meta for manual overrides
+      if (stored && stored !== 'system') {
+        var tcDark  = document.getElementById('tc-dark');
+        var tcLight = document.getElementById('tc-light');
+        if (tcDark && tcLight) {
+          tcDark.media  = stored === 'dark'  ? 'all' : 'not all';
+          tcLight.media = stored === 'light' ? 'all' : 'not all';
+        }
+      }
     })();
   </script>
   <script>
@@ -1482,8 +1490,20 @@
           ? (mq.matches ? 'dark' : 'light')
           : stored;
         html.setAttribute('data-theme', actual);
-        const meta = document.querySelector('meta[name="theme-color"]');
-        if (meta) meta.content = actual === 'dark' ? '#09090b' : '#f8fafc';
+        html.style.colorScheme = actual;
+
+        // Update theme-color meta by swapping media attributes
+        const tcDark  = document.getElementById('tc-dark');
+        const tcLight = document.getElementById('tc-light');
+        if (tcDark && tcLight) {
+          if (stored === 'system') {
+            tcDark.media  = '(prefers-color-scheme: dark)';
+            tcLight.media = '(prefers-color-scheme: light)';
+          } else {
+            tcDark.media  = stored === 'dark'  ? 'all' : 'not all';
+            tcLight.media = stored === 'light' ? 'all' : 'not all';
+          }
+        }
       }
 
       function syncIcon() {
