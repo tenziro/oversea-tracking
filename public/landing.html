@@ -12,9 +12,14 @@
   <script>
     // Apply theme before paint to avoid flash
     (function(){
-      var s = localStorage.getItem('landing-theme');
-      if (!s) s = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-      document.documentElement.setAttribute('data-theme', s);
+      var stored = localStorage.getItem('landing-theme');
+      var theme;
+      if (!stored || stored === 'system') {
+        theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      } else {
+        theme = stored;
+      }
+      document.documentElement.setAttribute('data-theme', theme);
     })();
   </script>
   <script>
@@ -1444,27 +1449,61 @@
     })();
   </script>
 
-  <!-- Theme toggle -->
+  <!-- Theme toggle (dark → light → system cycle) -->
   <script>
     (function () {
       const html = document.documentElement;
       const btn = document.getElementById('theme-toggle');
       const icon = document.getElementById('theme-icon');
+      const mq   = window.matchMedia('(prefers-color-scheme: dark)');
+
+      // dark → light → system → dark
+      const cycle = { dark: 'light', light: 'system', system: 'dark' };
+      const icons = {
+        dark:   'solar:moon-bold',
+        light:  'solar:sun-bold',
+        system: 'solar:laptop-minimalistic-bold',
+      };
+      const labels = {
+        dark:   '라이트 모드로 전환',
+        light:  '시스템 테마로 전환',
+        system: '다크 모드로 전환',
+      };
+
+      function getStored() {
+        return localStorage.getItem('landing-theme') || 'system';
+      }
+
+      function applyTheme(stored) {
+        const actual = (stored === 'system')
+          ? (mq.matches ? 'dark' : 'light')
+          : stored;
+        html.setAttribute('data-theme', actual);
+      }
 
       function syncIcon() {
-        const isDark = html.getAttribute('data-theme') === 'dark';
-        icon.setAttribute('icon', isDark ? 'solar:sun-bold' : 'solar:moon-bold');
+        const stored = getStored();
+        icon.setAttribute('icon', icons[stored]);
+        btn.setAttribute('aria-label', labels[stored]);
+        btn.setAttribute('title', labels[stored]);
       }
+
+      // Init
       syncIcon();
 
+      // Click: cycle to next state
       btn.addEventListener('click', () => {
-        const isDark = html.getAttribute('data-theme') === 'dark';
-        const next = isDark ? 'light' : 'dark';
-        html.setAttribute('data-theme', next);
+        const current = getStored();
+        const next    = cycle[current] || 'dark';
         localStorage.setItem('landing-theme', next);
+        applyTheme(next);
         syncIcon();
-        // Re-apply nav bg for new theme if scrolled
         if (window.scrollY > 60) updateNavBg();
+      });
+
+      // Follow OS preference change when in system mode
+      mq.addEventListener('change', () => {
+        if (getStored() === 'system') applyTheme('system');
       });
     })();
   </script>
