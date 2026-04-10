@@ -363,22 +363,13 @@
       --tw-gradient-to: #f8fafc var(--tw-gradient-to-position);
     }
 
-    /* =====================================================
-       SAFE AREA (viewport-fit=cover)
-       ===================================================== */
-    nav {
-      padding-top: calc(env(safe-area-inset-top, 0px) + 1rem);
-    }
-    #hero {
-      padding-top: calc(env(safe-area-inset-top, 0px) + 7rem);
-    }
   </style>
 </head>
 <body class="gradient-page antialiased">
   <div class="noise-overlay"></div>
 
   <!-- ==================== NAVIGATION ==================== -->
-  <nav class="fixed top-0 left-0 right-0 z-40 px-4 sm:px-6">
+  <nav class="fixed top-0 left-0 right-0 z-40 pt-4 px-4 sm:px-6">
     <div class="max-w-7xl mx-auto">
       <div class="glass rounded-2xl px-5 py-3 flex items-center justify-between">
         <div class="flex items-center gap-3">
@@ -409,7 +400,7 @@
   </nav>
 
   <!-- ==================== HERO ==================== -->
-  <section id="hero" class="min-h-[100dvh] flex items-center pb-20 px-4 sm:px-6">
+  <section id="hero" class="min-h-[100dvh] flex items-center pt-28 pb-20 px-4 sm:px-6">
     <div class="max-w-7xl mx-auto w-full">
       <div class="grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-14 lg:gap-20 items-center">
 
