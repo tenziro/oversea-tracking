@@ -88,6 +88,57 @@ export function clearRecentSearches(): void {
   localStorage.removeItem(RECENT_SEARCHES_KEY);
 }
 
+// 즐겨찾기 로컬스토리지 관리
+const WATCHLIST_KEY = "cargo_watchlist";
+const MAX_WATCHLIST = 20;
+
+export function getWatchlist(): RecentSearch[] {
+  if (typeof window === "undefined") return [];
+  try {
+    const raw = localStorage.getItem(WATCHLIST_KEY);
+    return raw ? JSON.parse(raw) : [];
+  } catch {
+    return [];
+  }
+}
+
+export function addToWatchlist(item: Omit<RecentSearch, "id" | "timestamp">): void {
+  if (typeof window === "undefined") return;
+  try {
+    const existing = getWatchlist();
+    const filtered = existing.filter(
+      (s) => !(s.query === item.query && s.searchType === item.searchType)
+    );
+    const newItem: RecentSearch = {
+      ...item,
+      id: crypto.randomUUID(),
+      timestamp: Date.now(),
+    };
+    const updated = [newItem, ...filtered].slice(0, MAX_WATCHLIST);
+    localStorage.setItem(WATCHLIST_KEY, JSON.stringify(updated));
+  } catch {
+    // ignore
+  }
+}
+
+export function removeFromWatchlist(query: string, searchType: SearchType): void {
+  if (typeof window === "undefined") return;
+  try {
+    const existing = getWatchlist();
+    const updated = existing.filter(
+      (s) => !(s.query === query && s.searchType === searchType)
+    );
+    localStorage.setItem(WATCHLIST_KEY, JSON.stringify(updated));
+  } catch {
+    // ignore
+  }
+}
+
+export function isInWatchlist(query: string, searchType: SearchType): boolean {
+  const list = getWatchlist();
+  return list.some((s) => s.query === query && s.searchType === searchType);
+}
+
 // 검색 타입 레이블
 export const SEARCH_TYPE_LABELS: Record<SearchType, string> = {
   cargMtNo: "화물관리번호",

@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { IconSearch, IconLoader2, IconX } from "@tabler/icons-react";
+import { IconSearch, IconLoader2, IconX, IconClipboard } from "@tabler/icons-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -32,7 +32,29 @@ export function SearchForm({
 }: SearchFormProps) {
   const [query, setQuery] = React.useState(initialQuery);
   const [searchType, setSearchType] = React.useState<SearchType>(initialSearchType);
+  const [hasClipboard, setHasClipboard] = React.useState(false);
   const inputRef = React.useRef<HTMLInputElement>(null);
+
+  React.useEffect(() => {
+    setHasClipboard(
+      typeof navigator !== "undefined" &&
+        "clipboard" in navigator &&
+        typeof navigator.clipboard.readText === "function"
+    );
+  }, []);
+
+  const handlePaste = async () => {
+    try {
+      const text = await navigator.clipboard.readText();
+      const cleaned = text.trim().toUpperCase().replace(/[^A-Z0-9\-]/g, "");
+      if (cleaned) {
+        setQuery(cleaned);
+        inputRef.current?.focus();
+      }
+    } catch {
+      // 권한 거부 또는 미지원
+    }
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -91,7 +113,7 @@ export function SearchForm({
             spellCheck={false}
             disabled={isLoading}
           />
-          {query && (
+          {query ? (
             <button
               type="button"
               onClick={handleClear}
@@ -100,7 +122,17 @@ export function SearchForm({
             >
               <IconX size={15} />
             </button>
-          )}
+          ) : hasClipboard ? (
+            <button
+              type="button"
+              onClick={handlePaste}
+              className="absolute right-2.5 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+              aria-label="클립보드에서 붙여넣기"
+              disabled={isLoading}
+            >
+              <IconClipboard size={15} />
+            </button>
+          ) : null}
         </div>
         <Button
           type="submit"

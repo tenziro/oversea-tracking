@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { useRouter } from "next/navigation";
-import { IconHistory, IconTrash, IconChevronRight, IconX, IconPackageImport } from "@tabler/icons-react";
+import { IconHistory, IconTrash, IconChevronRight, IconX, IconPackageImport, IconDownload } from "@tabler/icons-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { getRecentSearches, removeRecentSearch, clearRecentSearches, SEARCH_TYPE_LABELS } from "@/lib/utils";
@@ -34,6 +34,29 @@ export default function HistoryPage() {
     setSearches([]);
   };
 
+  const handleExportCSV = () => {
+    if (searches.length === 0) return;
+    const header = "조회일시,화물번호,조회유형,화물명,마지막 상태";
+    const rows = searches.map((s) => {
+      const date = new Date(s.timestamp).toLocaleString("ko-KR");
+      const type = SEARCH_TYPE_LABELS[s.searchType];
+      const name = s.cargoName ?? "";
+      const status = s.lastStatus ?? "";
+      return [date, s.query, type, name, status]
+        .map((v) => `"${v.replace(/"/g, '""')}"`)
+        .join(",");
+    });
+    const csv = "\uFEFF" + [header, ...rows].join("\n");
+    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    const today = new Date().toISOString().slice(0, 10).replace(/-/g, "");
+    a.href = url;
+    a.download = `화물조회기록_${today}.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
   return (
     <div className="mx-auto max-w-lg px-4 py-6">
       <div className="flex items-center justify-between mb-6">
@@ -45,15 +68,26 @@ export default function HistoryPage() {
           )}
         </div>
         {searches.length > 0 && (
-          <Button
-            variant="ghost"
-            size="sm"
-            className="text-muted-foreground gap-1.5 h-8"
-            onClick={handleClearAll}
-          >
-            <IconTrash size={14} />
-            전체 삭제
-          </Button>
+          <div className="flex items-center gap-1">
+            <Button
+              variant="ghost"
+              size="sm"
+              className="text-muted-foreground gap-1.5 h-8"
+              onClick={handleExportCSV}
+            >
+              <IconDownload size={14} />
+              내보내기
+            </Button>
+            <Button
+              variant="ghost"
+              size="sm"
+              className="text-muted-foreground gap-1.5 h-8"
+              onClick={handleClearAll}
+            >
+              <IconTrash size={14} />
+              전체 삭제
+            </Button>
+          </div>
         )}
       </div>
 

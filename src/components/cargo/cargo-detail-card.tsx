@@ -8,18 +8,33 @@ import {
   IconCalendar,
   IconHash,
   IconArrowRight,
+  IconCopy,
+  IconCheck,
+  IconShare,
+  IconStar,
+  IconStarFilled,
 } from "@tabler/icons-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { StatusBadge } from "./status-badge";
 import { StatusTimeline } from "./status-timeline";
-import { formatDateTime, getCurrentClearanceStatus, calcProgressPercent } from "@/lib/utils";
+import {
+  formatDateTime,
+  getCurrentClearanceStatus,
+  calcProgressPercent,
+  addToWatchlist,
+  removeFromWatchlist,
+  isInWatchlist,
+} from "@/lib/utils";
 import { CARGO_STATUS_MAP } from "@/lib/types";
-import type { CargoInfo } from "@/lib/types";
+import type { CargoInfo, SearchType } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
 interface CargoDetailCardProps {
   cargo: CargoInfo;
+  query?: string;
+  searchType?: SearchType;
+  onWatchlistChange?: () => void;
   className?: string;
 }
 
@@ -46,12 +61,86 @@ function InfoRow({
   );
 }
 
-export function CargoDetailCard({ cargo, className }: CargoDetailCardProps) {
+export function CargoDetailCard({ cargo, query, searchType, onWatchlistChange, className }: CargoDetailCardProps) {
   const currentStatus = getCurrentClearanceStatus(cargo.csclPrgsStts);
   const progress = calcProgressPercent(cargo.csclPrgsStts);
   const cargoStatusLabel = cargo.cargSttus
     ? CARGO_STATUS_MAP[cargo.cargSttus] ?? cargo.cargSttus
     : undefined;
+
+  const cargoNumber = cargo.cargMtNo || cargo.hblNo || cargo.mblNo || "";
+  const [copied, setCopied] = React.useState(false);
+  const [hasClipboard, setHasClipboard] = React.useState(false);
+  const [isWatchlisted, setIsWatchlisted] = React.useState(false);
+
+  React.useEffect(() => {
+    setHasClipboard("clipboard" in navigator);
+  }, []);
+
+  React.useEffect(() => {
+    if (query && searchType) {
+      setIsWatchlisted(isInWatchlist(query, searchType));
+    }
+  }, [query, searchType]);
+
+  const handleCopyNumber = async () => {
+    if (!cargoNumber || !navigator.clipboard) return;
+    try {
+      await navigator.clipboard.writeText(cargoNumber);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1500);
+    } catch {
+      // ignore
+    }
+  };
+
+  const handleShare = async () => {
+    const latestStatus =
+      cargo.csclPrgsStts[cargo.csclPrgsStts.length - 1]?.prgsSttsNm || "";
+    const shareText = [
+      `화물명: ${cargo.cargNm || cargoNumber}`,
+      `화물번호: ${cargoNumber}`,
+      latestStatus && `상태: ${latestStatus}`,
+      `진행률: ${progress}%`,
+    ]
+      .filter(Boolean)
+      .join("\n");
+    const shareUrl = typeof window !== "undefined" ? `${window.location.origin}/app` : "";
+
+    try {
+      if (navigator.share) {
+        await navigator.share({
+          title: `화물 통관 현황 - ${cargo.cargNm || cargoNumber}`,
+          text: shareText,
+          url: shareUrl,
+        });
+      } else if (navigator.clipboard) {
+        await navigator.clipboard.writeText(`${shareText}\n\n${shareUrl}`);
+        setCopied(true);
+        setTimeout(() => setCopied(false), 1500);
+      }
+    } catch {
+      // AbortError(사용자 취소) 등 무시
+    }
+  };
+
+  const handleToggleWatchlist = () => {
+    if (!query || !searchType) return;
+    if (isWatchlisted) {
+      removeFromWatchlist(query, searchType);
+      setIsWatchlisted(false);
+    } else {
+      addToWatchlist({
+        query,
+        searchType,
+        cargoName: cargo.cargNm,
+        lastStatus:
+          cargo.csclPrgsStts[cargo.csclPrgsStts.length - 1]?.prgsSttsNm,
+      });
+      setIsWatchlisted(true);
+    }
+    onWatchlistChange?.();
+  };
 
   return (
     <div className={cn("space-y-4", className)}>
@@ -63,11 +152,53 @@ export function CargoDetailCard({ cargo, className }: CargoDetailCardProps) {
               <CardTitle className="text-lg truncate">
                 {cargo.cargNm || "화물명 미확인"}
               </CardTitle>
-              <p className="mt-1 text-xs text-muted-foreground font-mono truncate">
-                {cargo.cargMtNo || cargo.hblNo || cargo.mblNo || "-"}
-              </p>
+              <div className="mt-1 flex items-center gap-1">
+                <p className="text-xs text-muted-foreground font-mono truncate">
+                  {cargoNumber || "-"}
+                </p>
+                {hasClipboard && cargoNumber && (
+                  <button
+                    type="button"
+                    onClick={handleCopyNumber}
+                    className="shrink-0 text-muted-foreground hover:text-foreground transition-colors p-0.5 rounded"
+                    aria-label="화물번호 복사"
+                  >
+                    {copied ? (
+                      <IconCheck size={12} className="text-green-500" />
+                    ) : (
+                      <IconCopy size={12} />
+                    )}
+                  </button>
+                )}
+              </div>
             </div>
-            <StatusBadge status={currentStatus} />
+            <div className="flex flex-col items-end gap-1.5 shrink-0">
+              <StatusBadge status={currentStatus} />
+              <div className="flex items-center gap-0.5">
+                {query && searchType && (
+                  <button
+                    type="button"
+                    onClick={handleToggleWatchlist}
+                    className="h-7 w-7 flex items-center justify-center rounded-full hover:bg-muted transition-colors"
+                    aria-label={isWatchlisted ? "즐겨찾기 해제" : "즐겨찾기 추가"}
+                  >
+                    {isWatchlisted ? (
+                      <IconStarFilled size={15} className="text-amber-400" />
+                    ) : (
+                      <IconStar size={15} className="text-muted-foreground" />
+                    )}
+                  </button>
+                )}
+                <button
+                  type="button"
+                  onClick={handleShare}
+                  className="h-7 w-7 flex items-center justify-center rounded-full hover:bg-muted transition-colors"
+                  aria-label="공유"
+                >
+                  <IconShare size={15} className="text-muted-foreground" />
+                </button>
+              </div>
+            </div>
           </div>
         </CardHeader>
         <CardContent className="pt-0">

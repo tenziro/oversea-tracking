@@ -8,6 +8,7 @@ import {
   IconChevronRight,
   IconAlertCircle,
   IconX,
+  IconStar,
 } from "@tabler/icons-react";
 import { SearchForm } from "@/components/cargo/search-form";
 import { CargoDetailCard } from "@/components/cargo/cargo-detail-card";
@@ -19,6 +20,8 @@ import {
   getRecentSearches,
   removeRecentSearch,
   clearRecentSearches,
+  getWatchlist,
+  removeFromWatchlist,
   SEARCH_TYPE_LABELS,
 } from "@/lib/utils";
 import type { RecentSearch, SearchType } from "@/lib/types";
@@ -27,16 +30,26 @@ import { cn } from "@/lib/utils";
 export default function HomePage() {
   const { data, isLoading, error, search, reset } = useCargo();
   const [recentSearches, setRecentSearches] = React.useState<RecentSearch[]>([]);
+  const [watchlist, setWatchlist] = React.useState<RecentSearch[]>([]);
   const [hasSearched, setHasSearched] = React.useState(false);
+  const [currentQuery, setCurrentQuery] = React.useState("");
+  const [currentSearchType, setCurrentSearchType] = React.useState<SearchType>("cargMtNo");
   const resultRef = React.useRef<HTMLDivElement>(null);
 
-  React.useEffect(() => {
+  const refreshLists = React.useCallback(() => {
     setRecentSearches(getRecentSearches());
+    setWatchlist(getWatchlist());
   }, []);
+
+  React.useEffect(() => {
+    refreshLists();
+  }, [refreshLists]);
 
   const handleSearch = React.useCallback(
     async (query: string, searchType: SearchType) => {
       setHasSearched(true);
+      setCurrentQuery(query);
+      setCurrentSearchType(searchType);
       await search(query, searchType);
       // 결과 영역으로 스크롤
       setTimeout(() => {
@@ -62,9 +75,15 @@ export default function HomePage() {
     setRecentSearches([]);
   };
 
+  const handleRemoveWatchlist = (item: RecentSearch) => {
+    removeFromWatchlist(item.query, item.searchType);
+    setWatchlist(getWatchlist());
+  };
+
   const handleReset = () => {
     reset();
     setHasSearched(false);
+    refreshLists();
   };
 
   return (
@@ -114,10 +133,66 @@ export default function HomePage() {
 
         {data?.success && data.data && !isLoading && (
           <div className="animate-fade-in">
-            <CargoDetailCard cargo={data.data} />
+            <CargoDetailCard
+              cargo={data.data}
+              query={currentQuery}
+              searchType={currentSearchType}
+              onWatchlistChange={refreshLists}
+            />
           </div>
         )}
       </div>
+
+      {/* 즐겨찾기 (검색 결과 없을 때만 표시) */}
+      {!hasSearched && watchlist.length > 0 && (
+        <div className="space-y-3 animate-fade-in">
+          <div className="flex items-center gap-2 text-sm font-semibold">
+            <IconStar size={16} className="text-amber-400" />
+            즐겨찾기
+          </div>
+          <div className="space-y-1.5">
+            {watchlist.map((item) => (
+              <div
+                key={item.id}
+                className="group flex items-center gap-3 rounded-lg border bg-card px-3 py-2.5 hover:bg-accent transition-colors cursor-pointer"
+              >
+                <button
+                  className="flex flex-1 items-center gap-3 min-w-0 text-left"
+                  onClick={() => handleRecentSearch(item)}
+                >
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-1.5">
+                      <span className="text-sm font-medium font-mono truncate">{item.query}</span>
+                      <Badge variant="outline" className="text-[10px] h-4 px-1.5 shrink-0">
+                        {SEARCH_TYPE_LABELS[item.searchType]}
+                      </Badge>
+                    </div>
+                    {item.cargoName && (
+                      <p className="text-xs text-muted-foreground truncate mt-0.5">
+                        {item.cargoName}
+                      </p>
+                    )}
+                  </div>
+                  <IconChevronRight
+                    size={15}
+                    className="text-muted-foreground group-hover:text-foreground shrink-0"
+                  />
+                </button>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleRemoveWatchlist(item);
+                  }}
+                  className="opacity-0 group-hover:opacity-100 h-6 w-6 flex items-center justify-center rounded-full hover:bg-muted transition-all"
+                  aria-label="즐겨찾기 해제"
+                >
+                  <IconX size={12} className="text-muted-foreground" />
+                </button>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* 최근 검색 (검색 결과 없을 때만 표시) */}
       {!hasSearched && recentSearches.length > 0 && (
