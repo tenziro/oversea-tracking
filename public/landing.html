@@ -5,19 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>화물통관 조회 — 국제 화물 통관 현황 실시간 추적</title>
   <meta name="description" content="관세청 공식 API 기반 화물통관 조회 서비스. 화물관리번호, B/L번호로 통관 진행상황을 실시간으로 확인하세요.">
-  <meta id="tc-meta" name="theme-color" content="#09090b">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <script>
-    // Runs BEFORE CDN scripts — apply theme + theme-color immediately
+    // Apply theme before paint to avoid flash
     (function(){
       var stored = localStorage.getItem('landing-theme');
       var isDark = (!stored || stored === 'system')
         ? window.matchMedia('(prefers-color-scheme: dark)').matches
         : stored === 'dark';
-      var theme = isDark ? 'dark' : 'light';
-      document.documentElement.setAttribute('data-theme', theme);
-      var tc = document.getElementById('tc-meta');
-      if (tc) tc.setAttribute('content', isDark ? '#09090b' : '#f8fafc');
+      document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
     })();
   </script>
   <script src="https://cdn.tailwindcss.com"></script>
@@ -1483,9 +1478,6 @@
           : stored;
         html.setAttribute('data-theme', actual);
         html.style.colorScheme = actual;
-        // Sync theme-color meta for Safari status bar
-        const tc = document.getElementById('tc-meta');
-        if (tc) tc.setAttribute('content', actual === 'dark' ? '#09090b' : '#f8fafc');
       }
 
       function syncIcon() {
