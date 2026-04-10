@@ -9,6 +9,12 @@ const withSerwistConfig = withSerwist({
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  async rewrites() {
+    return [
+      // 루트 경로를 랜딩 페이지 정적 HTML로 서빙
+      { source: "/", destination: "/landing.html" },
+    ];
+  },
   async headers() {
     return [
       {

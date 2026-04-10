@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { useRouter } from "next/navigation";
-import { IconHistory, IconTrash, IconChevronRight, IconX, IconShip } from "@tabler/icons-react";
+import { IconHistory, IconTrash, IconChevronRight, IconX, IconPackageImport } from "@tabler/icons-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { getRecentSearches, removeRecentSearch, clearRecentSearches, SEARCH_TYPE_LABELS } from "@/lib/utils";
@@ -21,7 +21,7 @@ export default function HistoryPage() {
       q: recent.query,
       type: recent.searchType,
     });
-    router.push(`/?${params}`);
+    router.push(`/app?${params}`);
   };
 
   const handleRemove = (id: string) => {
@@ -38,11 +38,9 @@ export default function HistoryPage() {
     <div className="mx-auto max-w-lg px-4 py-6">
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-2">
-          <IconHistory size={20} className="text-primary" />
-          <h1 className="text-lg font-bold">검색 기록</h1>
           {searches.length > 0 && (
             <Badge variant="secondary" className="text-xs">
-              {searches.length}
+              {searches.length}건
             </Badge>
           )}
         </div>
@@ -61,15 +59,15 @@ export default function HistoryPage() {
 
       {searches.length === 0 ? (
         <div className="flex flex-col items-center justify-center py-20 text-center">
-          <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-muted">
-            <IconHistory size={28} className="text-muted-foreground/50" />
+          <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-primary/10 border border-primary/20">
+            <IconHistory size={28} className="text-primary/50" />
           </div>
           <p className="font-medium text-foreground">검색 기록이 없습니다</p>
           <p className="mt-1.5 text-sm text-muted-foreground">
             화물을 조회하면 기록이 저장됩니다
           </p>
-          <Button variant="outline" className="mt-6 gap-2" onClick={() => router.push("/")}>
-            <IconShip size={16} />
+          <Button variant="outline" className="mt-6 gap-2" onClick={() => router.push("/app")}>
+            <IconPackageImport size={16} />
             화물 조회하기
           </Button>
         </div>
@@ -84,8 +82,8 @@ export default function HistoryPage() {
                 className="flex flex-1 items-center gap-3 min-w-0 text-left"
                 onClick={() => handleSelect(recent)}
               >
-                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-muted">
-                  <IconShip size={18} className="text-muted-foreground" />
+                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-primary/10 border border-primary/15">
+                  <IconPackageImport size={18} className="text-primary" />
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-1.5">

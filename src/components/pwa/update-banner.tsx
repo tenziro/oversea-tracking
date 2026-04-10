@@ -64,21 +64,21 @@ export function UpdateBanner() {
       style={{ paddingTop: "env(safe-area-inset-top)" }}
       role="alert"
     >
-      <div className="flex items-center gap-3 bg-primary px-4 py-2.5 text-primary-foreground">
+      <div className="flex items-center gap-3 bg-primary/15 border-b border-primary/25 px-4 py-2.5 text-primary">
         <IconRefresh size={16} className="shrink-0" />
         <p className="flex-1 text-sm font-medium">새 버전이 있습니다</p>
         <div className="flex items-center gap-2">
           <Button
             size="sm"
-            variant="secondary"
-            className="h-7 text-xs bg-white/20 hover:bg-white/30 text-white border-0"
+            variant="outline"
+            className="h-7 text-xs border-primary/30 text-primary hover:bg-primary/15"
             onClick={handleUpdate}
           >
             업데이트
           </Button>
           <button
             onClick={handleDismiss}
-            className="h-7 w-7 flex items-center justify-center rounded-full hover:bg-white/20 transition-colors"
+            className="h-7 w-7 flex items-center justify-center rounded-full hover:bg-primary/10 transition-colors"
             aria-label="닫기"
           >
             <IconX size={14} />

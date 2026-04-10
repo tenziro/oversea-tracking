@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { IconDownload, IconX, IconShip } from "@tabler/icons-react";
+import { IconDownload, IconX, IconPackageImport } from "@tabler/icons-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -70,8 +70,8 @@ export function InstallPrompt() {
       aria-label="앱 설치 안내"
     >
       <div className="flex items-center gap-3 p-4">
-        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary text-primary-foreground">
-          <IconShip size={22} />
+        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary/15 border border-primary/25 text-primary">
+          <IconPackageImport size={22} />
         </div>
         <div className="flex-1 min-w-0">
           <p className="text-sm font-semibold">앱으로 설치하기</p>

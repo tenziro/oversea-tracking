@@ -17,7 +17,7 @@ export async function GET(request: NextRequest) {
     );
   }
 
-  if (!searchType || !["cargMtNo", "blNo", "mblNo"].includes(searchType)) {
+  if (!searchType || !["cargMtNo", "hblNo", "mblNo"].includes(searchType)) {
     return NextResponse.json(
       { success: false, error: "올바른 검색 유형을 선택해 주세요." },
       { status: 400 }

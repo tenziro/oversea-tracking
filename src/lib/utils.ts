@@ -91,7 +91,7 @@ export function clearRecentSearches(): void {
 // 검색 타입 레이블
 export const SEARCH_TYPE_LABELS: Record<SearchType, string> = {
   cargMtNo: "화물관리번호",
-  blNo: "B/L번호",
+  hblNo: "B/L번호",
   mblNo: "마스터 B/L번호",
 };
 

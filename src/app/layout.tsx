@@ -1,10 +1,4 @@
 import type { Metadata, Viewport } from "next";
-import { Providers } from "./providers";
-import { Header } from "@/components/layout/header";
-import { BottomNav } from "@/components/layout/bottom-nav";
-import { InstallPrompt } from "@/components/install/install-prompt";
-import { OfflineBanner } from "@/components/pwa/offline-banner";
-import { UpdateBanner } from "@/components/pwa/update-banner";
 import "./globals.css";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://cargo.example.com";
@@ -80,29 +74,15 @@ export const viewport: Viewport = {
   userScalable: false,
   viewportFit: "cover",
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#f0f4f8" },
-    { media: "(prefers-color-scheme: dark)", color: "#111827" },
+    { media: "(prefers-color-scheme: light)", color: "#fafafa" },
+    { media: "(prefers-color-scheme: dark)", color: "#09090b" },
   ],
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="ko" suppressHydrationWarning>
-      <body>
-        <Providers>
-          {/* App Shell */}
-          <div className="flex min-h-dvh flex-col">
-            <Header />
-            <main className="flex-1 pb-[calc(3.5rem+env(safe-area-inset-bottom))]">
-              {children}
-            </main>
-            <BottomNav />
-          </div>
-          <OfflineBanner />
-          <UpdateBanner />
-          <InstallPrompt />
-        </Providers>
-      </body>
+      <body>{children}</body>
     </html>
   );
 }

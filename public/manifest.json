@@ -2,11 +2,11 @@
   "name": "화물통관 조회",
   "short_name": "통관조회",
   "description": "관세청 공공 API를 활용한 화물 통관 상태 실시간 조회 서비스",
-  "start_url": "/",
+  "start_url": "/app",
   "display": "standalone",
   "orientation": "portrait",
-  "background_color": "#1B4F91",
-  "theme_color": "#1B4F91",
+  "background_color": "#09090b",
+  "theme_color": "#09090b",
   "lang": "ko",
   "scope": "/",
   "categories": ["utilities", "business"],
@@ -66,7 +66,7 @@
       "name": "화물 조회",
       "short_name": "조회",
       "description": "화물관리번호 또는 B/L번호로 통관 상태 조회",
-      "url": "/",
+      "url": "/app",
       "icons": [{ "src": "/icons/icon-96.png", "sizes": "96x96" }]
     },
     {
@@ -78,7 +78,7 @@
     }
   ],
   "share_target": {
-    "action": "/",
+    "action": "/app",
     "method": "GET",
     "params": {
       "text": "q"

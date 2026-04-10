@@ -11,28 +11,45 @@ export type ClearanceStatus =
 
 // 통관 진행 단계 아이템
 export interface ClearanceProgressItem {
-  snIdx: string;           // 순번
-  csclPrgsSttsNm: string;  // 통관진행상태명
-  dclrNo?: string;         // 신고번호
-  prgsStts: string;        // 진행상태 코드
-  prgsSttsNm: string;      // 진행상태명
-  prcsDt: string;          // 처리일시 (YYYYMMDDHHmmss)
+  snIdx?: string;           // 순번
+  csclPrgsSttsNm?: string;  // 통관진행상태명
+  dclrNo?: string;          // 신고번호
+  prgsStts: string;         // 진행상태 코드
+  prgsSttsNm?: string;      // 진행상태명
+  prcsDt?: string;          // 처리일시 (이전 필드명)
+  prcsDttm?: string;        // 처리일시 (API 가이드 필드명)
+  shedSgn?: string;         // 장치장부호
+  shedNm?: string;          // 장치장명
+  rlbrCn?: string;          // 반출입내용
+  bfnnGdncCn?: string;      // 사전안내내용
+  rlbrBssNo?: string;       // 반출입근거번호
 }
 
 // 화물 기본 정보
 export interface CargoInfo {
-  cargMtNo?: string;       // 화물관리번호
-  blNo?: string;           // B/L번호
-  mblNo?: string;          // 마스터 B/L번호
-  cargNm?: string;         // 화물명
-  cargSttus?: string;      // 화물상태
-  pckGcnt?: string;        // 포장개수
-  wghtUt?: string;         // 중량단위
-  ldprCd?: string;         // 적재항코드
-  ldprNm?: string;         // 적재항명
-  dsprCd?: string;         // 도착항코드
-  dsprNm?: string;         // 도착항명
-  etprDt?: string;         // 입항일시
+  cargMtNo?: string;        // 화물관리번호
+  hblNo?: string;           // House B/L번호
+  mblNo?: string;           // 마스터 B/L번호
+  cargNm?: string;          // 화물명
+  prnm?: string;            // 품명
+  cargSttus?: string;       // 화물상태
+  cargTp?: string;          // 화물구분
+  pckGcnt?: string;         // 포장개수
+  pckUt?: string;           // 포장단위
+  ttwg?: string;            // 총중량
+  wghtUt?: string;          // 중량단위
+  ldprCd?: string;          // 적재항코드
+  ldprNm?: string;          // 적재항명
+  dsprCd?: string;          // 양륙항코드
+  dsprNm?: string;          // 양륙항명
+  shipNm?: string;          // 선박명
+  shipNat?: string;         // 선박국적코드
+  shipNatNm?: string;       // 선박국적명
+  cntrGcnt?: string;        // 컨테이너개수
+  cntrNo?: string;          // 컨테이너번호
+  frwrEntsConm?: string;    // 포워더명
+  etprCstm?: string;        // 입항세관
+  etprDt?: string;          // 입항일시
   csclPrgsStts: ClearanceProgressItem[];  // 통관진행상태 목록
 }
 
@@ -45,7 +62,7 @@ export interface CargoApiResponse {
 }
 
 // 검색 타입
-export type SearchType = "cargMtNo" | "blNo" | "mblNo";
+export type SearchType = "cargMtNo" | "hblNo" | "mblNo";
 
 // 최근 검색 기록
 export interface RecentSearch {

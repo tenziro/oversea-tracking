@@ -5,7 +5,7 @@ import {
   IconInfoCircle,
   IconBrandGithub,
   IconExternalLink,
-  IconShip,
+  IconPackageImport,
 } from "@tabler/icons-react";
 import { ThemeToggle } from "@/components/theme/theme-toggle";
 import { Separator } from "@/components/ui/separator";
@@ -40,8 +40,8 @@ function SettingRow({
 }) {
   return (
     <div className="flex items-center gap-4 px-4 py-3.5">
-      <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-muted">
-        <Icon size={16} className="text-muted-foreground" />
+      <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-primary/10 border border-primary/15">
+        <Icon size={16} className="text-primary" />
       </div>
       <div className="flex-1 min-w-0">
         <p className="text-sm font-medium">{label}</p>
@@ -55,17 +55,12 @@ function SettingRow({
 export default function SettingsPage() {
   return (
     <div className="mx-auto max-w-lg px-4 py-6 space-y-6">
-      <div className="flex items-center gap-2 mb-6">
-        <IconShip size={20} className="text-primary" />
-        <h1 className="text-lg font-bold">설정</h1>
-      </div>
-
       {/* 테마 설정 */}
       <SettingSection title="화면">
         <div className="px-4 py-4">
           <div className="flex items-center gap-3 mb-3">
-            <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-muted">
-              <IconPalette size={16} className="text-muted-foreground" />
+            <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-primary/10 border border-primary/15">
+              <IconPalette size={16} className="text-primary" />
             </div>
             <div>
               <p className="text-sm font-medium">테마</p>
@@ -115,7 +110,7 @@ export default function SettingsPage() {
 
       {/* 앱 정보 */}
       <SettingSection title="앱 정보">
-        <SettingRow icon={IconShip} label="화물통관 조회" description="버전 1.0.0" />
+        <SettingRow icon={IconPackageImport} label="화물통관 조회" description="버전 1.0.0" />
         <Separator className="ml-16" />
         <SettingRow
           icon={IconBrandGithub}

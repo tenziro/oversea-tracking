@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import {
-  IconShip,
+  IconPackageImport,
   IconHistory as IconClockHistory,
   IconTrash,
   IconChevronRight,
@@ -71,12 +71,12 @@ export default function HomePage() {
     <div className="mx-auto max-w-lg px-4 py-6 space-y-6">
       {/* 헤로 섹션 */}
       {!hasSearched && (
-        <div className="text-center py-4 animate-fade-in">
-          <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-primary text-primary-foreground shadow-lg">
-            <IconShip size={32} />
+        <div className="text-center py-6 animate-fade-in">
+          <div className="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-2xl bg-primary/15 border border-primary/25 text-primary">
+            <IconPackageImport size={30} />
           </div>
           <h1 className="text-2xl font-bold tracking-tight">화물통관 조회</h1>
-          <p className="mt-2 text-sm text-muted-foreground">
+          <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
             화물관리번호 또는 B/L번호로
             <br />
             통관 진행 상태를 확인하세요
@@ -85,7 +85,7 @@ export default function HomePage() {
       )}
 
       {/* 검색 폼 */}
-      <div className={cn("rounded-xl border bg-card p-4 shadow-sm", hasSearched && "sticky top-16 z-30 backdrop-blur")}>
+      <div className={cn("rounded-2xl border border-border/60 bg-card/80 backdrop-blur p-4", hasSearched && "sticky top-16 z-30")}>
         <SearchForm onSearch={handleSearch} isLoading={isLoading} />
       </div>
 
@@ -183,7 +183,7 @@ export default function HomePage() {
       {/* 빈 상태 (최근 검색 없음) */}
       {!hasSearched && recentSearches.length === 0 && (
         <div className="rounded-xl border border-dashed bg-muted/30 py-10 text-center animate-fade-in">
-          <IconShip size={32} className="mx-auto mb-3 text-muted-foreground/40" />
+          <IconPackageImport size={32} className="mx-auto mb-3 text-muted-foreground/40" />
           <p className="text-sm text-muted-foreground">
             화물관리번호 또는 B/L번호를 입력하여
             <br />

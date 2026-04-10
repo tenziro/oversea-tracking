@@ -13,12 +13,19 @@ function extractXmlArray(xml: string, itemTag: string): string[] {
 
 function parseProgressItem(itemXml: string): ClearanceProgressItem {
   return {
-    snIdx: extractXmlValue(itemXml, "snIdx"),
-    csclPrgsSttsNm: extractXmlValue(itemXml, "csclPrgsSttsNm"),
+    snIdx: extractXmlValue(itemXml, "snIdx") || undefined,
+    csclPrgsSttsNm: extractXmlValue(itemXml, "csclPrgsSttsNm") || undefined,
     dclrNo: extractXmlValue(itemXml, "dclrNo") || undefined,
-    prgsStts: extractXmlValue(itemXml, "prgsStts"),
-    prgsSttsNm: extractXmlValue(itemXml, "prgsSttsNm"),
-    prcsDt: extractXmlValue(itemXml, "prcsDt"),
+    prgsStts: extractXmlValue(itemXml, "prgsStts") || extractXmlValue(itemXml, "csclPrgsStts"),
+    prgsSttsNm: extractXmlValue(itemXml, "prgsSttsNm") || undefined,
+    // 처리일시: API 가이드는 prcsDttm, 실제 응답에 따라 prcsDt도 시도
+    prcsDttm: extractXmlValue(itemXml, "prcsDttm") || undefined,
+    prcsDt: extractXmlValue(itemXml, "prcsDt") || undefined,
+    shedSgn: extractXmlValue(itemXml, "shedSgn") || undefined,
+    shedNm: extractXmlValue(itemXml, "shedNm") || undefined,
+    rlbrCn: extractXmlValue(itemXml, "rlbrCn") || undefined,
+    bfnnGdncCn: extractXmlValue(itemXml, "bfnnGdncCn") || undefined,
+    rlbrBssNo: extractXmlValue(itemXml, "rlbrBssNo") || undefined,
   };
 }
 
@@ -54,14 +61,14 @@ export async function fetchFromCustomsAPI(
   const BASE_URL =
     "https://unipass.customs.go.kr:38010/ext/rest/cargCsclPrgsInfoQry/retrieveCargCsclPrgsInfo";
 
-  const params = new URLSearchParams({ crkyCd: apiKey });
+  const params = new URLSearchParams({ crkyCn: apiKey });
 
   switch (searchType) {
     case "cargMtNo":
       params.append("cargMtNo", query);
       break;
-    case "blNo":
-      params.append("blNo", query);
+    case "hblNo":
+      params.append("hblNo", query);
       break;
     case "mblNo":
       params.append("mblNo", query);
@@ -101,22 +108,36 @@ export async function fetchFromCustomsAPI(
     return { success: false, error: "조회된 화물 정보가 없습니다.", errorCode: "NO_DATA" };
   }
 
-  // 화물 정보 파싱
-  const items = extractXmlArray(xml, "item");
-  const progressItems: ClearanceProgressItem[] = items.map(parseProgressItem);
+  // 화물 정보 파싱 — csclPrgsSts 또는 item 태그로 반복 아이템 추출
+  const progressItemsRaw =
+    extractXmlArray(xml, "csclPrgsSts").length > 0
+      ? extractXmlArray(xml, "csclPrgsSts")
+      : extractXmlArray(xml, "item");
+  const progressItems: ClearanceProgressItem[] = progressItemsRaw.map(parseProgressItem);
 
   const data: CargoInfo = {
     cargMtNo: extractXmlValue(xml, "cargMtNo") || undefined,
-    blNo: extractXmlValue(xml, "blNo") || undefined,
+    hblNo: extractXmlValue(xml, "hblNo") || undefined,
     mblNo: extractXmlValue(xml, "mblNo") || undefined,
     cargNm: extractXmlValue(xml, "cargNm") || undefined,
+    prnm: extractXmlValue(xml, "prnm") || undefined,
     cargSttus: extractXmlValue(xml, "cargSttus") || undefined,
+    cargTp: extractXmlValue(xml, "cargTp") || undefined,
     pckGcnt: extractXmlValue(xml, "pckGcnt") || undefined,
+    pckUt: extractXmlValue(xml, "pckUt") || undefined,
+    ttwg: extractXmlValue(xml, "ttwg") || undefined,
     wghtUt: extractXmlValue(xml, "wghtUt") || undefined,
     ldprCd: extractXmlValue(xml, "ldprCd") || undefined,
     ldprNm: extractXmlValue(xml, "ldprNm") || undefined,
     dsprCd: extractXmlValue(xml, "dsprCd") || undefined,
     dsprNm: extractXmlValue(xml, "dsprNm") || undefined,
+    shipNm: extractXmlValue(xml, "shipNm") || undefined,
+    shipNat: extractXmlValue(xml, "shipNat") || undefined,
+    shipNatNm: extractXmlValue(xml, "shipNatNm") || undefined,
+    cntrGcnt: extractXmlValue(xml, "cntrGcnt") || undefined,
+    cntrNo: extractXmlValue(xml, "cntrNo") || undefined,
+    frwrEntsConm: extractXmlValue(xml, "frwrEntsConm") || undefined,
+    etprCstm: extractXmlValue(xml, "etprCstm") || undefined,
     etprDt: extractXmlValue(xml, "etprDt") || undefined,
     csclPrgsStts: progressItems,
   };

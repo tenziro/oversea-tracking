@@ -6,43 +6,43 @@
 
 @layer base {
   :root {
-    /* Maritime Blue Light Theme */
-    --background: 210 20% 98%;
-    --foreground: 220 30% 12%;
+    /* Emerald Light Theme */
+    --background: 0 0% 98%;
+    --foreground: 240 6% 4%;
 
     --card: 0 0% 100%;
-    --card-foreground: 220 30% 12%;
+    --card-foreground: 240 6% 4%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 220 30% 12%;
+    --popover-foreground: 240 6% 4%;
 
-    --primary: 214 85% 35%;
+    --primary: 161 94% 30%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 210 20% 94%;
-    --secondary-foreground: 220 30% 20%;
+    --secondary: 240 5% 96%;
+    --secondary-foreground: 240 4% 16%;
 
-    --muted: 210 20% 94%;
-    --muted-foreground: 220 15% 50%;
+    --muted: 240 5% 96%;
+    --muted-foreground: 240 3% 46%;
 
-    --accent: 210 20% 90%;
-    --accent-foreground: 220 30% 20%;
+    --accent: 240 5% 90%;
+    --accent-foreground: 240 4% 16%;
 
-    --destructive: 0 84% 55%;
+    --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 214 20% 88%;
-    --input: 214 20% 88%;
-    --ring: 214 85% 35%;
+    --border: 240 5% 90%;
+    --input: 240 5% 90%;
+    --ring: 160 84% 39%;
 
     --radius: 0.75rem;
 
     /* Status colors */
-    --status-pending: 220 15% 65%;
-    --status-processing: 214 85% 50%;
-    --status-inspection: 40 95% 50%;
-    --status-cleared: 140 60% 38%;
-    --status-error: 0 84% 55%;
+    --status-pending: 240 3% 46%;
+    --status-processing: 217 91% 60%;
+    --status-inspection: 38 92% 50%;
+    --status-cleared: 161 94% 30%;
+    --status-error: 0 84% 60%;
 
     /* Safe area */
     --sat: env(safe-area-inset-top, 0px);
@@ -52,41 +52,41 @@
   }
 
   .dark {
-    /* Maritime Blue Dark Theme */
-    --background: 222 30% 9%;
-    --foreground: 210 20% 95%;
+    /* Emerald Dark Theme — Landing Mode */
+    --background: 240 6% 4%;
+    --foreground: 0 0% 98%;
 
-    --card: 222 25% 13%;
-    --card-foreground: 210 20% 95%;
+    --card: 240 4% 10%;
+    --card-foreground: 0 0% 98%;
 
-    --popover: 222 25% 13%;
-    --popover-foreground: 210 20% 95%;
+    --popover: 240 4% 10%;
+    --popover-foreground: 0 0% 98%;
 
-    --primary: 214 80% 55%;
-    --primary-foreground: 0 0% 100%;
+    --primary: 160 84% 39%;
+    --primary-foreground: 0 0% 5%;
 
-    --secondary: 222 22% 18%;
-    --secondary-foreground: 210 20% 85%;
+    --secondary: 240 4% 16%;
+    --secondary-foreground: 0 0% 98%;
 
-    --muted: 222 22% 18%;
-    --muted-foreground: 215 15% 55%;
+    --muted: 240 4% 16%;
+    --muted-foreground: 240 5% 65%;
 
-    --accent: 222 22% 20%;
-    --accent-foreground: 210 20% 85%;
+    --accent: 240 4% 20%;
+    --accent-foreground: 0 0% 98%;
 
-    --destructive: 0 70% 50%;
-    --destructive-foreground: 0 0% 100%;
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 98%;
 
-    --border: 222 20% 22%;
-    --input: 222 20% 22%;
-    --ring: 214 80% 55%;
+    --border: 240 4% 22%;
+    --input: 240 4% 22%;
+    --ring: 160 84% 39%;
 
     /* Status colors (dark mode) */
-    --status-pending: 220 12% 50%;
-    --status-processing: 214 75% 60%;
-    --status-inspection: 40 90% 55%;
-    --status-cleared: 140 55% 48%;
-    --status-error: 0 70% 58%;
+    --status-pending: 240 5% 65%;
+    --status-processing: 213 93% 68%;
+    --status-inspection: 38 96% 54%;
+    --status-cleared: 160 61% 52%;
+    --status-error: 0 91% 71%;
   }
 }
 

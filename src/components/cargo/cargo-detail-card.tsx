@@ -1,6 +1,7 @@
 import * as React from "react";
 import {
   IconShip,
+  IconPackageImport,
   IconAnchor,
   IconPackage,
   IconMapPin,
@@ -34,8 +35,8 @@ function InfoRow({
   if (!value) return null;
   return (
     <div className="flex items-start gap-3 py-2.5">
-      <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-muted">
-        <Icon size={14} className="text-muted-foreground" />
+      <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-primary/10 dark:bg-primary/12 border border-primary/15">
+        <Icon size={14} className="text-primary" />
       </div>
       <div className="flex-1 min-w-0">
         <p className="text-xs text-muted-foreground">{label}</p>
@@ -63,7 +64,7 @@ export function CargoDetailCard({ cargo, className }: CargoDetailCardProps) {
                 {cargo.cargNm || "화물명 미확인"}
               </CardTitle>
               <p className="mt-1 text-xs text-muted-foreground font-mono truncate">
-                {cargo.cargMtNo || cargo.blNo || cargo.mblNo || "-"}
+                {cargo.cargMtNo || cargo.hblNo || cargo.mblNo || "-"}
               </p>
             </div>
             <StatusBadge status={currentStatus} />
@@ -73,13 +74,13 @@ export function CargoDetailCard({ cargo, className }: CargoDetailCardProps) {
           {/* 진행률 바 */}
           {currentStatus !== "REJECTED" && (
             <div className="mb-4">
-              <div className="flex justify-between text-xs text-muted-foreground mb-1.5">
-                <span>진행률</span>
-                <span>{progress}%</span>
+              <div className="flex justify-between items-center text-xs text-muted-foreground mb-1.5">
+                <span>통관 진행률</span>
+                <span className="font-bold text-primary">{progress}%</span>
               </div>
               <div className="h-1.5 w-full rounded-full bg-muted overflow-hidden">
                 <div
-                  className="h-full rounded-full bg-primary transition-all duration-700"
+                  className="h-full rounded-full bg-gradient-to-r from-primary/80 to-primary transition-all duration-700"
                   style={{ width: `${progress}%` }}
                 />
               </div>
@@ -92,7 +93,7 @@ export function CargoDetailCard({ cargo, className }: CargoDetailCardProps) {
 
           {/* 항구 정보 */}
           {(cargo.ldprNm || cargo.dsprNm) && (
-            <div className="flex items-center gap-2 rounded-lg border bg-muted/40 p-3 mb-4">
+            <div className="flex items-center gap-2 rounded-xl border border-primary/15 bg-primary/5 dark:bg-primary/8 p-3 mb-4">
               <div className="flex-1 text-center">
                 <p className="text-xs text-muted-foreground">출발항</p>
                 <p className="text-sm font-semibold mt-0.5">{cargo.ldprNm ?? "-"}</p>
@@ -115,7 +116,7 @@ export function CargoDetailCard({ cargo, className }: CargoDetailCardProps) {
           <Separator className="mb-2" />
           <div>
             <InfoRow icon={IconHash} label="화물관리번호" value={cargo.cargMtNo} />
-            <InfoRow icon={IconAnchor} label="B/L번호" value={cargo.blNo} />
+            <InfoRow icon={IconAnchor} label="B/L번호" value={cargo.hblNo} />
             <InfoRow icon={IconShip} label="마스터 B/L번호" value={cargo.mblNo} />
             <InfoRow icon={IconPackage} label="포장 개수" value={cargo.pckGcnt ? `${cargo.pckGcnt}${cargo.wghtUt ?? ""}` : undefined} />
             <InfoRow icon={IconMapPin} label="화물 상태" value={cargoStatusLabel} />
@@ -127,8 +128,10 @@ export function CargoDetailCard({ cargo, className }: CargoDetailCardProps) {
       {/* 통관 진행 내역 */}
       <Card>
         <CardHeader>
-          <CardTitle className="flex items-center gap-2 text-base">
-            <IconShip size={18} className="text-primary" />
+          <CardTitle className="flex items-center gap-2 text-base font-bold">
+            <div className="flex h-6 w-6 items-center justify-center rounded-lg bg-primary/15 border border-primary/25">
+              <IconPackageImport size={13} className="text-primary" />
+            </div>
             통관 진행 내역
           </CardTitle>
         </CardHeader>

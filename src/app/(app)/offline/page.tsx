@@ -1,6 +1,6 @@
 "use client";
 
-import { IconWifiOff, IconShip, IconRefresh } from "@tabler/icons-react";
+import { IconWifiOff, IconPackageImport, IconRefresh } from "@tabler/icons-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
@@ -18,8 +18,8 @@ export default function OfflinePage() {
       </p>
       <div className="mt-8 flex gap-3">
         <Button asChild variant="outline" className="gap-2">
-          <Link href="/">
-            <IconShip size={16} />
+          <Link href="/app">
+            <IconPackageImport size={16} />
             홈으로
           </Link>
         </Button>

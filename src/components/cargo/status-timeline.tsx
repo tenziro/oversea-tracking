@@ -2,11 +2,12 @@ import * as React from "react";
 import {
   IconFileText,
   IconSearch,
-  IconMicroscope,
+  IconEyeCheck,
   IconCoinEuro,
   IconCircleCheck,
   IconAlertTriangle,
   IconClock,
+  IconHelpCircle,
 } from "@tabler/icons-react";
 import { cn } from "@/lib/utils";
 import { formatDateTime } from "@/lib/utils";
@@ -22,30 +23,31 @@ const STATUS_ICONS: Record<string, React.ElementType> = {
   PRE_DECLARATION: IconClock,
   DECLARED: IconFileText,
   INSPECTION: IconSearch,
-  EXAMINATION: IconMicroscope,
+  EXAMINATION: IconEyeCheck,
   DUTY_PAYMENT: IconCoinEuro,
   CLEARED: IconCircleCheck,
   REJECTED: IconAlertTriangle,
+  UNKNOWN: IconHelpCircle,
 };
 
 const STATUS_COLORS: Record<string, string> = {
   PRE_DECLARATION: "text-muted-foreground",
-  DECLARED: "text-blue-500",
-  INSPECTION: "text-amber-500",
-  EXAMINATION: "text-amber-500",
-  DUTY_PAYMENT: "text-orange-500",
-  CLEARED: "text-green-500",
-  REJECTED: "text-red-500",
+  DECLARED: "text-blue-400 dark:text-blue-400",
+  INSPECTION: "text-amber-400 dark:text-amber-400",
+  EXAMINATION: "text-amber-400 dark:text-amber-400",
+  DUTY_PAYMENT: "text-orange-400 dark:text-orange-400",
+  CLEARED: "text-emerald-500 dark:text-emerald-400",
+  REJECTED: "text-red-500 dark:text-red-400",
 };
 
 const STATUS_BG: Record<string, string> = {
   PRE_DECLARATION: "bg-muted",
-  DECLARED: "bg-blue-100 dark:bg-blue-900/20",
-  INSPECTION: "bg-amber-100 dark:bg-amber-900/20",
-  EXAMINATION: "bg-amber-100 dark:bg-amber-900/20",
-  DUTY_PAYMENT: "bg-orange-100 dark:bg-orange-900/20",
-  CLEARED: "bg-green-100 dark:bg-green-900/20",
-  REJECTED: "bg-red-100 dark:bg-red-900/20",
+  DECLARED: "bg-blue-50 dark:bg-blue-500/12",
+  INSPECTION: "bg-amber-50 dark:bg-amber-500/12",
+  EXAMINATION: "bg-amber-50 dark:bg-amber-500/12",
+  DUTY_PAYMENT: "bg-orange-50 dark:bg-orange-500/12",
+  CLEARED: "bg-emerald-50 dark:bg-emerald-500/15",
+  REJECTED: "bg-red-50 dark:bg-red-500/12",
 };
 
 export function StatusTimeline({ items, className }: StatusTimelineProps) {
@@ -58,12 +60,11 @@ export function StatusTimeline({ items, className }: StatusTimelineProps) {
     );
   }
 
-  // 최신 순으로 정렬
-  const sortedItems = [...items].sort((a, b) => {
-    const aTime = parseInt(a.prcsDt || "0");
-    const bTime = parseInt(b.prcsDt || "0");
-    return bTime - aTime;
-  });
+  // 최신 순으로 정렬 — prcsDttm(API 가이드) 또는 prcsDt(이전) 사용
+  const getTime = (item: ClearanceProgressItem) =>
+    parseInt(item.prcsDttm || item.prcsDt || "0");
+
+  const sortedItems = [...items].sort((a, b) => getTime(b) - getTime(a));
 
   return (
     <div className={cn("space-y-0", className)}>
@@ -84,7 +85,7 @@ export function StatusTimeline({ items, className }: StatusTimelineProps) {
                 className={cn(
                   "flex h-9 w-9 shrink-0 items-center justify-center rounded-full transition-all",
                   iconBg,
-                  isLatest && "ring-2 ring-offset-2 ring-offset-background ring-primary/50"
+                  isLatest && "ring-2 ring-offset-2 ring-offset-background ring-primary/40 dark:ring-primary/30"
                 )}
               >
                 <Icon size={17} className={cn(iconColor, isLatest && "animate-pulse")} />
@@ -113,7 +114,7 @@ export function StatusTimeline({ items, className }: StatusTimelineProps) {
                   )}
                 </div>
                 <time className="shrink-0 text-xs text-muted-foreground whitespace-nowrap">
-                  {formatDateTime(item.prcsDt)}
+                  {formatDateTime(item.prcsDttm ?? item.prcsDt ?? "")}
                 </time>
               </div>
               {isLatest && (

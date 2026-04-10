@@ -48,7 +48,7 @@ export function SearchForm({
 
   const placeholders: Record<SearchType, string> = {
     cargMtNo: "예: KRPUS12345678901",
-    blNo: "예: ABCD12345678",
+    hblNo: "예: ABCD12345678",
     mblNo: "예: ABCD12345678",
   };
 
