@@ -1,6 +1,6 @@
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
-import type { ClearanceProgressItem, ClearanceStatus, RecentSearch, SearchType } from "./types";
+import type { CargoInfo, ClearanceProgressItem, ClearanceStatus, RecentSearch, SearchType } from "./types";
 import { CLEARANCE_STATUS_MAP } from "./types";
 
 export function cn(...inputs: ClassValue[]) {
@@ -137,6 +137,67 @@ export function removeFromWatchlist(query: string, searchType: SearchType): void
 export function isInWatchlist(query: string, searchType: SearchType): boolean {
   const list = getWatchlist();
   return list.some((s) => s.query === query && s.searchType === searchType);
+}
+
+// 오프라인 화물 캐시
+const CARGO_CACHE_PREFIX = "cargo_last_";
+
+export function saveCargoCache(query: string, searchType: SearchType, data: CargoInfo): void {
+  if (typeof window === "undefined") return;
+  try {
+    const key = `${CARGO_CACHE_PREFIX}${searchType}_${query.toUpperCase()}`;
+    localStorage.setItem(key, JSON.stringify({ data, cachedAt: Date.now() }));
+  } catch {
+    // ignore
+  }
+}
+
+export function getCargoCache(
+  query: string,
+  searchType: SearchType
+): { data: CargoInfo; cachedAt: number } | null {
+  if (typeof window === "undefined") return null;
+  try {
+    const key = `${CARGO_CACHE_PREFIX}${searchType}_${query.toUpperCase()}`;
+    const raw = localStorage.getItem(key);
+    if (!raw) return null;
+    return JSON.parse(raw);
+  } catch {
+    return null;
+  }
+}
+
+// 앱 설정
+export interface AppSettings {
+  defaultSearchType: SearchType;
+  historyRetentionDays: 7 | 30 | 0; // 0 = 무제한
+}
+
+const SETTINGS_KEY = "cargo_app_settings";
+const DEFAULT_SETTINGS: AppSettings = {
+  defaultSearchType: "cargMtNo",
+  historyRetentionDays: 30,
+};
+
+export function getAppSettings(): AppSettings {
+  if (typeof window === "undefined") return DEFAULT_SETTINGS;
+  try {
+    const raw = localStorage.getItem(SETTINGS_KEY);
+    if (!raw) return DEFAULT_SETTINGS;
+    return { ...DEFAULT_SETTINGS, ...JSON.parse(raw) };
+  } catch {
+    return DEFAULT_SETTINGS;
+  }
+}
+
+export function saveAppSettings(settings: Partial<AppSettings>): void {
+  if (typeof window === "undefined") return;
+  try {
+    const current = getAppSettings();
+    localStorage.setItem(SETTINGS_KEY, JSON.stringify({ ...current, ...settings }));
+  } catch {
+    // ignore
+  }
 }
 
 // 검색 타입 레이블

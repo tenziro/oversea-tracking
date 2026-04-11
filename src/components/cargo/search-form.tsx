@@ -69,6 +69,23 @@ export function SearchForm({
     inputRef.current?.focus();
   };
 
+  // 입력값 패턴으로 검색 유형 자동 감지
+  const detectSearchType = (value: string): SearchType | null => {
+    const v = value.trim().toUpperCase();
+    // 화물관리번호: 2자리 국가코드 + 3자리 항구코드 + 숫자, 총 16~18자
+    if (/^[A-Z]{2}[A-Z]{3}\d{11,13}$/.test(v)) return "cargMtNo";
+    // B/L번호: 4자리 영문 + 숫자, 10~14자
+    if (/^[A-Z]{4}\d{6,10}$/.test(v)) return "hblNo";
+    return null;
+  };
+
+  const handleQueryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const upper = e.target.value.toUpperCase();
+    setQuery(upper);
+    const detected = detectSearchType(upper);
+    if (detected) setSearchType(detected);
+  };
+
   const placeholders: Record<SearchType, string> = {
     cargMtNo: "예: KRPUS12345678901",
     hblNo: "예: ABCD12345678",
@@ -117,7 +134,7 @@ export function SearchForm({
             ref={inputRef}
             type="text"
             value={query}
-            onChange={(e) => setQuery(e.target.value.toUpperCase())}
+            onChange={handleQueryChange}
             placeholder={placeholders[searchType]}
             className="pr-9 font-mono text-sm"
             aria-label={SEARCH_TYPE_LABELS[searchType]}

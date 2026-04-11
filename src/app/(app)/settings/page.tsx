@@ -1,3 +1,5 @@
+"use client";
+
 import * as React from "react";
 import {
   IconPalette,
@@ -6,9 +8,29 @@ import {
   IconBrandGithub,
   IconExternalLink,
   IconPackageImport,
+  IconSearch,
+  IconClock,
+  IconTrash,
+  IconDatabase,
 } from "@tabler/icons-react";
 import { ThemeToggle } from "@/components/theme/theme-toggle";
 import { Separator } from "@/components/ui/separator";
+import { Button } from "@/components/ui/button";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
+  getAppSettings,
+  saveAppSettings,
+  clearRecentSearches,
+  SEARCH_TYPE_LABELS,
+} from "@/lib/utils";
+import type { AppSettings } from "@/lib/utils";
+import type { SearchType } from "@/lib/types";
 
 function SettingSection({
   title,
@@ -53,6 +75,37 @@ function SettingRow({
 }
 
 export default function SettingsPage() {
+  const [settings, setSettings] = React.useState<AppSettings>({
+    defaultSearchType: "cargMtNo",
+    historyRetentionDays: 30,
+  });
+  const [cleared, setCleared] = React.useState(false);
+  const [cacheCleared, setCacheCleared] = React.useState(false);
+
+  React.useEffect(() => {
+    setSettings(getAppSettings());
+  }, []);
+
+  const updateSetting = <K extends keyof AppSettings>(key: K, value: AppSettings[K]) => {
+    const next = { ...settings, [key]: value };
+    setSettings(next);
+    saveAppSettings({ [key]: value });
+  };
+
+  const handleClearHistory = () => {
+    clearRecentSearches();
+    setCleared(true);
+    setTimeout(() => setCleared(false), 2000);
+  };
+
+  const handleClearCache = () => {
+    if (typeof window === "undefined") return;
+    const keys = Object.keys(localStorage).filter((k) => k.startsWith("cargo_last_"));
+    keys.forEach((k) => localStorage.removeItem(k));
+    setCacheCleared(true);
+    setTimeout(() => setCacheCleared(false), 2000);
+  };
+
   return (
     <div className="mx-auto max-w-lg px-4 py-6 space-y-6">
       {/* 테마 설정 */}
@@ -69,6 +122,92 @@ export default function SettingsPage() {
           </div>
           <ThemeToggle className="w-full" />
         </div>
+      </SettingSection>
+
+      {/* 검색 설정 */}
+      <SettingSection title="검색">
+        <SettingRow
+          icon={IconSearch}
+          label="기본 검색 유형"
+          description="검색창에서 기본으로 선택될 조회 유형"
+          action={
+            <Select
+              value={settings.defaultSearchType}
+              onValueChange={(v) => updateSetting("defaultSearchType", v as SearchType)}
+            >
+              <SelectTrigger className="w-[130px] h-8 text-xs">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                {(Object.entries(SEARCH_TYPE_LABELS) as [SearchType, string][]).map(
+                  ([value, label]) => (
+                    <SelectItem key={value} value={value} className="text-xs">
+                      {label}
+                    </SelectItem>
+                  )
+                )}
+              </SelectContent>
+            </Select>
+          }
+        />
+        <Separator className="ml-16" />
+        <SettingRow
+          icon={IconClock}
+          label="검색 기록 보관 기간"
+          description="설정한 기간이 지난 기록은 자동 삭제됩니다"
+          action={
+            <Select
+              value={String(settings.historyRetentionDays)}
+              onValueChange={(v) =>
+                updateSetting("historyRetentionDays", Number(v) as AppSettings["historyRetentionDays"])
+              }
+            >
+              <SelectTrigger className="w-[80px] h-8 text-xs">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="7" className="text-xs">7일</SelectItem>
+                <SelectItem value="30" className="text-xs">30일</SelectItem>
+                <SelectItem value="0" className="text-xs">무제한</SelectItem>
+              </SelectContent>
+            </Select>
+          }
+        />
+      </SettingSection>
+
+      {/* 데이터 관리 */}
+      <SettingSection title="데이터 관리">
+        <SettingRow
+          icon={IconTrash}
+          label="검색 기록 삭제"
+          description="저장된 모든 최근 검색 기록을 삭제합니다"
+          action={
+            <Button
+              variant="outline"
+              size="sm"
+              className="h-8 text-xs"
+              onClick={handleClearHistory}
+            >
+              {cleared ? "삭제됨" : "삭제"}
+            </Button>
+          }
+        />
+        <Separator className="ml-16" />
+        <SettingRow
+          icon={IconDatabase}
+          label="오프라인 캐시 삭제"
+          description="오프라인 시 표시되는 캐시 데이터를 삭제합니다"
+          action={
+            <Button
+              variant="outline"
+              size="sm"
+              className="h-8 text-xs"
+              onClick={handleClearCache}
+            >
+              {cacheCleared ? "삭제됨" : "삭제"}
+            </Button>
+          }
+        />
       </SettingSection>
 
       {/* 데이터 출처 */}

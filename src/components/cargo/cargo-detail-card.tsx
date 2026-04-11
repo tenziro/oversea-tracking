@@ -29,6 +29,7 @@ import {
 import { CARGO_STATUS_MAP } from "@/lib/types";
 import type { CargoInfo, SearchType } from "@/lib/types";
 import { cn } from "@/lib/utils";
+import { ShareImageButton } from "./share-image-button";
 
 interface CargoDetailCardProps {
   cargo: CargoInfo;
@@ -197,6 +198,7 @@ export function CargoDetailCard({ cargo, query, searchType, onWatchlistChange, c
                 >
                   <IconShare size={15} className="text-muted-foreground" />
                 </button>
+                <ShareImageButton cargo={cargo} query={query} />
               </div>
             </div>
           </div>

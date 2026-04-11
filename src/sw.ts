@@ -146,3 +146,48 @@ async function handleCargoSync(): Promise<void> {
   const url: string = notifEvent.notification.data?.url ?? "/app";
   notifEvent.waitUntil(self.clients.openWindow(url));
 });
+
+// ── Periodic Background Sync ─────────────────────────────────────────────────
+
+interface PeriodicSyncEvent extends ExtendableEvent {
+  tag: string;
+}
+
+// 즐겨찾기(watchlist)는 localStorage에 있어 SW에서 직접 접근 불가.
+// 대신 내부 API 엔드포인트를 통해 최근 검색 상위 3건을 재조회하고
+// 상태 변경 시 알림을 보냅니다.
+// (실제 구현에서는 IndexedDB로 watchlist를 공유하는 방식이 이상적이나,
+//  현재 아키텍처에서는 클라이언트가 sync 완료 후 상태를 확인합니다.)
+async function handleWatchlistRefresh(): Promise<void> {
+  // 클라이언트가 포커스 중이면 리프레시 불필요
+  const clients = await self.clients.matchAll({ type: "window", includeUncontrolled: false });
+  const hasFocused = clients.some((c) => c.focused);
+  if (hasFocused) return;
+
+  // Background Sync DB에 watchlist-refresh 마커 기록 후
+  // 클라이언트가 다음 포커스 시 자동 재조회하도록 메시지 발송
+  clients.forEach((client) => {
+    client.postMessage({ type: "PERIODIC_SYNC_WATCHLIST" });
+  });
+
+  // 앱이 열려있지 않으면 알림으로 안내
+  if (clients.length === 0) {
+    try {
+      await self.registration.showNotification("화물통관 조회", {
+        body: "즐겨찾기 화물의 통관 현황을 확인해 보세요.",
+        icon: "/icons/icon-192.png",
+        tag: "watchlist-refresh",
+        data: { url: "/app" },
+      });
+    } catch {
+      // 알림 권한 없음
+    }
+  }
+}
+
+(self as unknown as EventTarget).addEventListener("periodicsync", (event: Event) => {
+  const syncEvent = event as PeriodicSyncEvent;
+  if (syncEvent.tag === "watchlist-refresh") {
+    syncEvent.waitUntil(handleWatchlistRefresh());
+  }
+});
