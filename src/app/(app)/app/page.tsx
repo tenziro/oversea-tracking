@@ -9,6 +9,7 @@ import {
   IconAlertCircle,
   IconX,
   IconStar,
+  IconWifiOff,
 } from "@tabler/icons-react";
 import { SearchForm } from "@/components/cargo/search-form";
 import { CargoDetailCard } from "@/components/cargo/cargo-detail-card";
@@ -16,6 +17,7 @@ import { CargoDetailSkeleton } from "@/components/cargo/cargo-skeleton";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useCargo } from "@/hooks/use-cargo";
+import { useWakeLock } from "@/hooks/use-wake-lock";
 import {
   getRecentSearches,
   removeRecentSearch,
@@ -28,13 +30,16 @@ import type { RecentSearch, SearchType } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
 export default function HomePage() {
-  const { data, isLoading, error, search, reset } = useCargo();
+  const { data, isLoading, error, isQueued, search, reset } = useCargo();
   const [recentSearches, setRecentSearches] = React.useState<RecentSearch[]>([]);
   const [watchlist, setWatchlist] = React.useState<RecentSearch[]>([]);
   const [hasSearched, setHasSearched] = React.useState(false);
   const [currentQuery, setCurrentQuery] = React.useState("");
   const [currentSearchType, setCurrentSearchType] = React.useState<SearchType>("cargMtNo");
   const resultRef = React.useRef<HTMLDivElement>(null);
+
+  // 결과 표시 중 화면 켜짐 유지
+  useWakeLock(!isLoading && !!data?.success && !!data.data);
 
   const refreshLists = React.useCallback(() => {
     setRecentSearches(getRecentSearches());
@@ -112,7 +117,23 @@ export default function HomePage() {
       <div ref={resultRef}>
         {isLoading && <CargoDetailSkeleton />}
 
-        {error && !isLoading && (
+        {isQueued && !isLoading && (
+          <div className="rounded-xl border bg-card p-6 text-center animate-fade-in">
+            <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-amber-500/10">
+              <IconWifiOff size={24} className="text-amber-500" />
+            </div>
+            <h3 className="font-semibold text-foreground">조회 예약됨</h3>
+            <p className="mt-1 text-sm text-muted-foreground">
+              오프라인 상태입니다. 연결되면 자동으로 조회하고 알림을 보내드립니다.
+            </p>
+            <Button variant="outline" size="sm" className="mt-4" onClick={handleReset}>
+              <IconX size={14} className="mr-1.5" />
+              취소
+            </Button>
+          </div>
+        )}
+
+        {error && !isLoading && !isQueued && (
           <div className="rounded-xl border bg-card p-6 text-center animate-fade-in">
             <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-destructive/10">
               <IconAlertCircle size={24} className="text-destructive" />

@@ -14,6 +14,7 @@ import {
 import { cn } from "@/lib/utils";
 import { SEARCH_TYPE_LABELS } from "@/lib/utils";
 import type { SearchType } from "@/lib/types";
+import { BarcodeScanner } from "./barcode-scanner";
 
 interface SearchFormProps {
   onSearch: (query: string, searchType: SearchType) => void;
@@ -99,6 +100,18 @@ export function SearchForm({
 
       {/* 검색 입력 */}
       <div className="relative flex gap-2">
+        <BarcodeScanner
+          onResult={(value) => {
+            // 바코드 스캔 결과 자동 입력 + 검색 유형 추정 + 즉시 검색
+            let detectedType: SearchType = searchType;
+            if (/^[A-Z]{2}/.test(value) && value.length >= 16) {
+              detectedType = "cargMtNo";
+            }
+            setQuery(value);
+            setSearchType(detectedType);
+            onSearch(value, detectedType);
+          }}
+        />
         <div className="relative flex-1">
           <Input
             ref={inputRef}
