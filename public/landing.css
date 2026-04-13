@@ -23,6 +23,11 @@
         #09090b;
       --c-phone-shell: linear-gradient(150deg, #1c1c1e 0%, #0d0d0f 100%);
       --c-phone-shell-border: rgba(255, 255, 255, 0.1);
+      --c-phone-shadow:
+        0 0 0 0.5px rgba(0, 0, 0, 0.7),
+        0 50px 100px rgba(0, 0, 0, 0.65),
+        0 25px 50px rgba(0, 0, 0, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.12);
       --c-phone-screen: #0d0d10;
       --c-mock-bg: #09090b;
       --c-mock-header-sub: #52525b;
@@ -80,6 +85,11 @@
         #f8fafc;
       --c-phone-shell: linear-gradient(150deg, #e2e8f0 0%, #cbd5e1 100%);
       --c-phone-shell-border: rgba(15, 23, 42, 0.12);
+      --c-phone-shadow:
+        0 0 0 0.5px rgba(15, 23, 42, 0.08),
+        0 50px 100px rgba(15, 23, 42, 0.12),
+        0 25px 50px rgba(15, 23, 42, 0.08),
+        inset 0 1px 0 rgba(255, 255, 255, 0.6);
       --c-phone-screen: #f8fafc;
       --c-mock-bg: #f8fafc;
       --c-mock-header-sub: #94a3b8;
@@ -385,11 +395,7 @@
       background: var(--c-phone-shell);
       border-radius: 48px;
       border: 1.5px solid var(--c-phone-shell-border);
-      box-shadow:
-        0 0 0 0.5px rgba(0, 0, 0, 0.7),
-        0 50px 100px rgba(0, 0, 0, 0.65),
-        0 25px 50px rgba(0, 0, 0, 0.4),
-        inset 0 1px 0 rgba(255, 255, 255, 0.12);
+      box-shadow: var(--c-phone-shadow);
     }
 
     .phone-screen {
