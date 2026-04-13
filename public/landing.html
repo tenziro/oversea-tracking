@@ -11,9 +11,10 @@
   <script src="https://code.iconify.design/iconify-icon/2.3.0/iconify-icon.min.js"></script>
   <script>
     // Apply theme before paint to avoid flash
+    // 'theme' 키는 next-themes(앱)와 공유, 'landing-theme'은 하위 호환
     (function () {
-      var s = localStorage.getItem('landing-theme');
-      if (!s) s = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      var s = localStorage.getItem('theme') || localStorage.getItem('landing-theme');
+      if (!s || s === 'system') s = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
       document.documentElement.setAttribute('data-theme', s);
     })();
   </script>
@@ -53,6 +54,28 @@
       --c-phone-shell: linear-gradient(150deg, #1c1c1e 0%, #0d0d0f 100%);
       --c-phone-shell-border: rgba(255, 255, 255, 0.1);
       --c-phone-screen: #0d0d10;
+      --c-mock-bg: #09090b;
+      --c-mock-header-sub: #52525b;
+      --c-mock-header-title: #f4f4f5;
+      --c-mock-input-bg: rgba(24, 24, 27, 0.7);
+      --c-mock-input-border: rgba(63, 63, 70, 0.4);
+      --c-mock-input-text: #a1a1aa;
+      --c-mock-select-bg: rgba(9, 9, 11, 0.7);
+      --c-mock-select-border: rgba(63, 63, 70, 0.3);
+      --c-mock-card-bg: rgba(9, 9, 11, 0.7);
+      --c-mock-card-border: rgba(16, 185, 129, 0.25);
+      --c-mock-card-num: #52525b;
+      --c-mock-card-title: #f4f4f5;
+      --c-mock-progress-bg: #27272a;
+      --c-mock-route: #71717a;
+      --c-mock-timeline-hd: #52525b;
+      --c-mock-item-muted: #52525b;
+      --c-mock-item-text: #a1a1aa;
+      --c-mock-time: #52525b;
+      --c-mock-nav-border: rgba(63, 63, 70, 0.6);
+      --c-mock-nav-muted: #3f3f46;
+      --c-mock-status-bar: #71717a;
+      --c-mock-time-text: #d4d4d8;
       --c-scrollbar-track: #09090b;
       --c-scrollbar-thumb: #27272a;
       --c-grid-line: rgba(16, 185, 129, 0.06);
@@ -87,7 +110,29 @@
         #f8fafc;
       --c-phone-shell: linear-gradient(150deg, #e2e8f0 0%, #cbd5e1 100%);
       --c-phone-shell-border: rgba(15, 23, 42, 0.12);
-      --c-phone-screen: #0d0d10;
+      --c-phone-screen: #f8fafc;
+      --c-mock-bg: #f8fafc;
+      --c-mock-header-sub: #94a3b8;
+      --c-mock-header-title: #0f172a;
+      --c-mock-input-bg: rgba(241, 245, 249, 0.9);
+      --c-mock-input-border: rgba(148, 163, 184, 0.4);
+      --c-mock-input-text: #64748b;
+      --c-mock-select-bg: rgba(255, 255, 255, 0.9);
+      --c-mock-select-border: rgba(148, 163, 184, 0.3);
+      --c-mock-card-bg: rgba(255, 255, 255, 0.9);
+      --c-mock-card-border: rgba(16, 185, 129, 0.25);
+      --c-mock-card-num: #94a3b8;
+      --c-mock-card-title: #0f172a;
+      --c-mock-progress-bg: #e2e8f0;
+      --c-mock-route: #64748b;
+      --c-mock-timeline-hd: #94a3b8;
+      --c-mock-item-muted: #64748b;
+      --c-mock-item-text: #475569;
+      --c-mock-time: #94a3b8;
+      --c-mock-nav-border: rgba(148, 163, 184, 0.4);
+      --c-mock-nav-muted: #cbd5e1;
+      --c-mock-status-bar: #94a3b8;
+      --c-mock-time-text: #1e293b;
       --c-scrollbar-track: #f1f5f9;
       --c-scrollbar-thumb: #cbd5e1;
       --c-grid-line: rgba(16, 185, 129, 0.09);
@@ -313,6 +358,7 @@
       width: 32px;
       padding: 0;
     }
+
     @media (min-width: 640px) {
       .btn-nav {
         width: auto;
@@ -587,7 +633,7 @@
       <div class="glass rounded-2xl px-5 py-3 flex items-center justify-between">
         <div class="flex items-center gap-3">
           <div class="w-8 h-8 rounded-xl bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center flex-shrink-0">
-            <iconify-icon icon="tabler:package-import" class="text-emerald-400" style="font-size:15px"></iconify-icon>
+            <iconify-icon icon="tabler:package-import" class="text-emerald-400 text-[15px]"></iconify-icon>
           </div>
           <span class="font-bold text-[15px] text-zinc-100">화물통관 조회</span>
         </div>
@@ -603,10 +649,6 @@
           <button id="theme-toggle" class="theme-toggle" aria-label="테마 전환">
             <iconify-icon id="theme-icon" icon="solar:sun-bold" class="text-sm"></iconify-icon>
           </button>
-          <a href="/app" target="_blank" rel="noopener noreferrer" data-app-link class="btn-primary btn-nav text-sm flex items-center justify-center gap-2">
-            <iconify-icon icon="solar:magnifer-linear" class="text-sm"></iconify-icon>
-            <span class="hidden sm:block">지금 조회하기</span>
-          </a>
         </div>
       </div>
     </div>
@@ -683,12 +725,12 @@
                 <div class="h-[620px] overflow-hidden flex flex-col">
 
                   <!-- Status bar -->
-                  <div class="flex justify-between items-center px-6 pt-10 pb-1 text-[11px] text-zinc-500 flex-shrink-0">
-                    <span class="font-bold text-zinc-300">9:41</span>
+                  <div class="flex justify-between items-center px-6 pt-10 pb-1 text-[11px] flex-shrink-0" style="color:var(--c-mock-status-bar)">
+                    <span class="font-bold" style="color:var(--c-mock-time-text)">9:41</span>
                     <div class="flex items-center gap-1.5">
-                      <iconify-icon icon="solar:signal-bold" style="font-size:11px"></iconify-icon>
-                      <iconify-icon icon="solar:wifi-bold" style="font-size:11px"></iconify-icon>
-                      <iconify-icon icon="solar:battery-full-bold" style="font-size:11px"></iconify-icon>
+                      <iconify-icon icon="solar:signal-bold" class="text-[11px]"></iconify-icon>
+                      <iconify-icon icon="solar:wifi-bold" class="text-[11px]"></iconify-icon>
+                      <iconify-icon icon="solar:battery-full-bold" class="text-[11px]"></iconify-icon>
                     </div>
                   </div>
 
@@ -696,32 +738,32 @@
                   <div class="px-5 pt-3 pb-3 flex-shrink-0">
                     <div class="flex items-center justify-between">
                       <div class="flex items-center gap-2.5">
-                        <iconify-icon icon="tabler:package-import" class="text-emerald-400" style="font-size:22px"></iconify-icon>
+                        <iconify-icon icon="tabler:package-import" class="text-emerald-400 text-[22px]"></iconify-icon>
                         <div>
-                          <p class="text-[10px] text-zinc-600 leading-none">통관 조회 서비스</p>
-                          <p class="text-[14px] font-bold text-zinc-100 leading-tight">화물통관 조회</p>
+                          <p class="text-[10px] leading-none" style="color:var(--c-mock-header-sub)">통관 조회 서비스</p>
+                          <p class="text-[14px] font-bold leading-tight" style="color:var(--c-mock-header-title)">화물통관 조회</p>
                         </div>
                       </div>
-                      <button class="w-8 h-8 rounded-xl bg-zinc-800/80 flex items-center justify-center border border-zinc-700/50">
-                        <iconify-icon icon="solar:history-linear" class="text-zinc-400" style="font-size:14px"></iconify-icon>
+                      <button class="w-8 h-8 rounded-xl flex items-center justify-center" style="background:var(--c-mock-input-bg);border:1px solid var(--c-mock-input-border)">
+                        <iconify-icon icon="solar:history-linear" class="text-sm" style="color:var(--c-mock-input-text)"></iconify-icon>
                       </button>
                     </div>
                   </div>
 
                   <!-- Search form -->
                   <div class="px-4 pb-3 flex-shrink-0">
-                    <div class="bg-zinc-800/60 rounded-2xl p-3 border border-zinc-700/40">
-                      <div class="flex items-center gap-2 bg-zinc-900/70 rounded-xl px-3 py-2.5 mb-2 border border-zinc-700/30">
-                        <iconify-icon icon="solar:documents-minimalistic-linear" class="text-zinc-500" style="font-size:13px; flex-shrink:0"></iconify-icon>
-                        <span class="text-[12px] text-zinc-400 flex-1">화물관리번호</span>
-                        <iconify-icon icon="solar:alt-arrow-down-linear" class="text-zinc-600" style="font-size:11px"></iconify-icon>
+                    <div class="rounded-2xl p-3" style="background:var(--c-mock-input-bg);border:1px solid var(--c-mock-input-border)">
+                      <div class="flex items-center gap-2 rounded-xl px-3 py-2.5 mb-2" style="background:var(--c-mock-select-bg);border:1px solid var(--c-mock-select-border)">
+                        <iconify-icon icon="solar:documents-minimalistic-linear" class="text-[13px] shrink-0" style="color:var(--c-mock-input-text)"></iconify-icon>
+                        <span class="text-[12px] flex-1" style="color:var(--c-mock-input-text)">화물관리번호</span>
+                        <iconify-icon icon="solar:alt-arrow-down-linear" class="text-[11px]" style="color:var(--c-mock-route)"></iconify-icon>
                       </div>
                       <div class="flex gap-2">
-                        <div class="flex-1 bg-zinc-900/70 rounded-xl px-3 py-2.5 border border-zinc-700/30">
+                        <div class="flex-1 rounded-xl px-3 py-2.5" style="background:var(--c-mock-select-bg);border:1px solid var(--c-mock-select-border)">
                           <p class="text-[12px] font-mono text-emerald-400 tracking-wide">KRPUS24091234567</p>
                         </div>
                         <button class="w-10 h-10 bg-emerald-500 rounded-xl flex items-center justify-center flex-shrink-0">
-                          <iconify-icon icon="solar:magnifer-linear" class="text-zinc-950" style="font-size:14px"></iconify-icon>
+                          <iconify-icon icon="solar:magnifer-linear" class="text-zinc-950 text-sm"></iconify-icon>
                         </button>
                       </div>
                     </div>
@@ -729,25 +771,25 @@
 
                   <!-- Cargo result card -->
                   <div class="px-4 pb-3 flex-shrink-0">
-                    <div class="bg-zinc-900/70 rounded-2xl p-4 border border-emerald-500/18">
+                    <div class="rounded-2xl p-4" style="background:var(--c-mock-card-bg);border:1px solid var(--c-mock-card-border)">
                       <div class="flex items-start justify-between mb-3">
                         <div>
-                          <p class="text-[10px] font-mono text-zinc-600 mb-0.5">KRPUS24091234567</p>
-                          <p class="text-[13px] font-bold text-zinc-100 leading-snug">전자제품 부품 외 3종</p>
+                          <p class="text-[10px] font-mono mb-0.5" style="color:var(--c-mock-card-num)">KRPUS24091234567</p>
+                          <p class="text-[13px] font-bold leading-snug" style="color:var(--c-mock-card-title)">전자제품 부품 외 3종</p>
                         </div>
                         <span class="bg-emerald-500/[0.12] text-emerald-400 border border-emerald-500/[0.28] text-[10px] font-semibold px-2 py-1 rounded-full flex-shrink-0">통관완료</span>
                       </div>
                       <div class="mb-3">
                         <div class="flex justify-between items-center mb-1.5">
-                          <span class="text-[10px] text-zinc-500">통관 진행률</span>
+                          <span class="text-[10px]" style="color:var(--c-mock-route)">통관 진행률</span>
                           <span class="text-[10px] font-bold text-emerald-400">100%</span>
                         </div>
-                        <div class="h-1.5 bg-zinc-800 rounded-full overflow-hidden">
+                        <div class="h-1.5 rounded-full overflow-hidden" style="background:var(--c-mock-progress-bg)">
                           <div class="h-full bg-gradient-to-r from-emerald-600 to-emerald-400 rounded-full progress-animated"></div>
                         </div>
                       </div>
-                      <div class="flex items-center gap-2 text-[10px] text-zinc-500">
-                        <iconify-icon icon="solar:map-point-linear" style="font-size:11px; flex-shrink:0"></iconify-icon>
+                      <div class="flex items-center gap-2 text-[10px]" style="color:var(--c-mock-route)">
+                        <iconify-icon icon="solar:map-point-linear" class="text-[11px] shrink-0"></iconify-icon>
                         <span>상하이항 → 부산항 → 인천 화물터미널</span>
                       </div>
                     </div>
@@ -755,56 +797,56 @@
 
                   <!-- Timeline -->
                   <div class="px-4 flex-1 overflow-hidden">
-                    <p class="text-[10px] font-bold text-zinc-600 uppercase tracking-widest mb-2.5">통관 타임라인</p>
+                    <p class="text-[10px] font-bold uppercase tracking-widest mb-2.5" style="color:var(--c-mock-timeline-hd)">통관 타임라인</p>
                     <div class="space-y-2">
-                      <div class="flex items-start gap-2.5 bg-emerald-500/8 rounded-xl p-2.5 border border-emerald-500/15">
+                      <div class="flex items-start gap-2.5 bg-emerald-500/[0.08] rounded-xl p-2.5 border border-emerald-500/15">
                         <div class="w-5 h-5 rounded-full bg-emerald-500/25 border border-emerald-500/40 flex items-center justify-center flex-shrink-0 mt-0.5">
-                          <iconify-icon icon="solar:check-circle-bold" class="text-emerald-400" style="font-size:10px"></iconify-icon>
+                          <iconify-icon icon="solar:check-circle-bold" class="text-emerald-400 text-[10px]"></iconify-icon>
                         </div>
                         <div class="flex-1 min-w-0">
                           <div class="flex items-center justify-between">
-                            <p class="text-[12px] font-bold text-zinc-200">통관완료</p>
+                            <p class="text-[12px] font-bold" style="color:var(--c-mock-card-title)">통관완료</p>
                             <span class="text-[9px] bg-emerald-500/15 text-emerald-400 px-1.5 py-0.5 rounded-full border border-emerald-500/25 flex-shrink-0 ml-1">현재 상태</span>
                           </div>
-                          <p class="text-[10px] text-zinc-600">2024.09.15 · 14:23</p>
+                          <p class="text-[10px]" style="color:var(--c-mock-time)">2024.09.15 · 14:23</p>
                         </div>
                       </div>
 
                       <div class="flex items-start gap-2.5 p-2.5">
                         <div class="w-5 h-5 rounded-full bg-orange-500/20 border border-orange-500/30 flex items-center justify-center flex-shrink-0 mt-0.5">
-                          <iconify-icon icon="solar:dollar-minimalistic-bold" class="text-orange-400" style="font-size:10px"></iconify-icon>
+                          <iconify-icon icon="solar:dollar-minimalistic-bold" class="text-orange-400 text-[10px]"></iconify-icon>
                         </div>
                         <div>
-                          <p class="text-[11px] font-medium text-zinc-400">납세대기</p>
-                          <p class="text-[10px] text-zinc-600">2024.09.15 · 11:40</p>
+                          <p class="text-[11px] font-medium" style="color:var(--c-mock-item-text)">납세대기</p>
+                          <p class="text-[10px]" style="color:var(--c-mock-time)">2024.09.15 · 11:40</p>
                         </div>
                       </div>
 
                       <div class="flex items-start gap-2.5 p-2.5">
                         <div class="w-5 h-5 rounded-full bg-amber-500/20 border border-amber-500/30 flex items-center justify-center flex-shrink-0 mt-0.5">
-                          <iconify-icon icon="solar:document-add-bold" class="text-amber-400" style="font-size:10px"></iconify-icon>
+                          <iconify-icon icon="solar:document-add-bold" class="text-amber-400 text-[10px]"></iconify-icon>
                         </div>
                         <div>
-                          <p class="text-[11px] font-medium text-zinc-400">신고접수</p>
-                          <p class="text-[10px] text-zinc-600">2024.09.14 · 09:15</p>
+                          <p class="text-[11px] font-medium" style="color:var(--c-mock-item-text)">신고접수</p>
+                          <p class="text-[10px]" style="color:var(--c-mock-time)">2024.09.14 · 09:15</p>
                         </div>
                       </div>
                     </div>
                   </div>
 
                   <!-- Bottom nav bar -->
-                  <div class="flex-shrink-0 border-t border-zinc-800/60 flex items-center px-6 py-3 gap-0">
+                  <div class="flex-shrink-0 flex items-center px-6 py-3 gap-0" style="border-top:1px solid var(--c-mock-nav-border)">
                     <button class="flex-1 flex flex-col items-center gap-1">
-                      <iconify-icon icon="solar:magnifer-linear" class="text-emerald-400" style="font-size:18px"></iconify-icon>
+                      <iconify-icon icon="solar:magnifer-linear" class="text-emerald-400 text-lg"></iconify-icon>
                       <span class="text-[9px] text-emerald-400 font-semibold">조회</span>
                     </button>
                     <button class="flex-1 flex flex-col items-center gap-1">
-                      <iconify-icon icon="solar:history-linear" class="text-zinc-600" style="font-size:18px"></iconify-icon>
-                      <span class="text-[9px] text-zinc-600">기록</span>
+                      <iconify-icon icon="solar:history-linear" class="text-lg" style="color:var(--c-mock-nav-muted)"></iconify-icon>
+                      <span class="text-[9px]" style="color:var(--c-mock-nav-muted)">기록</span>
                     </button>
                     <button class="flex-1 flex flex-col items-center gap-1">
-                      <iconify-icon icon="solar:settings-linear" class="text-zinc-600" style="font-size:18px"></iconify-icon>
-                      <span class="text-[9px] text-zinc-600">설정</span>
+                      <iconify-icon icon="solar:settings-linear" class="text-lg" style="color:var(--c-mock-nav-muted)"></iconify-icon>
+                      <span class="text-[9px]" style="color:var(--c-mock-nav-muted)">설정</span>
                     </button>
                   </div>
                 </div>
@@ -820,13 +862,13 @@
             </div>
             <div class="absolute -left-8 bottom-40 glass rounded-2xl px-3 py-2.5">
               <div class="flex items-center gap-2">
-                <iconify-icon icon="solar:shield-check-bold" class="text-emerald-400" style="font-size:14px"></iconify-icon>
+                <iconify-icon icon="solar:shield-check-bold" class="text-emerald-400 text-sm"></iconify-icon>
                 <span class="text-[12px] text-zinc-200 font-semibold">공식 API</span>
               </div>
             </div>
             <div class="absolute -left-4 top-16 glass rounded-2xl px-3 py-2.5">
               <div class="flex items-center gap-2">
-                <iconify-icon icon="solar:smartphone-bold" class="text-emerald-400" style="font-size:14px"></iconify-icon>
+                <iconify-icon icon="solar:smartphone-bold" class="text-emerald-400 text-sm"></iconify-icon>
                 <span class="text-[12px] text-zinc-200 font-semibold">PWA 설치</span>
               </div>
             </div>
@@ -862,17 +904,17 @@
         <p class="text-xs text-zinc-600 uppercase tracking-[0.18em] font-semibold mb-6">데이터 출처 및 연동</p>
         <div class="flex flex-wrap justify-center items-center gap-10">
           <div class="flex items-center gap-3 text-zinc-500">
-            <iconify-icon icon="solar:buildings-2-bold" class="text-zinc-600" style="font-size:20px"></iconify-icon>
+            <iconify-icon icon="solar:buildings-2-bold" class="text-zinc-600 text-xl"></iconify-icon>
             <span class="text-sm font-semibold">관세청 Unipass</span>
           </div>
           <div class="h-4 w-px bg-zinc-800 hidden md:block"></div>
           <div class="flex items-center gap-3 text-zinc-500">
-            <iconify-icon icon="solar:database-bold" class="text-zinc-600" style="font-size:20px"></iconify-icon>
+            <iconify-icon icon="solar:database-bold" class="text-zinc-600 text-xl"></iconify-icon>
             <span class="text-sm font-semibold">공공데이터포털</span>
           </div>
           <div class="h-4 w-px bg-zinc-800 hidden md:block"></div>
           <div class="flex items-center gap-3 text-zinc-500">
-            <iconify-icon icon="solar:server-square-bold" class="text-zinc-600" style="font-size:20px"></iconify-icon>
+            <iconify-icon icon="solar:server-square-bold" class="text-zinc-600 text-xl"></iconify-icon>
             <span class="text-sm font-semibold">화물통관진행정보 조회 API</span>
           </div>
         </div>
@@ -885,7 +927,7 @@
     <div class="max-w-7xl mx-auto">
       <div class="text-center mb-20">
         <div class="reveal inline-flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/20 rounded-full px-4 py-2 mb-7">
-          <iconify-icon icon="solar:routing-3-bold" class="text-emerald-400" style="font-size:15px"></iconify-icon>
+          <iconify-icon icon="solar:routing-3-bold" class="text-emerald-400 text-[15px]"></iconify-icon>
           <span class="text-sm font-semibold text-emerald-300">이용 방법</span>
         </div>
         <h2 class="reveal text-4xl md:text-5xl font-bold text-zinc-50 mb-5 leading-tight">딱 3단계로 끝나는<br>간편한 통관 조회</h2>
@@ -893,14 +935,11 @@
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-3 gap-5 lg:gap-8 relative">
-        <!-- Connector lines (desktop only) -->
-        <div class="hidden md:block absolute top-16 left-1/3 right-1/3 h-px bg-gradient-to-r from-zinc-800 via-emerald-500/30 to-zinc-800 z-0"></div>
-
         <!-- Step 1 -->
         <div class="reveal card rounded-3xl p-8 relative z-10">
           <div class="flex items-center gap-4 mb-7">
             <div class="w-12 h-12 rounded-2xl bg-emerald-500/15 border border-emerald-500/25 flex items-center justify-center flex-shrink-0">
-              <iconify-icon icon="solar:keyboard-bold" class="text-emerald-400" style="font-size:22px"></iconify-icon>
+              <iconify-icon icon="solar:keyboard-bold" class="text-emerald-400 text-[22px]"></iconify-icon>
             </div>
             <span class="text-xs font-bold text-emerald-500/60 uppercase tracking-widest">STEP 01</span>
           </div>
@@ -919,7 +958,7 @@
         <div class="reveal rd1 card rounded-3xl p-8 relative z-10">
           <div class="flex items-center gap-4 mb-7">
             <div class="w-12 h-12 rounded-2xl bg-emerald-500/15 border border-emerald-500/25 flex items-center justify-center flex-shrink-0">
-              <iconify-icon icon="solar:cloud-bold" class="text-emerald-400" style="font-size:22px"></iconify-icon>
+              <iconify-icon icon="solar:cloud-bold" class="text-emerald-400 text-[22px]"></iconify-icon>
             </div>
             <span class="text-xs font-bold text-emerald-500/60 uppercase tracking-widest">STEP 02</span>
           </div>
@@ -930,15 +969,15 @@
           </p>
           <div class="space-y-2">
             <div class="flex items-center gap-2 text-xs text-zinc-500">
-              <iconify-icon icon="solar:check-circle-bold" class="text-emerald-400 flex-shrink-0" style="font-size:13px"></iconify-icon>
+              <iconify-icon icon="solar:check-circle-bold" class="text-emerald-400 flex-shrink-0 text-[13px]"></iconify-icon>
               입력값 유효성 검증 (길이·문자 체계)
             </div>
             <div class="flex items-center gap-2 text-xs text-zinc-500">
-              <iconify-icon icon="solar:check-circle-bold" class="text-emerald-400 flex-shrink-0" style="font-size:13px"></iconify-icon>
+              <iconify-icon icon="solar:check-circle-bold" class="text-emerald-400 flex-shrink-0 text-[13px]"></iconify-icon>
               서버 측 API 키 보안 관리
             </div>
             <div class="flex items-center gap-2 text-xs text-zinc-500">
-              <iconify-icon icon="solar:check-circle-bold" class="text-emerald-400 flex-shrink-0" style="font-size:13px"></iconify-icon>
+              <iconify-icon icon="solar:check-circle-bold" class="text-emerald-400 flex-shrink-0 text-[13px]"></iconify-icon>
               60초 캐시로 중복 호출 방지
             </div>
           </div>
@@ -948,7 +987,7 @@
         <div class="reveal rd2 card rounded-3xl p-8 relative z-10">
           <div class="flex items-center gap-4 mb-7">
             <div class="w-12 h-12 rounded-2xl bg-emerald-500/15 border border-emerald-500/25 flex items-center justify-center flex-shrink-0">
-              <iconify-icon icon="solar:eye-bold" class="text-emerald-400" style="font-size:22px"></iconify-icon>
+              <iconify-icon icon="solar:eye-bold" class="text-emerald-400 text-[22px]"></iconify-icon>
             </div>
             <span class="text-xs font-bold text-emerald-500/60 uppercase tracking-widest">STEP 03</span>
           </div>
@@ -976,7 +1015,7 @@
         <!-- Left: Text -->
         <div class="lg:sticky lg:top-28">
           <div class="reveal inline-flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/20 rounded-full px-4 py-2 mb-8">
-            <iconify-icon icon="solar:list-check-bold" class="text-emerald-400" style="font-size:15px"></iconify-icon>
+            <iconify-icon icon="solar:list-check-bold" class="text-emerald-400 text-[15px]"></iconify-icon>
             <span class="text-sm font-semibold text-emerald-300">통관 단계</span>
           </div>
           <h2 class="reveal text-4xl md:text-5xl font-bold text-zinc-50 mb-6 leading-tight">
@@ -990,15 +1029,15 @@
           </p>
           <div class="reveal space-y-3">
             <div class="flex items-start gap-3 text-sm text-zinc-500">
-              <iconify-icon icon="solar:info-circle-bold" class="text-emerald-400 mt-0.5 flex-shrink-0" style="font-size:15px"></iconify-icon>
+              <iconify-icon icon="solar:info-circle-bold" class="text-emerald-400 mt-0.5 flex-shrink-0 text-[15px]"></iconify-icon>
               <p>최신 상태가 <strong class="text-zinc-400">현재 상태</strong> 배지와 함께 상단에 표시됩니다.</p>
             </div>
             <div class="flex items-start gap-3 text-sm text-zinc-500">
-              <iconify-icon icon="solar:info-circle-bold" class="text-emerald-400 mt-0.5 flex-shrink-0" style="font-size:15px"></iconify-icon>
+              <iconify-icon icon="solar:info-circle-bold" class="text-emerald-400 mt-0.5 flex-shrink-0 text-[15px]"></iconify-icon>
               <p>각 단계별 신고번호(신고접수 이후)도 함께 제공됩니다.</p>
             </div>
             <div class="flex items-start gap-3 text-sm text-zinc-500">
-              <iconify-icon icon="solar:info-circle-bold" class="text-emerald-400 mt-0.5 flex-shrink-0" style="font-size:15px"></iconify-icon>
+              <iconify-icon icon="solar:info-circle-bold" class="text-emerald-400 mt-0.5 flex-shrink-0 text-[15px]"></iconify-icon>
               <p>반송·취하 처리된 화물도 명확한 상태 표시로 안내합니다.</p>
             </div>
           </div>
@@ -1008,7 +1047,7 @@
         <div class="space-y-3">
           <div class="reveal card rounded-2xl p-5 flex items-center gap-5">
             <div class="w-11 h-11 rounded-2xl bg-zinc-700/40 border border-zinc-700/60 flex items-center justify-center flex-shrink-0">
-              <iconify-icon icon="solar:clock-circle-bold" class="text-zinc-400" style="font-size:20px"></iconify-icon>
+              <iconify-icon icon="solar:clock-circle-bold" class="text-zinc-400 text-xl"></iconify-icon>
             </div>
             <div class="flex-1 min-w-0">
               <div class="flex items-center gap-3 mb-1">
@@ -1021,7 +1060,7 @@
 
           <div class="reveal rd1 card rounded-2xl p-5 flex items-center gap-5">
             <div class="w-11 h-11 rounded-2xl bg-blue-500/15 border border-blue-500/25 flex items-center justify-center flex-shrink-0">
-              <iconify-icon icon="solar:document-add-bold" class="text-blue-400" style="font-size:20px"></iconify-icon>
+              <iconify-icon icon="solar:document-add-bold" class="text-blue-400 text-xl"></iconify-icon>
             </div>
             <div class="flex-1 min-w-0">
               <div class="flex items-center gap-3 mb-1">
@@ -1034,7 +1073,7 @@
 
           <div class="reveal rd2 card rounded-2xl p-5 flex items-center gap-5">
             <div class="w-11 h-11 rounded-2xl bg-amber-500/15 border border-amber-500/25 flex items-center justify-center flex-shrink-0">
-              <iconify-icon icon="solar:eye-scan-bold" class="text-amber-400" style="font-size:20px"></iconify-icon>
+              <iconify-icon icon="solar:eye-scan-bold" class="text-amber-400 text-xl"></iconify-icon>
             </div>
             <div class="flex-1 min-w-0">
               <div class="flex items-center gap-3 mb-1">
@@ -1047,7 +1086,7 @@
 
           <div class="reveal rd3 card rounded-2xl p-5 flex items-center gap-5">
             <div class="w-11 h-11 rounded-2xl bg-amber-500/15 border border-amber-500/25 flex items-center justify-center flex-shrink-0">
-              <iconify-icon icon="solar:clipboard-check-bold" class="text-amber-400" style="font-size:20px"></iconify-icon>
+              <iconify-icon icon="solar:clipboard-check-bold" class="text-amber-400 text-xl"></iconify-icon>
             </div>
             <div class="flex-1 min-w-0">
               <div class="flex items-center gap-3 mb-1">
@@ -1060,7 +1099,7 @@
 
           <div class="reveal card rounded-2xl p-5 flex items-center gap-5">
             <div class="w-11 h-11 rounded-2xl bg-orange-500/15 border border-orange-500/25 flex items-center justify-center flex-shrink-0">
-              <iconify-icon icon="solar:dollar-minimalistic-bold" class="text-orange-400" style="font-size:20px"></iconify-icon>
+              <iconify-icon icon="solar:dollar-minimalistic-bold" class="text-orange-400 text-xl"></iconify-icon>
             </div>
             <div class="flex-1 min-w-0">
               <div class="flex items-center gap-3 mb-1">
@@ -1073,7 +1112,7 @@
 
           <div class="reveal rd1 card rounded-2xl p-5 flex items-center gap-5 border-emerald-500/20">
             <div class="w-11 h-11 rounded-2xl bg-emerald-500/20 border border-emerald-500/35 flex items-center justify-center flex-shrink-0">
-              <iconify-icon icon="solar:check-circle-bold" class="text-emerald-400" style="font-size:20px"></iconify-icon>
+              <iconify-icon icon="solar:check-circle-bold" class="text-emerald-400 text-xl"></iconify-icon>
             </div>
             <div class="flex-1 min-w-0">
               <div class="flex items-center gap-3 mb-1">
@@ -1086,7 +1125,7 @@
 
           <div class="reveal rd2 card rounded-2xl p-5 flex items-center gap-5">
             <div class="w-11 h-11 rounded-2xl bg-red-500/15 border border-red-500/25 flex items-center justify-center flex-shrink-0">
-              <iconify-icon icon="solar:close-circle-bold" class="text-red-400" style="font-size:20px"></iconify-icon>
+              <iconify-icon icon="solar:close-circle-bold" class="text-red-400 text-xl"></iconify-icon>
             </div>
             <div class="flex-1 min-w-0">
               <div class="flex items-center gap-3 mb-1">
@@ -1099,7 +1138,7 @@
 
           <div class="reveal rd3 card rounded-2xl p-5 flex items-center gap-5 opacity-60">
             <div class="w-11 h-11 rounded-2xl bg-zinc-700/30 border border-zinc-700/40 flex items-center justify-center flex-shrink-0">
-              <iconify-icon icon="solar:question-circle-bold" class="text-zinc-600" style="font-size:20px"></iconify-icon>
+              <iconify-icon icon="solar:question-circle-bold" class="text-zinc-600 text-xl"></iconify-icon>
             </div>
             <div class="flex-1 min-w-0">
               <div class="flex items-center gap-3 mb-1">
@@ -1119,7 +1158,7 @@
     <div class="max-w-7xl mx-auto">
       <div class="text-center mb-20">
         <div class="reveal inline-flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/20 rounded-full px-4 py-2 mb-7">
-          <iconify-icon icon="solar:star-bold" class="text-emerald-400" style="font-size:15px"></iconify-icon>
+          <iconify-icon icon="solar:star-bold" class="text-emerald-400 text-[15px]"></iconify-icon>
           <span class="text-sm font-semibold text-emerald-300">주요 기능</span>
         </div>
         <h2 class="reveal text-4xl md:text-5xl font-bold text-zinc-50 mb-5 leading-tight">통관 추적에 필요한<br>모든 것을 담았습니다</h2>
@@ -1134,7 +1173,7 @@
           <div class="absolute top-0 right-0 w-80 h-80 bg-emerald-500/5 rounded-full blur-3xl pointer-events-none -translate-y-1/3 translate-x-1/3"></div>
           <div class="relative">
             <div class="w-13 h-13 w-12 h-12 rounded-2xl bg-emerald-500/15 border border-emerald-500/25 flex items-center justify-center mb-6">
-              <iconify-icon icon="solar:list-check-bold" class="text-emerald-400" style="font-size:22px"></iconify-icon>
+              <iconify-icon icon="solar:list-check-bold" class="text-emerald-400 text-[22px]"></iconify-icon>
             </div>
             <h3 class="text-2xl font-bold text-zinc-100 mb-3 leading-snug">시각적 통관 타임라인</h3>
             <p class="text-zinc-500 leading-relaxed max-w-lg mb-8">
@@ -1143,42 +1182,42 @@
             </p>
             <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
               <div class="bg-emerald-500/10 border border-emerald-500/20 rounded-xl p-3.5 flex items-center gap-3">
-                <iconify-icon icon="solar:check-circle-bold" class="text-emerald-400 flex-shrink-0" style="font-size:18px"></iconify-icon>
+                <iconify-icon icon="solar:check-circle-bold" class="text-emerald-400 flex-shrink-0 text-lg"></iconify-icon>
                 <div>
                   <p class="text-xs font-bold text-zinc-300">통관완료</p>
                   <p class="text-[10px] text-zinc-600">Cleared</p>
                 </div>
               </div>
               <div class="bg-orange-500/8 border border-orange-500/15 rounded-xl p-3.5 flex items-center gap-3">
-                <iconify-icon icon="solar:dollar-minimalistic-bold" class="text-orange-400 flex-shrink-0" style="font-size:18px"></iconify-icon>
+                <iconify-icon icon="solar:dollar-minimalistic-bold" class="text-orange-400 flex-shrink-0 text-lg"></iconify-icon>
                 <div>
                   <p class="text-xs font-bold text-zinc-400">납세대기</p>
                   <p class="text-[10px] text-zinc-600">Duty</p>
                 </div>
               </div>
               <div class="bg-amber-500/8 border border-amber-500/15 rounded-xl p-3.5 flex items-center gap-3">
-                <iconify-icon icon="solar:clipboard-check-bold" class="text-amber-400 flex-shrink-0" style="font-size:18px"></iconify-icon>
+                <iconify-icon icon="solar:clipboard-check-bold" class="text-amber-400 flex-shrink-0 text-lg"></iconify-icon>
                 <div>
                   <p class="text-xs font-bold text-zinc-400">심사진행</p>
                   <p class="text-[10px] text-zinc-600">Examination</p>
                 </div>
               </div>
               <div class="bg-zinc-800/40 rounded-xl p-3.5 flex items-center gap-3">
-                <iconify-icon icon="solar:eye-scan-bold" class="text-amber-400 flex-shrink-0" style="font-size:18px"></iconify-icon>
+                <iconify-icon icon="solar:eye-scan-bold" class="text-amber-400 flex-shrink-0 text-lg"></iconify-icon>
                 <div>
                   <p class="text-xs font-bold text-zinc-400">검사진행</p>
                   <p class="text-[10px] text-zinc-600">Inspection</p>
                 </div>
               </div>
               <div class="bg-blue-500/8 border border-blue-500/15 rounded-xl p-3.5 flex items-center gap-3">
-                <iconify-icon icon="solar:document-add-bold" class="text-blue-400 flex-shrink-0" style="font-size:18px"></iconify-icon>
+                <iconify-icon icon="solar:document-add-bold" class="text-blue-400 flex-shrink-0 text-lg"></iconify-icon>
                 <div>
                   <p class="text-xs font-bold text-zinc-400">신고접수</p>
                   <p class="text-[10px] text-zinc-600">Declared</p>
                 </div>
               </div>
               <div class="bg-zinc-800/30 rounded-xl p-3.5 flex items-center gap-3">
-                <iconify-icon icon="solar:clock-circle-bold" class="text-zinc-500 flex-shrink-0" style="font-size:18px"></iconify-icon>
+                <iconify-icon icon="solar:clock-circle-bold" class="text-zinc-500 flex-shrink-0 text-lg"></iconify-icon>
                 <div>
                   <p class="text-xs font-bold text-zinc-500">신고전</p>
                   <p class="text-[10px] text-zinc-700">Pre-decl.</p>
@@ -1193,7 +1232,7 @@
           <div class="absolute bottom-0 right-0 w-48 h-48 bg-emerald-500/5 blur-2xl rounded-full pointer-events-none"></div>
           <div class="relative">
             <div class="w-12 h-12 rounded-2xl bg-emerald-500/15 border border-emerald-500/25 flex items-center justify-center mb-6">
-              <iconify-icon icon="solar:magnifer-linear" class="text-emerald-400" style="font-size:22px"></iconify-icon>
+              <iconify-icon icon="solar:magnifer-linear" class="text-emerald-400 text-[22px]"></iconify-icon>
             </div>
             <h3 class="text-xl font-bold text-zinc-100 mb-3 leading-snug">3가지 번호 유형 검색</h3>
             <p class="text-sm text-zinc-500 leading-relaxed mb-6">
@@ -1202,7 +1241,7 @@
             <div class="space-y-3">
               <div class="flex items-center gap-3 bg-emerald-500/8 border border-emerald-500/15 rounded-xl p-3.5">
                 <div class="w-8 h-8 rounded-xl bg-emerald-500/20 flex items-center justify-center flex-shrink-0">
-                  <iconify-icon icon="solar:hashtag-bold" class="text-emerald-400" style="font-size:13px"></iconify-icon>
+                  <iconify-icon icon="solar:hashtag-bold" class="text-emerald-400 text-[13px]"></iconify-icon>
                 </div>
                 <div>
                   <p class="text-sm font-bold text-zinc-200">화물관리번호</p>
@@ -1211,7 +1250,7 @@
               </div>
               <div class="flex items-center gap-3 bg-zinc-800/40 rounded-xl p-3.5">
                 <div class="w-8 h-8 rounded-xl bg-zinc-700/50 flex items-center justify-center flex-shrink-0">
-                  <iconify-icon icon="solar:document-text-bold" class="text-zinc-400" style="font-size:13px"></iconify-icon>
+                  <iconify-icon icon="solar:document-text-bold" class="text-zinc-400 text-[13px]"></iconify-icon>
                 </div>
                 <div>
                   <p class="text-sm font-semibold text-zinc-400">B/L번호</p>
@@ -1220,7 +1259,7 @@
               </div>
               <div class="flex items-center gap-3 bg-zinc-800/40 rounded-xl p-3.5">
                 <div class="w-8 h-8 rounded-xl bg-zinc-700/50 flex items-center justify-center flex-shrink-0">
-                  <iconify-icon icon="solar:file-bold" class="text-zinc-400" style="font-size:13px"></iconify-icon>
+                  <iconify-icon icon="solar:file-bold" class="text-zinc-400 text-[13px]"></iconify-icon>
                 </div>
                 <div>
                   <p class="text-sm font-semibold text-zinc-400">마스터 B/L번호</p>
@@ -1238,7 +1277,7 @@
         <!-- Search history -->
         <div class="reveal card rounded-3xl p-8 relative overflow-hidden">
           <div class="w-12 h-12 rounded-2xl bg-emerald-500/15 border border-emerald-500/25 flex items-center justify-center mb-6">
-            <iconify-icon icon="solar:history-bold" class="text-emerald-400" style="font-size:22px"></iconify-icon>
+            <iconify-icon icon="solar:history-bold" class="text-emerald-400 text-[22px]"></iconify-icon>
           </div>
           <h3 class="text-xl font-bold text-zinc-100 mb-3 leading-snug">최근 조회 기록 저장</h3>
           <p class="text-sm text-zinc-500 leading-relaxed mb-6">
@@ -1267,7 +1306,7 @@
         <!-- Cargo details -->
         <div class="reveal rd1 card rounded-3xl p-8">
           <div class="w-12 h-12 rounded-2xl bg-emerald-500/15 border border-emerald-500/25 flex items-center justify-center mb-6">
-            <iconify-icon icon="solar:box-bold" class="text-emerald-400" style="font-size:22px"></iconify-icon>
+            <iconify-icon icon="solar:box-bold" class="text-emerald-400 text-[22px]"></iconify-icon>
           </div>
           <h3 class="text-xl font-bold text-zinc-100 mb-3 leading-snug">화물 상세 정보 제공</h3>
           <p class="text-sm text-zinc-500 leading-relaxed mb-6">
@@ -1275,19 +1314,19 @@
           </p>
           <div class="grid grid-cols-2 gap-2">
             <div class="bg-zinc-950/50 rounded-xl p-3 text-center border border-zinc-800/50">
-              <iconify-icon icon="solar:map-point-wave-bold" class="text-emerald-400 mb-1.5" style="font-size:18px"></iconify-icon>
+              <iconify-icon icon="solar:map-point-wave-bold" class="text-emerald-400 mb-1.5 text-lg"></iconify-icon>
               <p class="text-[11px] text-zinc-500">출발·도착항</p>
             </div>
             <div class="bg-zinc-950/50 rounded-xl p-3 text-center border border-zinc-800/50">
-              <iconify-icon icon="solar:calendar-bold" class="text-emerald-400 mb-1.5" style="font-size:18px"></iconify-icon>
+              <iconify-icon icon="solar:calendar-bold" class="text-emerald-400 mb-1.5 text-lg"></iconify-icon>
               <p class="text-[11px] text-zinc-500">입항 일시</p>
             </div>
             <div class="bg-zinc-950/50 rounded-xl p-3 text-center border border-zinc-800/50">
-              <iconify-icon icon="solar:scale-bold" class="text-emerald-400 mb-1.5" style="font-size:18px"></iconify-icon>
+              <iconify-icon icon="solar:scale-bold" class="text-emerald-400 mb-1.5 text-lg"></iconify-icon>
               <p class="text-[11px] text-zinc-500">중량 정보</p>
             </div>
             <div class="bg-zinc-950/50 rounded-xl p-3 text-center border border-zinc-800/50">
-              <iconify-icon icon="solar:box-minimalistic-bold" class="text-emerald-400 mb-1.5" style="font-size:18px"></iconify-icon>
+              <iconify-icon icon="solar:box-minimalistic-bold" class="text-emerald-400 mb-1.5 text-lg"></iconify-icon>
               <p class="text-[11px] text-zinc-500">포장 수량</p>
             </div>
           </div>
@@ -1298,7 +1337,7 @@
           <div class="absolute bottom-0 left-0 w-40 h-40 bg-emerald-500/5 rounded-full blur-2xl pointer-events-none"></div>
           <div class="relative">
             <div class="w-12 h-12 rounded-2xl bg-emerald-500/15 border border-emerald-500/25 flex items-center justify-center mb-6">
-              <iconify-icon icon="solar:shield-check-bold" class="text-emerald-400" style="font-size:22px"></iconify-icon>
+              <iconify-icon icon="solar:shield-check-bold" class="text-emerald-400 text-[22px]"></iconify-icon>
             </div>
             <h3 class="text-xl font-bold text-zinc-100 mb-3 leading-snug">보안 서버 프록시</h3>
             <p class="text-sm text-zinc-500 leading-relaxed mb-6">
@@ -1306,19 +1345,19 @@
             </p>
             <div class="space-y-2.5">
               <div class="flex items-center gap-2.5 text-xs text-zinc-400">
-                <iconify-icon icon="solar:check-circle-bold" class="text-emerald-400 flex-shrink-0" style="font-size:14px"></iconify-icon>
+                <iconify-icon icon="solar:check-circle-bold" class="text-emerald-400 flex-shrink-0 text-sm"></iconify-icon>
                 서버 측 API 키 보관 (환경변수)
               </div>
               <div class="flex items-center gap-2.5 text-xs text-zinc-400">
-                <iconify-icon icon="solar:check-circle-bold" class="text-emerald-400 flex-shrink-0" style="font-size:14px"></iconify-icon>
+                <iconify-icon icon="solar:check-circle-bold" class="text-emerald-400 flex-shrink-0 text-sm"></iconify-icon>
                 입력값 길이·문자 유효성 검증
               </div>
               <div class="flex items-center gap-2.5 text-xs text-zinc-400">
-                <iconify-icon icon="solar:check-circle-bold" class="text-emerald-400 flex-shrink-0" style="font-size:14px"></iconify-icon>
+                <iconify-icon icon="solar:check-circle-bold" class="text-emerald-400 flex-shrink-0 text-sm"></iconify-icon>
                 보안 헤더 (CSP, X-Frame-Options)
               </div>
               <div class="flex items-center gap-2.5 text-xs text-zinc-400">
-                <iconify-icon icon="solar:check-circle-bold" class="text-emerald-400 flex-shrink-0" style="font-size:14px"></iconify-icon>
+                <iconify-icon icon="solar:check-circle-bold" class="text-emerald-400 flex-shrink-0 text-sm"></iconify-icon>
                 조회 기록 로컬 스토리지 저장
               </div>
             </div>
@@ -1333,7 +1372,7 @@
         <div class="reveal card rounded-3xl p-8">
           <div class="flex items-start justify-between mb-6">
             <div class="w-12 h-12 rounded-2xl bg-emerald-500/15 border border-emerald-500/25 flex items-center justify-center">
-              <iconify-icon icon="solar:moon-bold" class="text-emerald-400" style="font-size:22px"></iconify-icon>
+              <iconify-icon icon="solar:moon-bold" class="text-emerald-400 text-[22px]"></iconify-icon>
             </div>
             <div class="flex items-center gap-2">
               <div class="w-10 h-5 bg-emerald-500/20 border border-emerald-500/30 rounded-full relative">
@@ -1351,7 +1390,7 @@
         <!-- Progress bar + port info -->
         <div class="reveal rd1 card rounded-3xl p-8">
           <div class="w-12 h-12 rounded-2xl bg-emerald-500/15 border border-emerald-500/25 flex items-center justify-center mb-6">
-            <iconify-icon icon="solar:graph-up-bold" class="text-emerald-400" style="font-size:22px"></iconify-icon>
+            <iconify-icon icon="solar:graph-up-bold" class="text-emerald-400 text-[22px]"></iconify-icon>
           </div>
           <h3 class="text-xl font-bold text-zinc-100 mb-3 leading-snug">진행률 바 &amp; 항만 정보</h3>
           <p class="text-sm text-zinc-500 leading-relaxed mb-6">
@@ -1363,11 +1402,11 @@
                 <span>통관 진행률</span><span class="text-emerald-400 font-bold">75%</span>
               </div>
               <div class="h-2 bg-zinc-800 rounded-full overflow-hidden">
-                <div class="h-full rounded-full bg-gradient-to-r from-emerald-700 to-emerald-400" style="width:75%"></div>
+                <div class="h-full rounded-full bg-gradient-to-r from-emerald-700 to-emerald-400 w-3/4"></div>
               </div>
             </div>
             <div class="flex items-center gap-2 text-xs text-zinc-500 bg-zinc-900/50 rounded-xl p-3 border border-zinc-800/50">
-              <iconify-icon icon="solar:map-point-linear" class="text-emerald-400 flex-shrink-0" style="font-size:13px"></iconify-icon>
+              <iconify-icon icon="solar:map-point-linear" class="text-emerald-400 flex-shrink-0 text-[13px]"></iconify-icon>
               <span>상하이항 (CNSHA) → 부산항 (KRPUS)</span>
             </div>
           </div>
@@ -1388,7 +1427,7 @@
           <!-- Left -->
           <div>
             <div class="reveal inline-flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/20 rounded-full px-4 py-2 mb-8">
-              <iconify-icon icon="solar:smartphone-bold" class="text-emerald-400" style="font-size:15px"></iconify-icon>
+              <iconify-icon icon="solar:smartphone-bold" class="text-emerald-400 text-[15px]"></iconify-icon>
               <span class="text-sm font-semibold text-emerald-300">PWA — Progressive Web App</span>
             </div>
 
@@ -1405,7 +1444,7 @@
             <div class="reveal space-y-6">
               <div class="flex items-start gap-4">
                 <div class="w-11 h-11 rounded-2xl bg-emerald-500/15 border border-emerald-500/25 flex items-center justify-center flex-shrink-0">
-                  <iconify-icon icon="solar:cloud-storage-bold" class="text-emerald-400" style="font-size:18px"></iconify-icon>
+                  <iconify-icon icon="solar:cloud-storage-bold" class="text-emerald-400 text-lg"></iconify-icon>
                 </div>
                 <div>
                   <h4 class="text-base font-bold text-zinc-200 mb-1.5">오프라인 지원</h4>
@@ -1415,7 +1454,7 @@
 
               <div class="flex items-start gap-4">
                 <div class="w-11 h-11 rounded-2xl bg-emerald-500/15 border border-emerald-500/25 flex items-center justify-center flex-shrink-0">
-                  <iconify-icon icon="solar:refresh-circle-bold" class="text-emerald-400" style="font-size:18px"></iconify-icon>
+                  <iconify-icon icon="solar:refresh-circle-bold" class="text-emerald-400 text-lg"></iconify-icon>
                 </div>
                 <div>
                   <h4 class="text-base font-bold text-zinc-200 mb-1.5">자동 업데이트 감지</h4>
@@ -1425,7 +1464,7 @@
 
               <div class="flex items-start gap-4">
                 <div class="w-11 h-11 rounded-2xl bg-emerald-500/15 border border-emerald-500/25 flex items-center justify-center flex-shrink-0">
-                  <iconify-icon icon="solar:download-minimalistic-bold" class="text-emerald-400" style="font-size:18px"></iconify-icon>
+                  <iconify-icon icon="solar:download-minimalistic-bold" class="text-emerald-400 text-lg"></iconify-icon>
                 </div>
                 <div>
                   <h4 class="text-base font-bold text-zinc-200 mb-1.5">홈 화면 설치</h4>
@@ -1437,7 +1476,7 @@
 
           <!-- Right: Feature grid -->
           <div class="reveal flex justify-center lg:justify-end">
-            <div class="grid grid-cols-2 gap-4 w-full max-w-sm">
+            <div class="grid grid-cols-2 gap-4 w-full">
               <div class="glass rounded-2xl p-5 col-span-2">
                 <div class="flex items-center gap-3 mb-3">
                   <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 anim-pulse inline-block"></span>
@@ -1451,20 +1490,20 @@
               </div>
 
               <div class="glass rounded-2xl p-5">
-                <iconify-icon icon="solar:cloud-storage-bold" class="text-emerald-400 mb-3" style="font-size:24px"></iconify-icon>
+                <iconify-icon icon="solar:cloud-storage-bold" class="text-emerald-400 mb-3 text-2xl"></iconify-icon>
                 <p class="text-sm font-bold text-zinc-200 mb-1.5">스마트 캐싱</p>
                 <p class="text-xs text-zinc-500 leading-relaxed">API는 Network-First, 정적 자원은 Cache-First 전략 적용</p>
               </div>
 
               <div class="glass rounded-2xl p-5">
-                <iconify-icon icon="solar:bolt-bold" class="text-emerald-400 mb-3" style="font-size:24px"></iconify-icon>
+                <iconify-icon icon="solar:bolt-bold" class="text-emerald-400 mb-3 text-2xl"></iconify-icon>
                 <p class="text-sm font-bold text-zinc-200 mb-1.5">즉시 로딩</p>
                 <p class="text-xs text-zinc-500 leading-relaxed">앱 쉘 사전 캐싱으로 첫 실행부터 빠른 로딩</p>
               </div>
 
               <div class="glass rounded-2xl p-5 col-span-2">
                 <div class="flex items-start gap-3">
-                  <iconify-icon icon="solar:bell-bold" class="text-emerald-400 flex-shrink-0 mt-0.5" style="font-size:20px"></iconify-icon>
+                  <iconify-icon icon="solar:bell-bold" class="text-emerald-400 flex-shrink-0 mt-0.5 text-xl"></iconify-icon>
                   <div>
                     <p class="text-sm font-bold text-zinc-200 mb-1">업데이트 배너 알림</p>
                     <p class="text-xs text-zinc-500 leading-relaxed">새 버전 배포 즉시 배너로 안내. "업데이트" 버튼 하나로 자동 갱신 완료.</p>
@@ -1474,7 +1513,7 @@
 
               <div class="glass rounded-2xl p-5 col-span-2">
                 <div class="flex items-start gap-3">
-                  <iconify-icon icon="solar:share-bold" class="text-emerald-400 flex-shrink-0 mt-0.5" style="font-size:20px"></iconify-icon>
+                  <iconify-icon icon="solar:share-bold" class="text-emerald-400 flex-shrink-0 mt-0.5 text-xl"></iconify-icon>
                   <div>
                     <p class="text-sm font-bold text-zinc-200 mb-1">Web Share 수신</p>
                     <p class="text-xs text-zinc-500 leading-relaxed">다른 앱에서 화물 번호를 공유하면 자동으로 앱이 열리고 즉시 조회됩니다.</p>
@@ -1499,7 +1538,7 @@
 
         <div class="relative py-24 px-8 md:px-16 text-center">
           <div class="reveal inline-flex items-center gap-2 bg-emerald-500/15 border border-emerald-500/30 rounded-full px-4 py-2 mb-8">
-            <iconify-icon icon="solar:box-minimalistic-bold" class="text-emerald-400" style="font-size:15px"></iconify-icon>
+            <iconify-icon icon="solar:box-minimalistic-bold" class="text-emerald-400 text-[15px]"></iconify-icon>
             <span class="text-sm font-semibold text-emerald-300">지금 바로 시작하기</span>
           </div>
 
@@ -1514,35 +1553,34 @@
           </p>
 
           <div class="reveal flex flex-col sm:flex-row gap-4 justify-center mb-14">
-            <a href="/app" target="_blank" rel="noopener noreferrer" data-app-link class="btn-primary text-lg px-12 py-5 rounded-2xl flex items-center justify-center gap-3 emerald-glow">
-              <iconify-icon icon="solar:magnifer-linear" style="font-size:20px"></iconify-icon>
+            <a href="/app" target="_blank" rel="noopener noreferrer" data-app-link class="btn-primary text-lg px-12 py-5 rounded-2xl flex items-center justify-center gap-3 emerald-glow whitespace-nowrap">
+              <iconify-icon icon="solar:magnifer-linear" class="text-xl"></iconify-icon>
               무료로 조회 시작하기
-              <iconify-icon icon="solar:arrow-right-bold" style="font-size:16px"></iconify-icon>
             </a>
-            <a href="/app" target="_blank" rel="noopener noreferrer" data-app-link class="bg-white/[0.04] border border-white/[0.08] text-zinc-200 font-semibold backdrop-blur-sm transition-all hover:bg-white/[0.07] hover:border-white/[0.18] text-lg px-10 py-5 rounded-2xl flex items-center justify-center gap-3">
-              <iconify-icon icon="solar:download-minimalistic-bold" class="text-emerald-400" style="font-size:20px"></iconify-icon>
+            <a href="/app" target="_blank" rel="noopener noreferrer" data-app-link class="bg-white/[0.04] border border-white/[0.08] text-zinc-200 font-semibold backdrop-blur-sm transition-all hover:bg-white/[0.07] hover:border-white/[0.18] text-lg px-10 py-5 rounded-2xl flex items-center justify-center gap-3 whitespace-nowrap">
+              <iconify-icon icon="solar:download-minimalistic-bold" class="text-emerald-400 text-xl"></iconify-icon>
               홈 화면에 설치하기
             </a>
           </div>
 
           <div class="reveal flex flex-wrap justify-center items-center gap-5 md:gap-8 text-sm text-zinc-500">
             <div class="flex items-center gap-2">
-              <iconify-icon icon="solar:shield-check-bold" class="text-emerald-400" style="font-size:15px"></iconify-icon>
+              <iconify-icon icon="solar:shield-check-bold" class="text-emerald-400 text-[15px]"></iconify-icon>
               개인정보 수집 없음
             </div>
             <div class="w-px h-4 bg-zinc-700 hidden md:block"></div>
             <div class="flex items-center gap-2">
-              <iconify-icon icon="solar:dollar-minimalistic-bold" class="text-emerald-400" style="font-size:15px"></iconify-icon>
+              <iconify-icon icon="solar:dollar-minimalistic-bold" class="text-emerald-400 text-[15px]"></iconify-icon>
               완전 무료 서비스
             </div>
             <div class="w-px h-4 bg-zinc-700 hidden md:block"></div>
             <div class="flex items-center gap-2">
-              <iconify-icon icon="solar:code-bold" class="text-emerald-400" style="font-size:15px"></iconify-icon>
+              <iconify-icon icon="solar:code-bold" class="text-emerald-400 text-[15px]"></iconify-icon>
               오픈소스 (GitHub)
             </div>
             <div class="w-px h-4 bg-zinc-700 hidden md:block"></div>
             <div class="flex items-center gap-2">
-              <iconify-icon icon="solar:buildings-2-bold" class="text-emerald-400" style="font-size:15px"></iconify-icon>
+              <iconify-icon icon="solar:buildings-2-bold" class="text-emerald-400 text-[15px]"></iconify-icon>
               관세청 공식 API
             </div>
           </div>
@@ -1557,7 +1595,7 @@
       <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
         <div class="flex items-center gap-3">
           <div class="w-9 h-9 rounded-xl bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center flex-shrink-0">
-            <iconify-icon icon="tabler:package-import" class="text-emerald-400" style="font-size:16px"></iconify-icon>
+            <iconify-icon icon="tabler:package-import" class="text-emerald-400 text-base"></iconify-icon>
           </div>
           <div>
             <p class="font-bold text-zinc-200">화물통관 조회</p>
@@ -1567,15 +1605,15 @@
 
         <div class="flex flex-wrap gap-6 text-sm text-zinc-500">
           <a href="https://unipass.customs.go.kr" target="_blank" rel="noopener noreferrer" class="hover:text-zinc-300 transition-colors flex items-center gap-1.5">
-            <iconify-icon icon="solar:buildings-2-linear" style="font-size:14px"></iconify-icon>
+            <iconify-icon icon="solar:buildings-2-linear" class="text-sm"></iconify-icon>
             관세청 Unipass
           </a>
           <a href="https://www.data.go.kr/data/15012455/openapi.do" target="_blank" rel="noopener noreferrer" class="hover:text-zinc-300 transition-colors flex items-center gap-1.5">
-            <iconify-icon icon="solar:database-linear" style="font-size:14px"></iconify-icon>
+            <iconify-icon icon="solar:database-linear" class="text-sm"></iconify-icon>
             공공데이터포털
           </a>
           <a href="https://github.com/tenziro/oversea-tracking" target="_blank" rel="noopener noreferrer" class="hover:text-zinc-300 transition-colors flex items-center gap-1.5">
-            <iconify-icon icon="solar:code-linear" style="font-size:14px"></iconify-icon>
+            <iconify-icon icon="solar:code-linear" class="text-sm"></iconify-icon>
             GitHub
           </a>
         </div>
@@ -1676,19 +1714,49 @@
       const btn = document.getElementById('theme-toggle');
       const icon = document.getElementById('theme-icon');
 
-      function syncIcon() {
-        const isDark = html.getAttribute('data-theme') === 'dark';
-        icon.setAttribute('icon', isDark ? 'solar:sun-bold' : 'solar:moon-bold');
+      // 저장된 선택값 (dark | light | system), 없으면 system
+      function getSaved() {
+        return localStorage.getItem('theme') || 'system';
       }
+
+      function applyTheme(val) {
+        const resolved = val === 'system'
+          ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
+          : val;
+        html.setAttribute('data-theme', resolved);
+      }
+
+      function syncIcon() {
+        const val = getSaved();
+        const icons = { dark: 'solar:moon-bold', light: 'solar:sun-bold', system: 'solar:monitor-bold' };
+        icon.setAttribute('icon', icons[val] || 'solar:monitor-bold');
+      }
+
+      // 초기 적용
+      applyTheme(getSaved());
       syncIcon();
 
+      // 시스템 테마 변경 감지 (system 선택 시 자동 반영)
+      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+        if (getSaved() === 'system') {
+          applyTheme('system');
+          if (window.scrollY > 60) updateNavBg();
+        }
+      });
+
+      // 순환: dark → light → system → dark
       btn.addEventListener('click', () => {
-        const isDark = html.getAttribute('data-theme') === 'dark';
-        const next = isDark ? 'light' : 'dark';
-        html.setAttribute('data-theme', next);
-        localStorage.setItem('landing-theme', next);
+        const cur = getSaved();
+        const next = cur === 'dark' ? 'light' : cur === 'light' ? 'system' : 'dark';
+        if (next === 'system') {
+          localStorage.removeItem('theme');
+          localStorage.removeItem('landing-theme');
+        } else {
+          localStorage.setItem('theme', next);
+          localStorage.setItem('landing-theme', next);
+        }
+        applyTheme(next);
         syncIcon();
-        // Re-apply nav bg for new theme if scrolled
         if (window.scrollY > 60) updateNavBg();
       });
     })();
@@ -1705,8 +1773,8 @@
     transition: opacity 0.25s ease, transform 0.25s ease;
     z-index: 9999; white-space: nowrap;
   ">
-    <iconify-icon icon="solar:clock-circle-bold" style="font-size:18px; color:#10b981; flex-shrink:0;"></iconify-icon>
-    <span id="wip-toast-text" style="font-size:14px; font-weight:600; color:#f4f4f5;">아직 준비중입니다.</span>
+    <iconify-icon icon="solar:clock-circle-bold" class="text-lg text-emerald-500 shrink-0"></iconify-icon>
+    <span id="wip-toast-text" class="text-sm font-semibold text-zinc-50">아직 준비중입니다.</span>
   </div>
 
   <script>

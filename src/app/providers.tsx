@@ -10,6 +10,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
       defaultTheme="dark"
       enableSystem
       disableTransitionOnChange
+      storageKey="theme"
     >
       {children}
     </ThemeProvider>
