@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,7 +11,7 @@
   <script src="https://code.iconify.design/iconify-icon/2.3.0/iconify-icon.min.js"></script>
   <script>
     // Apply theme before paint to avoid flash
-    (function(){
+    (function () {
       var s = localStorage.getItem('landing-theme');
       if (!s) s = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
       document.documentElement.setAttribute('data-theme', s);
@@ -31,88 +32,98 @@
        ===================================================== */
     :root {
       color-scheme: dark;
-      --c-bg:                #09090b;
-      --c-glass:             rgba(255,255,255,0.04);
-      --c-glass-border:      rgba(255,255,255,0.07);
-      --c-glass-inset:       rgba(255,255,255,0.06);
-      --c-card:              rgba(24,24,27,0.7);
-      --c-card-border:       rgba(63,63,70,0.6);
-      --c-card-hover-border: rgba(16,185,129,0.22);
-      --c-card-hover-shadow: rgba(0,0,0,0.35);
-      --c-btn-ghost:         rgba(255,255,255,0.04);
-      --c-btn-ghost-border:  rgba(255,255,255,0.08);
-      --c-btn-ghost-color:   #e4e4e7;
-      --c-btn-ghost-hover:   rgba(255,255,255,0.07);
-      --c-btn-ghost-hover-bd:rgba(255,255,255,0.18);
-      --c-nav-scroll:        rgba(9,9,11,0.85);
+      --c-bg: #09090b;
+      --c-glass: rgba(255, 255, 255, 0.04);
+      --c-glass-border: rgba(255, 255, 255, 0.07);
+      --c-glass-inset: rgba(255, 255, 255, 0.06);
+      --c-card: rgba(24, 24, 27, 0.7);
+      --c-card-border: rgba(63, 63, 70, 0.6);
+      --c-card-hover-border: rgba(16, 185, 129, 0.22);
+      --c-card-hover-shadow: rgba(0, 0, 0, 0.35);
+      --c-btn-ghost: rgba(255, 255, 255, 0.04);
+      --c-btn-ghost-border: rgba(255, 255, 255, 0.08);
+      --c-btn-ghost-color: #e4e4e7;
+      --c-btn-ghost-hover: rgba(255, 255, 255, 0.07);
+      --c-btn-ghost-hover-bd: rgba(255, 255, 255, 0.18);
+      --c-nav-scroll: rgba(9, 9, 11, 0.85);
       --c-gradient-page:
-        radial-gradient(ellipse 80% 60% at 5% 15%, rgba(16,185,129,0.07) 0%, transparent 60%),
-        radial-gradient(ellipse 50% 50% at 90% 80%, rgba(5,150,105,0.05) 0%, transparent 55%),
+        radial-gradient(ellipse 80% 60% at 5% 15%, rgba(16, 185, 129, 0.07) 0%, transparent 60%),
+        radial-gradient(ellipse 50% 50% at 90% 80%, rgba(5, 150, 105, 0.05) 0%, transparent 55%),
         #09090b;
-      --c-phone-shell:        linear-gradient(150deg, #1c1c1e 0%, #0d0d0f 100%);
-      --c-phone-shell-border: rgba(255,255,255,0.1);
-      --c-phone-screen:       #0d0d10;
-      --c-scrollbar-track:    #09090b;
-      --c-scrollbar-thumb:    #27272a;
-      --c-grid-line:          rgba(16,185,129,0.06);
-      --c-toggle-bg:          rgba(255,255,255,0.07);
-      --c-toggle-border:      rgba(255,255,255,0.12);
-      --c-toggle-color:       #a1a1aa;
-      --c-toggle-hover:       rgba(255,255,255,0.12);
-      --c-toast-bg:           rgba(24,24,27,0.95);
-      --c-toast-border:       rgba(16,185,129,0.25);
-      --c-toast-text:         #f4f4f5;
+      --c-phone-shell: linear-gradient(150deg, #1c1c1e 0%, #0d0d0f 100%);
+      --c-phone-shell-border: rgba(255, 255, 255, 0.1);
+      --c-phone-screen: #0d0d10;
+      --c-scrollbar-track: #09090b;
+      --c-scrollbar-thumb: #27272a;
+      --c-grid-line: rgba(16, 185, 129, 0.06);
+      --c-toggle-bg: rgba(255, 255, 255, 0.07);
+      --c-toggle-border: rgba(255, 255, 255, 0.12);
+      --c-toggle-color: #a1a1aa;
+      --c-toggle-hover: rgba(255, 255, 255, 0.12);
+      --c-toast-bg: rgba(24, 24, 27, 0.95);
+      --c-toast-border: rgba(16, 185, 129, 0.25);
+      --c-toast-text: #f4f4f5;
     }
 
     [data-theme="light"] {
       color-scheme: light;
-      --c-bg:                #f8fafc;
-      --c-glass:             rgba(255,255,255,0.72);
-      --c-glass-border:      rgba(15,23,42,0.1);
-      --c-glass-inset:       rgba(255,255,255,0.9);
-      --c-card:              rgba(255,255,255,0.85);
-      --c-card-border:       rgba(15,23,42,0.09);
-      --c-card-hover-border: rgba(16,185,129,0.35);
-      --c-card-hover-shadow: rgba(15,23,42,0.1);
-      --c-btn-ghost:         rgba(15,23,42,0.04);
-      --c-btn-ghost-border:  rgba(15,23,42,0.12);
-      --c-btn-ghost-color:   #1e293b;
-      --c-btn-ghost-hover:   rgba(15,23,42,0.07);
-      --c-btn-ghost-hover-bd:rgba(15,23,42,0.22);
-      --c-nav-scroll:        rgba(248,250,252,0.92);
+      --c-bg: #f8fafc;
+      --c-glass: rgba(255, 255, 255, 0.72);
+      --c-glass-border: rgba(15, 23, 42, 0.1);
+      --c-glass-inset: rgba(255, 255, 255, 0.9);
+      --c-card: rgba(255, 255, 255, 0.85);
+      --c-card-border: rgba(15, 23, 42, 0.09);
+      --c-card-hover-border: rgba(16, 185, 129, 0.35);
+      --c-card-hover-shadow: rgba(15, 23, 42, 0.1);
+      --c-btn-ghost: rgba(15, 23, 42, 0.04);
+      --c-btn-ghost-border: rgba(15, 23, 42, 0.12);
+      --c-btn-ghost-color: #1e293b;
+      --c-btn-ghost-hover: rgba(15, 23, 42, 0.07);
+      --c-btn-ghost-hover-bd: rgba(15, 23, 42, 0.22);
+      --c-nav-scroll: rgba(248, 250, 252, 0.92);
       --c-gradient-page:
-        radial-gradient(ellipse 80% 60% at 5% 15%, rgba(16,185,129,0.09) 0%, transparent 60%),
-        radial-gradient(ellipse 50% 50% at 90% 80%, rgba(5,150,105,0.07) 0%, transparent 55%),
+        radial-gradient(ellipse 80% 60% at 5% 15%, rgba(16, 185, 129, 0.09) 0%, transparent 60%),
+        radial-gradient(ellipse 50% 50% at 90% 80%, rgba(5, 150, 105, 0.07) 0%, transparent 55%),
         #f8fafc;
-      --c-phone-shell:        linear-gradient(150deg, #e2e8f0 0%, #cbd5e1 100%);
-      --c-phone-shell-border: rgba(15,23,42,0.12);
-      --c-phone-screen:       #0d0d10;
-      --c-scrollbar-track:    #f1f5f9;
-      --c-scrollbar-thumb:    #cbd5e1;
-      --c-grid-line:          rgba(16,185,129,0.09);
-      --c-toggle-bg:          rgba(15,23,42,0.05);
-      --c-toggle-border:      rgba(15,23,42,0.12);
-      --c-toggle-color:       #64748b;
-      --c-toggle-hover:       rgba(15,23,42,0.1);
-      --c-toast-bg:           rgba(255,255,255,0.97);
-      --c-toast-border:       rgba(16,185,129,0.3);
-      --c-toast-text:         #0f172a;
+      --c-phone-shell: linear-gradient(150deg, #e2e8f0 0%, #cbd5e1 100%);
+      --c-phone-shell-border: rgba(15, 23, 42, 0.12);
+      --c-phone-screen: #0d0d10;
+      --c-scrollbar-track: #f1f5f9;
+      --c-scrollbar-thumb: #cbd5e1;
+      --c-grid-line: rgba(16, 185, 129, 0.09);
+      --c-toggle-bg: rgba(15, 23, 42, 0.05);
+      --c-toggle-border: rgba(15, 23, 42, 0.12);
+      --c-toggle-color: #64748b;
+      --c-toggle-hover: rgba(15, 23, 42, 0.1);
+      --c-toast-bg: rgba(255, 255, 255, 0.97);
+      --c-toast-border: rgba(16, 185, 129, 0.3);
+      --c-toast-text: #0f172a;
     }
 
     /* =====================================================
        BASE
        ===================================================== */
-    * { word-break: keep-all; }
+    * {
+      word-break: keep-all;
+    }
+
     body {
       font-family: 'Pretendard', system-ui, sans-serif;
       background: var(--c-bg);
       color: #fafafa;
       transition: background 0.25s ease, color 0.25s ease;
     }
-    [data-theme="light"] body { color: #0f172a; }
+
+    [data-theme="light"] body {
+      color: #0f172a;
+    }
 
     .noise-overlay {
-      position: fixed; inset: 0; z-index: 60; pointer-events: none; opacity: 0.022;
+      position: fixed;
+      inset: 0;
+      z-index: 60;
+      pointer-events: none;
+      opacity: 0.022;
       background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
     }
 
@@ -120,58 +131,149 @@
        ANIMATIONS
        ===================================================== */
     @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(1.25rem); }
-      to { opacity: 1; transform: translateY(0); }
+      from {
+        opacity: 0;
+        transform: translateY(1.25rem);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
+
     @keyframes float {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-10px); }
+
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-10px);
+      }
     }
+
     @keyframes shimmer {
-      0% { background-position: -200% center; }
-      100% { background-position: 200% center; }
+      0% {
+        background-position: -200% center;
+      }
+
+      100% {
+        background-position: 200% center;
+      }
     }
+
     @keyframes pulse-soft {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.4; }
+
+      0%,
+      100% {
+        opacity: 1;
+      }
+
+      50% {
+        opacity: 0.4;
+      }
     }
+
     @keyframes progress-fill {
-      from { width: 0%; }
-      to { width: 100%; }
+      from {
+        width: 0%;
+      }
+
+      to {
+        width: 100%;
+      }
     }
+
     @keyframes scan-bar {
-      0% { transform: translateY(-100%); opacity: 0.6; }
-      100% { transform: translateY(400%); opacity: 0; }
+      0% {
+        transform: translateY(-100%);
+        opacity: 0.6;
+      }
+
+      100% {
+        transform: translateY(400%);
+        opacity: 0;
+      }
     }
 
-    .anim-in { animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards; opacity: 0; }
-    .animate-float { animation: float 5s ease-in-out infinite; }
-    .anim-pulse { animation: pulse-soft 2.5s ease-in-out infinite; }
+    .anim-in {
+      animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      opacity: 0;
+    }
 
-    .d1 { animation-delay: 0.1s; }
-    .d2 { animation-delay: 0.2s; }
-    .d3 { animation-delay: 0.3s; }
-    .d4 { animation-delay: 0.4s; }
-    .d5 { animation-delay: 0.5s; }
-    .d6 { animation-delay: 0.65s; }
+    .animate-float {
+      animation: float 5s ease-in-out infinite;
+    }
+
+    .anim-pulse {
+      animation: pulse-soft 2.5s ease-in-out infinite;
+    }
+
+    .d1 {
+      animation-delay: 0.1s;
+    }
+
+    .d2 {
+      animation-delay: 0.2s;
+    }
+
+    .d3 {
+      animation-delay: 0.3s;
+    }
+
+    .d4 {
+      animation-delay: 0.4s;
+    }
+
+    .d5 {
+      animation-delay: 0.5s;
+    }
+
+    .d6 {
+      animation-delay: 0.65s;
+    }
 
     .shimmer-text {
       background: linear-gradient(90deg, #10b981 0%, #34d399 30%, #6ee7b7 50%, #34d399 70%, #10b981 100%);
       background-size: 200% auto;
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
       animation: shimmer 4s linear infinite;
     }
 
     .reveal {
-      opacity: 0; transform: translateY(1.25rem);
-      transition: opacity 0.7s cubic-bezier(0.16,1,0.3,1), transform 0.7s cubic-bezier(0.16,1,0.3,1);
+      opacity: 0;
+      transform: translateY(1.25rem);
+      transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
     }
-    .reveal.in { opacity: 1; transform: translateY(0); }
-    .rd1.in { transition-delay: 0.08s; }
-    .rd2.in { transition-delay: 0.16s; }
-    .rd3.in { transition-delay: 0.24s; }
-    .rd4.in { transition-delay: 0.32s; }
-    .rd5.in { transition-delay: 0.40s; }
+
+    .reveal.in {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .rd1.in {
+      transition-delay: 0.08s;
+    }
+
+    .rd2.in {
+      transition-delay: 0.16s;
+    }
+
+    .rd3.in {
+      transition-delay: 0.24s;
+    }
+
+    .rd4.in {
+      transition-delay: 0.32s;
+    }
+
+    .rd5.in {
+      transition-delay: 0.40s;
+    }
 
     /* =====================================================
        COMPONENTS
@@ -186,157 +288,277 @@
     .card {
       background: var(--c-card);
       border: 1px solid var(--c-card-border);
-      transition: transform 0.3s cubic-bezier(0.16,1,0.3,1), border-color 0.3s ease, box-shadow 0.3s ease;
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease, box-shadow 0.3s ease;
     }
+
     .card:hover {
       transform: translateY(-3px);
       border-color: var(--c-card-hover-border);
       box-shadow: 0 16px 40px var(--c-card-hover-shadow);
     }
 
-    .nav-link {
-      padding: 4px 12px;
-      border-radius: 999px;
-      border: 1px solid transparent;
-      transition: color 0.2s, background 0.2s, border-color 0.2s;
-    }
     .nav-active {
       color: #f4f4f5 !important;
       background: rgba(16, 185, 129, 0.12);
       border-color: rgba(16, 185, 129, 0.2) !important;
     }
-    [data-theme="light"] .nav-active { color: #0f172a !important; }
+
+    [data-theme="light"] .nav-active {
+      color: #0f172a !important;
+    }
+
+    .btn-nav {
+      border-radius: 12px;
+      height: 32px;
+      width: 32px;
+      padding: 0;
+    }
+    @media (min-width: 640px) {
+      .btn-nav {
+        width: auto;
+        padding: 0 20px;
+      }
+    }
 
     .btn-primary {
-      background: #10b981; color: #052e16; font-weight: 700;
-      transition: all 0.35s cubic-bezier(0.16,1,0.3,1);
-      position: relative; overflow: hidden;
+      background: #10b981;
+      color: #052e16;
+      font-weight: 700;
+      transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+      overflow: hidden;
     }
-    .btn-primary::after {
-      content: ''; position: absolute; inset: 0;
-      background: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, transparent 60%);
-      opacity: 0; transition: opacity 0.3s;
-    }
-    .btn-primary:hover { background: #34d399; transform: scale(1.025) translateY(-2px); box-shadow: 0 14px 36px rgba(16,185,129,0.28); }
-    .btn-primary:hover::after { opacity: 1; }
-    .btn-primary:active { transform: scale(0.975); }
 
-    .btn-ghost {
-      background: var(--c-btn-ghost);
-      border: 1px solid var(--c-btn-ghost-border);
-      color: var(--c-btn-ghost-color);
-      font-weight: 600; backdrop-filter: blur(10px);
-      transition: all 0.3s ease;
+    .btn-primary::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, transparent 60%);
+      opacity: 0;
+      transition: opacity 0.3s;
     }
-    .btn-ghost:hover {
-      border-color: var(--c-btn-ghost-hover-bd);
-      background: var(--c-btn-ghost-hover);
+
+    .btn-primary:hover {
+      background: #34d399;
+      transform: scale(1.025) translateY(-2px);
+      box-shadow: 0 14px 36px rgba(16, 185, 129, 0.28);
+    }
+
+    .btn-primary:hover::after {
+      opacity: 1;
+    }
+
+    .btn-primary:active {
+      transform: scale(0.975);
     }
 
     .theme-toggle {
       background: var(--c-toggle-bg);
       border: 1px solid var(--c-toggle-border);
       color: var(--c-toggle-color);
-      width: 36px; height: 36px;
-      border-radius: 10px;
-      display: flex; align-items: center; justify-content: center;
+      width: 32px;
+      height: 32px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       cursor: pointer;
       transition: background 0.2s, border-color 0.2s, color 0.2s;
       flex-shrink: 0;
     }
-    .theme-toggle:hover { background: var(--c-toggle-hover); }
 
-    .gradient-page { background: var(--c-gradient-page); }
+    .theme-toggle:hover {
+      background: var(--c-toggle-hover);
+    }
+
+    .gradient-page {
+      background: var(--c-gradient-page);
+    }
 
     .phone-shell {
       background: var(--c-phone-shell);
       border-radius: 48px;
       border: 1.5px solid var(--c-phone-shell-border);
       box-shadow:
-        0 0 0 0.5px rgba(0,0,0,0.7),
-        0 50px 100px rgba(0,0,0,0.65),
-        0 25px 50px rgba(0,0,0,0.4),
-        inset 0 1px 0 rgba(255,255,255,0.12);
+        0 0 0 0.5px rgba(0, 0, 0, 0.7),
+        0 50px 100px rgba(0, 0, 0, 0.65),
+        0 25px 50px rgba(0, 0, 0, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.12);
     }
+
     .phone-screen {
-      background: var(--c-phone-screen); border-radius: 40px; overflow: hidden;
+      background: var(--c-phone-screen);
+      border-radius: 40px;
+      overflow: hidden;
     }
 
-    .badge-green  { background: rgba(16,185,129,0.12); color: #34d399; border: 1px solid rgba(16,185,129,0.28); }
-    .badge-amber  { background: rgba(245,158,11,0.12); color: #fbbf24; border: 1px solid rgba(245,158,11,0.28); }
-    .badge-blue   { background: rgba(59,130,246,0.12); color: #60a5fa; border: 1px solid rgba(59,130,246,0.28); }
-    .badge-orange { background: rgba(249,115,22,0.12); color: #fb923c; border: 1px solid rgba(249,115,22,0.28); }
-    .badge-gray   { background: rgba(113,113,122,0.12); color: #a1a1aa; border: 1px solid rgba(113,113,122,0.2); }
-    .badge-red    { background: rgba(239,68,68,0.12); color: #f87171; border: 1px solid rgba(239,68,68,0.28); }
+    .emerald-glow {
+      box-shadow: 0 0 40px rgba(16, 185, 129, 0.18), 0 0 80px rgba(16, 185, 129, 0.06);
+    }
 
-    [data-theme="light"] .badge-green  { background: rgba(16,185,129,0.1);  color: #059669; border-color: rgba(16,185,129,0.3); }
-    [data-theme="light"] .badge-amber  { background: rgba(245,158,11,0.1);  color: #d97706; border-color: rgba(245,158,11,0.3); }
-    [data-theme="light"] .badge-blue   { background: rgba(59,130,246,0.1);  color: #2563eb; border-color: rgba(59,130,246,0.3); }
-    [data-theme="light"] .badge-orange { background: rgba(249,115,22,0.1);  color: #ea580c; border-color: rgba(249,115,22,0.3); }
-    [data-theme="light"] .badge-gray   { background: rgba(100,116,139,0.1); color: #64748b; border-color: rgba(100,116,139,0.2); }
-    [data-theme="light"] .badge-red    { background: rgba(239,68,68,0.1);   color: #dc2626; border-color: rgba(239,68,68,0.3); }
+    ::-webkit-scrollbar {
+      width: 5px;
+    }
 
-    .emerald-glow { box-shadow: 0 0 40px rgba(16,185,129,0.18), 0 0 80px rgba(16,185,129,0.06); }
+    ::-webkit-scrollbar-track {
+      background: var(--c-scrollbar-track);
+    }
 
-    ::-webkit-scrollbar { width: 5px; }
-    ::-webkit-scrollbar-track { background: var(--c-scrollbar-track); }
-    ::-webkit-scrollbar-thumb { background: var(--c-scrollbar-thumb); border-radius: 3px; }
-    ::-webkit-scrollbar-thumb:hover { background: #10b981; }
+    ::-webkit-scrollbar-thumb {
+      background: var(--c-scrollbar-thumb);
+      border-radius: 3px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: #10b981;
+    }
 
     .grid-bg {
       background-image: linear-gradient(var(--c-grid-line) 1px, transparent 1px),
-                        linear-gradient(90deg, var(--c-grid-line) 1px, transparent 1px);
+        linear-gradient(90deg, var(--c-grid-line) 1px, transparent 1px);
       background-size: 48px 48px;
     }
 
     .progress-animated {
-      animation: progress-fill 1.8s cubic-bezier(0.16,1,0.3,1) 0.5s forwards;
+      animation: progress-fill 1.8s cubic-bezier(0.16, 1, 0.3, 1) 0.5s forwards;
       width: 0%;
     }
-    .scan-line { animation: scan-bar 2.8s ease-in-out infinite; }
+
+    .scan-line {
+      animation: scan-bar 2.8s ease-in-out infinite;
+    }
 
     /* =====================================================
        LIGHT THEME: TAILWIND CLASS OVERRIDES
        ===================================================== */
 
     /* Text colors */
-    [data-theme="light"] .text-zinc-50  { color: #0f172a; }
-    [data-theme="light"] .text-zinc-100 { color: #1e293b; }
-    [data-theme="light"] .text-zinc-200 { color: #334155; }
-    [data-theme="light"] .text-zinc-300 { color: #475569; }
-    [data-theme="light"] .text-zinc-400 { color: #64748b; }
-    [data-theme="light"] .text-zinc-500 { color: #94a3b8; }
-    [data-theme="light"] .text-zinc-600 { color: #94a3b8; }
-    [data-theme="light"] .text-zinc-700 { color: #cbd5e1; }
-    [data-theme="light"] .text-white    { color: #0f172a; }
+    [data-theme="light"] .text-zinc-50 {
+      color: #0f172a;
+    }
+
+    [data-theme="light"] .text-zinc-100 {
+      color: #1e293b;
+    }
+
+    [data-theme="light"] .text-zinc-200 {
+      color: #334155;
+    }
+
+    [data-theme="light"] .text-zinc-300 {
+      color: #475569;
+    }
+
+    [data-theme="light"] .text-zinc-400 {
+      color: #64748b;
+    }
+
+    [data-theme="light"] .text-zinc-500 {
+      color: #94a3b8;
+    }
+
+    [data-theme="light"] .text-zinc-600 {
+      color: #94a3b8;
+    }
+
+    [data-theme="light"] .text-zinc-700 {
+      color: #cbd5e1;
+    }
+
+    [data-theme="light"] .text-white {
+      color: #0f172a;
+    }
 
     /* Section backgrounds */
-    [data-theme="light"] .bg-zinc-950\/40 { background-color: rgba(241,245,249,0.7); }
-    [data-theme="light"] .bg-zinc-950\/50 { background-color: rgba(241,245,249,0.8); }
+    [data-theme="light"] .bg-zinc-950\/40 {
+      background-color: rgba(241, 245, 249, 0.7);
+    }
+
+    [data-theme="light"] .bg-zinc-950\/50 {
+      background-color: rgba(241, 245, 249, 0.8);
+    }
 
     /* Inner element backgrounds */
-    [data-theme="light"] .bg-zinc-950\/60 { background-color: rgba(248,250,252,0.95); }
-    [data-theme="light"] .bg-zinc-900\/70 { background-color: rgba(241,245,249,0.95); }
-    [data-theme="light"] .bg-zinc-900\/50 { background-color: rgba(241,245,249,0.8); }
-    [data-theme="light"] .bg-zinc-800\/60 { background-color: rgba(226,232,240,0.9); }
-    [data-theme="light"] .bg-zinc-800\/40 { background-color: rgba(226,232,240,0.7); }
-    [data-theme="light"] .bg-zinc-800\/30 { background-color: rgba(226,232,240,0.5); }
-    [data-theme="light"] .bg-zinc-800\/80 { background-color: rgba(226,232,240,0.95); }
-    [data-theme="light"] .bg-zinc-700\/50 { background-color: rgba(203,213,225,0.7); }
-    [data-theme="light"] .bg-zinc-700\/40 { background-color: rgba(203,213,225,0.6); }
-    [data-theme="light"] .bg-zinc-700\/30 { background-color: rgba(203,213,225,0.4); }
-    [data-theme="light"] .bg-zinc-800    { background-color: #e2e8f0; }
-    [data-theme="light"] .bg-zinc-700    { background-color: #cbd5e1; }
+    [data-theme="light"] .bg-zinc-950\/60 {
+      background-color: rgba(248, 250, 252, 0.95);
+    }
+
+    [data-theme="light"] .bg-zinc-900\/70 {
+      background-color: rgba(241, 245, 249, 0.95);
+    }
+
+    [data-theme="light"] .bg-zinc-900\/50 {
+      background-color: rgba(241, 245, 249, 0.8);
+    }
+
+    [data-theme="light"] .bg-zinc-800\/60 {
+      background-color: rgba(226, 232, 240, 0.9);
+    }
+
+    [data-theme="light"] .bg-zinc-800\/40 {
+      background-color: rgba(226, 232, 240, 0.7);
+    }
+
+    [data-theme="light"] .bg-zinc-800\/30 {
+      background-color: rgba(226, 232, 240, 0.5);
+    }
+
+    [data-theme="light"] .bg-zinc-800\/80 {
+      background-color: rgba(226, 232, 240, 0.95);
+    }
+
+    [data-theme="light"] .bg-zinc-700\/50 {
+      background-color: rgba(203, 213, 225, 0.7);
+    }
+
+    [data-theme="light"] .bg-zinc-700\/40 {
+      background-color: rgba(203, 213, 225, 0.6);
+    }
+
+    [data-theme="light"] .bg-zinc-700\/30 {
+      background-color: rgba(203, 213, 225, 0.4);
+    }
+
+    [data-theme="light"] .bg-zinc-800 {
+      background-color: #e2e8f0;
+    }
+
+    [data-theme="light"] .bg-zinc-700 {
+      background-color: #cbd5e1;
+    }
 
     /* Border colors */
-    [data-theme="light"] .border-zinc-800\/40 { border-color: rgba(226,232,240,0.6); }
-    [data-theme="light"] .border-zinc-800\/50 { border-color: rgba(226,232,240,0.7); }
-    [data-theme="light"] .border-zinc-800\/60 { border-color: rgba(226,232,240,0.8); }
-    [data-theme="light"] .border-zinc-800     { border-color: #e2e8f0; }
-    [data-theme="light"] .border-zinc-700\/50 { border-color: rgba(203,213,225,0.7); }
-    [data-theme="light"] .border-zinc-700\/40 { border-color: rgba(203,213,225,0.6); }
-    [data-theme="light"] .border-zinc-700\/30 { border-color: rgba(203,213,225,0.5); }
-    [data-theme="light"] .border-zinc-700     { border-color: #cbd5e1; }
+    [data-theme="light"] .border-zinc-800\/40 {
+      border-color: rgba(226, 232, 240, 0.6);
+    }
+
+    [data-theme="light"] .border-zinc-800\/50 {
+      border-color: rgba(226, 232, 240, 0.7);
+    }
+
+    [data-theme="light"] .border-zinc-800\/60 {
+      border-color: rgba(226, 232, 240, 0.8);
+    }
+
+    [data-theme="light"] .border-zinc-800 {
+      border-color: #e2e8f0;
+    }
+
+    [data-theme="light"] .border-zinc-700\/50 {
+      border-color: rgba(203, 213, 225, 0.7);
+    }
+
+    [data-theme="light"] .border-zinc-700\/40 {
+      border-color: rgba(203, 213, 225, 0.6);
+    }
+
+    [data-theme="light"] .border-zinc-700\/30 {
+      border-color: rgba(203, 213, 225, 0.5);
+    }
+
+    [data-theme="light"] .border-zinc-700 {
+      border-color: #cbd5e1;
+    }
 
     /* CTA section gradient override */
     [data-theme="light"] .from-emerald-950 {
@@ -344,15 +566,18 @@
       --tw-gradient-to: transparent;
       --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
     }
+
     [data-theme="light"] .via-zinc-900 {
       --tw-gradient-via: #f0fdf4 var(--tw-gradient-via-position);
       --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-via), var(--tw-gradient-to);
     }
+
     [data-theme="light"] .to-zinc-950 {
       --tw-gradient-to: #f8fafc var(--tw-gradient-to-position);
     }
   </style>
 </head>
+
 <body class="gradient-page antialiased">
   <div class="noise-overlay"></div>
 
@@ -368,19 +593,19 @@
         </div>
 
         <div class="hidden md:flex items-center gap-7">
-          <a href="#how"      data-nav="how"      class="nav-link text-sm text-zinc-400 hover:text-zinc-200 transition-colors duration-200">이용 방법</a>
-          <a href="#status"   data-nav="status"   class="nav-link text-sm text-zinc-400 hover:text-zinc-200 transition-colors duration-200">통관 단계</a>
-          <a href="#features" data-nav="features" class="nav-link text-sm text-zinc-400 hover:text-zinc-200 transition-colors duration-200">주요 기능</a>
-          <a href="#pwa"      data-nav="pwa"      class="nav-link text-sm text-zinc-400 hover:text-zinc-200 transition-colors duration-200">PWA</a>
+          <a href="#how" data-nav="how" class="px-3 py-1 rounded-full border border-transparent transition-all duration-200 text-sm text-zinc-400 hover:text-zinc-200 transition-colors duration-200">이용 방법</a>
+          <a href="#status" data-nav="status" class="px-3 py-1 rounded-full border border-transparent transition-all duration-200 text-sm text-zinc-400 hover:text-zinc-200 transition-colors duration-200">통관 단계</a>
+          <a href="#features" data-nav="features" class="px-3 py-1 rounded-full border border-transparent transition-all duration-200 text-sm text-zinc-400 hover:text-zinc-200 transition-colors duration-200">주요 기능</a>
+          <a href="#pwa" data-nav="pwa" class="px-3 py-1 rounded-full border border-transparent transition-all duration-200 text-sm text-zinc-400 hover:text-zinc-200 transition-colors duration-200">PWA</a>
         </div>
 
         <div class="flex items-center gap-2">
           <button id="theme-toggle" class="theme-toggle" aria-label="테마 전환">
-            <iconify-icon id="theme-icon" icon="solar:sun-bold" style="font-size:16px"></iconify-icon>
+            <iconify-icon id="theme-icon" icon="solar:sun-bold" class="text-sm"></iconify-icon>
           </button>
-          <a href="/app" target="_blank" rel="noopener noreferrer" data-app-link class="btn-primary text-sm px-5 py-2.5 rounded-xl flex items-center gap-2">
-            <iconify-icon icon="solar:magnifer-linear" style="font-size:14px"></iconify-icon>
-            지금 조회하기
+          <a href="/app" target="_blank" rel="noopener noreferrer" data-app-link class="btn-primary btn-nav text-sm flex items-center justify-center gap-2">
+            <iconify-icon icon="solar:magnifer-linear" class="text-sm"></iconify-icon>
+            <span class="hidden sm:block">지금 조회하기</span>
           </a>
         </div>
       </div>
@@ -397,7 +622,7 @@
           <div class="anim-in inline-flex items-center gap-2 glass rounded-full px-4 py-2 mb-8">
             <span class="w-2 h-2 rounded-full bg-emerald-400 anim-pulse inline-block"></span>
             <span class="text-sm text-zinc-300 font-medium">관세청 Unipass 공식 API 실시간 연동</span>
-            <iconify-icon icon="solar:arrow-right-linear" class="text-zinc-600" style="font-size:12px"></iconify-icon>
+            <iconify-icon icon="solar:arrow-right-linear" class="text-zinc-600 text-[12px]"></iconify-icon>
           </div>
 
           <h1 class="anim-in d1 text-5xl md:text-6xl xl:text-7xl font-bold tracking-tight leading-[1.1] text-zinc-50 mb-7">
@@ -414,30 +639,30 @@
 
           <div class="anim-in d3 flex flex-col sm:flex-row gap-3 mb-12">
             <a href="/app" target="_blank" rel="noopener noreferrer" data-app-link class="btn-primary text-base px-8 py-4 rounded-2xl flex items-center justify-center gap-2.5">
-              <iconify-icon icon="solar:magnifer-linear" style="font-size:18px"></iconify-icon>
+              <iconify-icon icon="solar:magnifer-linear" class="text-lg"></iconify-icon>
               화물 조회 시작하기
             </a>
-            <a href="#how" class="btn-ghost text-base px-8 py-4 rounded-2xl flex items-center justify-center gap-2.5">
-              <iconify-icon icon="solar:play-circle-linear" class="text-emerald-400" style="font-size:18px"></iconify-icon>
+            <a href="#how" class="bg-white/[0.04] border border-white/[0.08] text-zinc-200 font-semibold backdrop-blur-sm transition-all hover:bg-white/[0.07] hover:border-white/[0.18] text-base px-8 py-4 rounded-2xl flex items-center justify-center gap-2.5">
+              <iconify-icon icon="solar:play-circle-linear" class="text-emerald-400 text-lg"></iconify-icon>
               이용 방법 보기
             </a>
           </div>
 
           <div class="anim-in d4 flex flex-wrap items-center gap-x-7 gap-y-3">
             <div class="flex items-center gap-2 text-sm text-zinc-500">
-              <iconify-icon icon="solar:shield-check-bold" class="text-emerald-400" style="font-size:15px"></iconify-icon>
+              <iconify-icon icon="solar:shield-check-bold" class="text-emerald-400 text-[15px]"></iconify-icon>
               개인정보 수집 없음
             </div>
             <div class="flex items-center gap-2 text-sm text-zinc-500">
-              <iconify-icon icon="solar:dollar-minimalistic-bold" class="text-emerald-400" style="font-size:15px"></iconify-icon>
+              <iconify-icon icon="solar:dollar-minimalistic-bold" class="text-emerald-400 text-[15px]"></iconify-icon>
               완전 무료
             </div>
             <div class="flex items-center gap-2 text-sm text-zinc-500">
-              <iconify-icon icon="solar:code-bold" class="text-emerald-400" style="font-size:15px"></iconify-icon>
+              <iconify-icon icon="solar:code-bold" class="text-emerald-400 text-[15px]"></iconify-icon>
               오픈소스
             </div>
             <div class="flex items-center gap-2 text-sm text-zinc-500">
-              <iconify-icon icon="solar:smartphone-bold" class="text-emerald-400" style="font-size:15px"></iconify-icon>
+              <iconify-icon icon="solar:smartphone-bold" class="text-emerald-400 text-[15px]"></iconify-icon>
               PWA 지원
             </div>
           </div>
@@ -510,7 +735,7 @@
                           <p class="text-[10px] font-mono text-zinc-600 mb-0.5">KRPUS24091234567</p>
                           <p class="text-[13px] font-bold text-zinc-100 leading-snug">전자제품 부품 외 3종</p>
                         </div>
-                        <span class="badge-green text-[10px] font-semibold px-2 py-1 rounded-full flex-shrink-0">통관완료</span>
+                        <span class="bg-emerald-500/[0.12] text-emerald-400 border border-emerald-500/[0.28] text-[10px] font-semibold px-2 py-1 rounded-full flex-shrink-0">통관완료</span>
                       </div>
                       <div class="mb-3">
                         <div class="flex justify-between items-center mb-1.5">
@@ -788,7 +1013,7 @@
             <div class="flex-1 min-w-0">
               <div class="flex items-center gap-3 mb-1">
                 <p class="text-base font-bold text-zinc-300">신고전</p>
-                <span class="badge-gray text-[10px] font-semibold px-2 py-0.5 rounded-full">Pre-Declaration</span>
+                <span class="bg-zinc-500/[0.12] text-zinc-400 border border-zinc-500/[0.20] text-[10px] font-semibold px-2 py-0.5 rounded-full">Pre-Declaration</span>
               </div>
               <p class="text-sm text-zinc-600 leading-relaxed">수입 신고가 접수되기 전 대기 상태입니다. 화물이 입항하여 신고 처리를 기다리고 있습니다.</p>
             </div>
@@ -801,7 +1026,7 @@
             <div class="flex-1 min-w-0">
               <div class="flex items-center gap-3 mb-1">
                 <p class="text-base font-bold text-zinc-200">신고접수</p>
-                <span class="badge-blue text-[10px] font-semibold px-2 py-0.5 rounded-full">Declaration Received</span>
+                <span class="bg-blue-500/[0.12] text-blue-400 border border-blue-500/[0.28] text-[10px] font-semibold px-2 py-0.5 rounded-full">Declaration Received</span>
               </div>
               <p class="text-sm text-zinc-600 leading-relaxed">수입 신고서가 세관에 접수된 상태입니다. 신고번호가 부여되어 공식적인 심사가 시작됩니다.</p>
             </div>
@@ -814,7 +1039,7 @@
             <div class="flex-1 min-w-0">
               <div class="flex items-center gap-3 mb-1">
                 <p class="text-base font-bold text-zinc-200">검사진행</p>
-                <span class="badge-amber text-[10px] font-semibold px-2 py-0.5 rounded-full">Physical Inspection</span>
+                <span class="bg-amber-500/[0.12] text-amber-400 border border-amber-500/[0.28] text-[10px] font-semibold px-2 py-0.5 rounded-full">Physical Inspection</span>
               </div>
               <p class="text-sm text-zinc-600 leading-relaxed">세관 담당관이 실물 화물을 직접 검사 중인 상태입니다. X-Ray 검사 또는 현장 개장 검사가 진행될 수 있습니다.</p>
             </div>
@@ -827,7 +1052,7 @@
             <div class="flex-1 min-w-0">
               <div class="flex items-center gap-3 mb-1">
                 <p class="text-base font-bold text-zinc-200">심사진행</p>
-                <span class="badge-amber text-[10px] font-semibold px-2 py-0.5 rounded-full">Under Examination</span>
+                <span class="bg-amber-500/[0.12] text-amber-400 border border-amber-500/[0.28] text-[10px] font-semibold px-2 py-0.5 rounded-full">Under Examination</span>
               </div>
               <p class="text-sm text-zinc-600 leading-relaxed">신고 서류 및 세율·원산지 등을 세관 심사관이 검토하는 단계입니다. 서류 보완 요청이 발생할 수 있습니다.</p>
             </div>
@@ -840,7 +1065,7 @@
             <div class="flex-1 min-w-0">
               <div class="flex items-center gap-3 mb-1">
                 <p class="text-base font-bold text-zinc-200">납세대기</p>
-                <span class="badge-orange text-[10px] font-semibold px-2 py-0.5 rounded-full">Awaiting Duty Payment</span>
+                <span class="bg-orange-500/[0.12] text-orange-400 border border-orange-500/[0.28] text-[10px] font-semibold px-2 py-0.5 rounded-full">Awaiting Duty Payment</span>
               </div>
               <p class="text-sm text-zinc-600 leading-relaxed">관세 및 부가세 납부 완료를 기다리는 상태입니다. 납부 확인 후 즉시 통관 완료 처리됩니다.</p>
             </div>
@@ -853,7 +1078,7 @@
             <div class="flex-1 min-w-0">
               <div class="flex items-center gap-3 mb-1">
                 <p class="text-base font-bold text-emerald-300">통관완료</p>
-                <span class="badge-green text-[10px] font-semibold px-2 py-0.5 rounded-full">Customs Cleared</span>
+                <span class="bg-emerald-500/[0.12] text-emerald-400 border border-emerald-500/[0.28] text-[10px] font-semibold px-2 py-0.5 rounded-full">Customs Cleared</span>
               </div>
               <p class="text-sm text-zinc-600 leading-relaxed">모든 통관 절차가 완료된 상태입니다. 화물이 정상적으로 반출되어 내륙 운송 또는 배송을 준비할 수 있습니다.</p>
             </div>
@@ -866,7 +1091,7 @@
             <div class="flex-1 min-w-0">
               <div class="flex items-center gap-3 mb-1">
                 <p class="text-base font-bold text-zinc-300">반송·취하</p>
-                <span class="badge-red text-[10px] font-semibold px-2 py-0.5 rounded-full">Rejected / Withdrawn</span>
+                <span class="bg-red-500/[0.12] text-red-400 border border-red-500/[0.28] text-[10px] font-semibold px-2 py-0.5 rounded-full">Rejected / Withdrawn</span>
               </div>
               <p class="text-sm text-zinc-600 leading-relaxed">신고가 취하되거나 세관에 의해 반송 처리된 상태입니다. 재신고 또는 관세사 상담이 필요합니다.</p>
             </div>
@@ -879,7 +1104,7 @@
             <div class="flex-1 min-w-0">
               <div class="flex items-center gap-3 mb-1">
                 <p class="text-base font-bold text-zinc-500">상태 미확인</p>
-                <span class="badge-gray text-[10px] font-semibold px-2 py-0.5 rounded-full">Unknown</span>
+                <span class="bg-zinc-500/[0.12] text-zinc-400 border border-zinc-500/[0.20] text-[10px] font-semibold px-2 py-0.5 rounded-full">Unknown</span>
               </div>
               <p class="text-sm text-zinc-700 leading-relaxed">API에서 상태 정보를 확인할 수 없는 경우입니다. 관세청 Unipass에서 직접 조회하세요.</p>
             </div>
@@ -919,27 +1144,45 @@
             <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
               <div class="bg-emerald-500/10 border border-emerald-500/20 rounded-xl p-3.5 flex items-center gap-3">
                 <iconify-icon icon="solar:check-circle-bold" class="text-emerald-400 flex-shrink-0" style="font-size:18px"></iconify-icon>
-                <div><p class="text-xs font-bold text-zinc-300">통관완료</p><p class="text-[10px] text-zinc-600">Cleared</p></div>
+                <div>
+                  <p class="text-xs font-bold text-zinc-300">통관완료</p>
+                  <p class="text-[10px] text-zinc-600">Cleared</p>
+                </div>
               </div>
               <div class="bg-orange-500/8 border border-orange-500/15 rounded-xl p-3.5 flex items-center gap-3">
                 <iconify-icon icon="solar:dollar-minimalistic-bold" class="text-orange-400 flex-shrink-0" style="font-size:18px"></iconify-icon>
-                <div><p class="text-xs font-bold text-zinc-400">납세대기</p><p class="text-[10px] text-zinc-600">Duty</p></div>
+                <div>
+                  <p class="text-xs font-bold text-zinc-400">납세대기</p>
+                  <p class="text-[10px] text-zinc-600">Duty</p>
+                </div>
               </div>
               <div class="bg-amber-500/8 border border-amber-500/15 rounded-xl p-3.5 flex items-center gap-3">
                 <iconify-icon icon="solar:clipboard-check-bold" class="text-amber-400 flex-shrink-0" style="font-size:18px"></iconify-icon>
-                <div><p class="text-xs font-bold text-zinc-400">심사진행</p><p class="text-[10px] text-zinc-600">Examination</p></div>
+                <div>
+                  <p class="text-xs font-bold text-zinc-400">심사진행</p>
+                  <p class="text-[10px] text-zinc-600">Examination</p>
+                </div>
               </div>
               <div class="bg-zinc-800/40 rounded-xl p-3.5 flex items-center gap-3">
                 <iconify-icon icon="solar:eye-scan-bold" class="text-amber-400 flex-shrink-0" style="font-size:18px"></iconify-icon>
-                <div><p class="text-xs font-bold text-zinc-400">검사진행</p><p class="text-[10px] text-zinc-600">Inspection</p></div>
+                <div>
+                  <p class="text-xs font-bold text-zinc-400">검사진행</p>
+                  <p class="text-[10px] text-zinc-600">Inspection</p>
+                </div>
               </div>
               <div class="bg-blue-500/8 border border-blue-500/15 rounded-xl p-3.5 flex items-center gap-3">
                 <iconify-icon icon="solar:document-add-bold" class="text-blue-400 flex-shrink-0" style="font-size:18px"></iconify-icon>
-                <div><p class="text-xs font-bold text-zinc-400">신고접수</p><p class="text-[10px] text-zinc-600">Declared</p></div>
+                <div>
+                  <p class="text-xs font-bold text-zinc-400">신고접수</p>
+                  <p class="text-[10px] text-zinc-600">Declared</p>
+                </div>
               </div>
               <div class="bg-zinc-800/30 rounded-xl p-3.5 flex items-center gap-3">
                 <iconify-icon icon="solar:clock-circle-bold" class="text-zinc-500 flex-shrink-0" style="font-size:18px"></iconify-icon>
-                <div><p class="text-xs font-bold text-zinc-500">신고전</p><p class="text-[10px] text-zinc-700">Pre-decl.</p></div>
+                <div>
+                  <p class="text-xs font-bold text-zinc-500">신고전</p>
+                  <p class="text-[10px] text-zinc-700">Pre-decl.</p>
+                </div>
               </div>
             </div>
           </div>
@@ -1005,7 +1248,7 @@
             <div class="bg-zinc-950/50 rounded-xl p-3 border border-zinc-800/50">
               <div class="flex items-center justify-between mb-1.5">
                 <span class="font-mono text-xs text-zinc-300">KRPUS2409XXXX</span>
-                <span class="badge-green text-[10px] font-semibold px-2 py-0.5 rounded-full">통관완료</span>
+                <span class="bg-emerald-500/[0.12] text-emerald-400 border border-emerald-500/[0.28] text-[10px] font-semibold px-2 py-0.5 rounded-full">통관완료</span>
               </div>
               <div class="flex items-center justify-between">
                 <span class="text-[11px] text-zinc-600">전자제품 부품</span>
@@ -1015,7 +1258,7 @@
             <div class="bg-zinc-950/50 rounded-xl p-3 border border-zinc-800/50 opacity-50">
               <div class="flex items-center justify-between">
                 <span class="font-mono text-xs text-zinc-400">HKGPU240XXXXX</span>
-                <span class="badge-amber text-[10px] font-semibold px-2 py-0.5 rounded-full">검사진행</span>
+                <span class="bg-amber-500/[0.12] text-amber-400 border border-amber-500/[0.28] text-[10px] font-semibold px-2 py-0.5 rounded-full">검사진행</span>
               </div>
             </div>
           </div>
@@ -1276,7 +1519,7 @@
               무료로 조회 시작하기
               <iconify-icon icon="solar:arrow-right-bold" style="font-size:16px"></iconify-icon>
             </a>
-            <a href="/app" target="_blank" rel="noopener noreferrer" data-app-link class="btn-ghost text-lg px-10 py-5 rounded-2xl flex items-center justify-center gap-3">
+            <a href="/app" target="_blank" rel="noopener noreferrer" data-app-link class="bg-white/[0.04] border border-white/[0.08] text-zinc-200 font-semibold backdrop-blur-sm transition-all hover:bg-white/[0.07] hover:border-white/[0.18] text-lg px-10 py-5 rounded-2xl flex items-center justify-center gap-3">
               <iconify-icon icon="solar:download-minimalistic-bold" class="text-emerald-400" style="font-size:20px"></iconify-icon>
               홈 화면에 설치하기
             </a>
@@ -1492,4 +1735,5 @@
     })();
   </script>
 </body>
+
 </html>
