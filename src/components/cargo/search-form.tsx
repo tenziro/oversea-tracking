@@ -1,19 +1,19 @@
-"use client";
+'use client';
 
-import * as React from "react";
-import { IconSearch, IconLoader2, IconX } from "@tabler/icons-react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import * as React from 'react';
+import { IconSearch, IconLoader2, IconX } from '@tabler/icons-react';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import { cn } from "@/lib/utils";
-import { SEARCH_TYPE_LABELS } from "@/lib/utils";
-import type { SearchType } from "@/lib/types";
+} from '@/components/ui/select';
+import { cn } from '@/lib/utils';
+import { SEARCH_TYPE_LABELS } from '@/lib/utils';
+import type { SearchType } from '@/lib/types';
 
 interface SearchFormProps {
   onSearch: (query: string, searchType: SearchType) => void;
@@ -26,12 +26,13 @@ interface SearchFormProps {
 export function SearchForm({
   onSearch,
   isLoading = false,
-  initialQuery = "",
-  initialSearchType = "cargMtNo",
+  initialQuery = '',
+  initialSearchType = 'cargMtNo',
   className,
 }: SearchFormProps) {
   const [query, setQuery] = React.useState(initialQuery);
-  const [searchType, setSearchType] = React.useState<SearchType>(initialSearchType);
+  const [searchType, setSearchType] =
+    React.useState<SearchType>(initialSearchType);
   const inputRef = React.useRef<HTMLInputElement>(null);
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -42,25 +43,25 @@ export function SearchForm({
   };
 
   const handleClear = () => {
-    setQuery("");
+    setQuery('');
     inputRef.current?.focus();
   };
 
   const placeholders: Record<SearchType, string> = {
-    cargMtNo: "예: KRPUS12345678901",
-    hblNo: "예: ABCD12345678",
-    mblNo: "예: ABCD12345678",
+    cargMtNo: '예: KRPUS12345678901',
+    hblNo: '예: ABCD12345678',
+    mblNo: '예: ABCD12345678',
   };
 
   return (
-    <form onSubmit={handleSubmit} className={cn("space-y-3", className)}>
+    <form onSubmit={handleSubmit} className={cn('space-y-3', className)}>
       {/* 검색 유형 선택 */}
       <div className="flex gap-2">
         <Select
           value={searchType}
           onValueChange={(val) => setSearchType(val as SearchType)}
         >
-          <SelectTrigger className="w-[160px] flex-shrink-0">
+          <SelectTrigger className="flex-shrink-0">
             <SelectValue />
           </SelectTrigger>
           <SelectContent>
@@ -69,7 +70,7 @@ export function SearchForm({
                 <SelectItem key={value} value={value}>
                   {label}
                 </SelectItem>
-              )
+              ),
             )}
           </SelectContent>
         </Select>
@@ -105,7 +106,7 @@ export function SearchForm({
         <Button
           type="submit"
           disabled={!query.trim() || isLoading}
-          className="shrink-0 px-4"
+          className="shrink-0 h-10 w-10"
           aria-label="검색"
         >
           {isLoading ? (

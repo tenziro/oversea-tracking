@@ -1,30 +1,34 @@
-"use client";
+'use client';
 
-import * as React from "react";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { IconPackageImport, IconHistory, IconSettings } from "@tabler/icons-react";
-import { ThemeIconToggle } from "@/components/theme/theme-toggle";
-import { cn } from "@/lib/utils";
+import * as React from 'react';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import {
+  IconPackageImport,
+  IconHistory,
+  IconSettings,
+} from '@tabler/icons-react';
+import { ThemeIconToggle } from '@/components/theme/theme-toggle';
+import { cn } from '@/lib/utils';
 
 const PAGE_META: Record<string, { title: string; icon: React.ElementType }> = {
-  "/app":      { title: "화물통관 조회", icon: IconPackageImport },
-  "/history":  { title: "검색 기록",    icon: IconHistory },
-  "/settings": { title: "설정",         icon: IconSettings },
+  '/app': { title: '화물통관 조회', icon: IconPackageImport },
+  '/history': { title: '검색 기록', icon: IconHistory },
+  '/settings': { title: '설정', icon: IconSettings },
 };
 
 export function Header() {
   const pathname = usePathname();
-  const meta = PAGE_META[pathname] ?? PAGE_META["/app"];
+  const meta = PAGE_META[pathname] ?? PAGE_META['/app'];
   const Icon = meta.icon;
-  const isHome = pathname === "/app";
+  const isHome = pathname === '/app';
 
   return (
     <header
       className={cn(
-        "sticky top-0 z-40 w-full border-b border-border/50 bg-background/80 backdrop-blur-xl supports-[backdrop-filter]:bg-background/60"
+        'sticky top-0 z-40 w-full border-b border-border/50 bg-background/80 backdrop-blur-xl supports-[backdrop-filter]:bg-background/60',
       )}
-      style={{ paddingTop: "env(safe-area-inset-top)" }}
+      style={{ paddingTop: 'env(safe-area-inset-top)' }}
     >
       <div className="flex h-14 items-center px-4 gap-3">
         {/* 로고/타이틀 */}
@@ -32,15 +36,10 @@ export function Header() {
           <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-primary/15 border border-primary/25 text-primary">
             <Icon size={17} />
           </div>
-          <span className="text-[15px] font-bold text-foreground hidden sm:block">
+          <span className="text-[15px] font-bold text-foreground">
             {meta.title}
           </span>
         </Link>
-
-        {/* 모바일 페이지 제목 (sm 미만에서만 표시) */}
-        {!isHome && (
-          <h1 className="flex-1 text-base font-semibold sm:hidden">{meta.title}</h1>
-        )}
 
         <div className="flex-1" />
 
