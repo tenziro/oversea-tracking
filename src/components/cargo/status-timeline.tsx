@@ -9,8 +9,7 @@ import {
   IconClock,
   IconHelpCircle,
 } from "@tabler/icons-react";
-import { cn } from "@/lib/utils";
-import { formatDateTime } from "@/lib/utils";
+import { cn, formatDateTime } from "@/lib/utils";
 import type { ClearanceProgressItem } from "@/lib/types";
 import { CLEARANCE_STATUS_MAP } from "@/lib/types";
 
@@ -19,35 +18,15 @@ interface StatusTimelineProps {
   className?: string;
 }
 
-const STATUS_ICONS: Record<string, React.ElementType> = {
-  PRE_DECLARATION: IconClock,
-  DECLARED: IconFileText,
-  INSPECTION: IconSearch,
-  EXAMINATION: IconEyeCheck,
-  DUTY_PAYMENT: IconCoinEuro,
-  CLEARED: IconCircleCheck,
-  REJECTED: IconAlertTriangle,
-  UNKNOWN: IconHelpCircle,
-};
-
-const STATUS_COLORS: Record<string, string> = {
-  PRE_DECLARATION: "text-muted-foreground",
-  DECLARED: "text-blue-400 dark:text-blue-400",
-  INSPECTION: "text-amber-400 dark:text-amber-400",
-  EXAMINATION: "text-amber-400 dark:text-amber-400",
-  DUTY_PAYMENT: "text-orange-400 dark:text-orange-400",
-  CLEARED: "text-emerald-500 dark:text-emerald-400",
-  REJECTED: "text-red-500 dark:text-red-400",
-};
-
-const STATUS_BG: Record<string, string> = {
-  PRE_DECLARATION: "bg-muted",
-  DECLARED: "bg-blue-50 dark:bg-blue-500/12",
-  INSPECTION: "bg-amber-50 dark:bg-amber-500/12",
-  EXAMINATION: "bg-amber-50 dark:bg-amber-500/12",
-  DUTY_PAYMENT: "bg-orange-50 dark:bg-orange-500/12",
-  CLEARED: "bg-emerald-50 dark:bg-emerald-500/15",
-  REJECTED: "bg-red-50 dark:bg-red-500/12",
+const STATUS_STYLES: Record<string, { icon: React.ElementType; color: string; bg: string }> = {
+  PRE_DECLARATION: { icon: IconClock,         color: "text-muted-foreground",                    bg: "bg-muted" },
+  DECLARED:        { icon: IconFileText,       color: "text-blue-400 dark:text-blue-400",         bg: "bg-blue-50 dark:bg-blue-500/12" },
+  INSPECTION:      { icon: IconSearch,         color: "text-amber-400 dark:text-amber-400",       bg: "bg-amber-50 dark:bg-amber-500/12" },
+  EXAMINATION:     { icon: IconEyeCheck,       color: "text-amber-400 dark:text-amber-400",       bg: "bg-amber-50 dark:bg-amber-500/12" },
+  DUTY_PAYMENT:    { icon: IconCoinEuro,       color: "text-orange-400 dark:text-orange-400",     bg: "bg-orange-50 dark:bg-orange-500/12" },
+  CLEARED:         { icon: IconCircleCheck,    color: "text-emerald-500 dark:text-emerald-400",   bg: "bg-emerald-50 dark:bg-emerald-500/15" },
+  REJECTED:        { icon: IconAlertTriangle,  color: "text-red-500 dark:text-red-400",           bg: "bg-red-50 dark:bg-red-500/12" },
+  UNKNOWN:         { icon: IconHelpCircle,     color: "text-muted-foreground",                    bg: "bg-muted" },
 };
 
 export function StatusTimeline({ items, className }: StatusTimelineProps) {
@@ -71,9 +50,8 @@ export function StatusTimeline({ items, className }: StatusTimelineProps) {
       {sortedItems.map((item, idx) => {
         const mapped = CLEARANCE_STATUS_MAP[item.prgsStts];
         const statusKey = mapped?.status ?? "UNKNOWN";
-        const Icon = STATUS_ICONS[statusKey] ?? IconFileText;
-        const iconColor = STATUS_COLORS[statusKey] ?? "text-muted-foreground";
-        const iconBg = STATUS_BG[statusKey] ?? "bg-muted";
+        const { icon: Icon, color: iconColor, bg: iconBg } =
+          STATUS_STYLES[statusKey] ?? STATUS_STYLES.UNKNOWN;
         const isLatest = idx === 0;
         const isLast = idx === sortedItems.length - 1;
 

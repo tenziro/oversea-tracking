@@ -109,36 +109,36 @@ export async function fetchFromCustomsAPI(
   }
 
   // 화물 정보 파싱 — csclPrgsSts 또는 item 태그로 반복 아이템 추출
-  const progressItemsRaw =
-    extractXmlArray(xml, "csclPrgsSts").length > 0
-      ? extractXmlArray(xml, "csclPrgsSts")
-      : extractXmlArray(xml, "item");
+  const csclItems = extractXmlArray(xml, "csclPrgsSts");
+  const progressItemsRaw = csclItems.length > 0 ? csclItems : extractXmlArray(xml, "item");
   const progressItems: ClearanceProgressItem[] = progressItemsRaw.map(parseProgressItem);
 
+  const v = (tag: string) => extractXmlValue(xml, tag) || undefined;
+
   const data: CargoInfo = {
-    cargMtNo: extractXmlValue(xml, "cargMtNo") || undefined,
-    hblNo: extractXmlValue(xml, "hblNo") || undefined,
-    mblNo: extractXmlValue(xml, "mblNo") || undefined,
-    cargNm: extractXmlValue(xml, "cargNm") || undefined,
-    prnm: extractXmlValue(xml, "prnm") || undefined,
-    cargSttus: extractXmlValue(xml, "cargSttus") || undefined,
-    cargTp: extractXmlValue(xml, "cargTp") || undefined,
-    pckGcnt: extractXmlValue(xml, "pckGcnt") || undefined,
-    pckUt: extractXmlValue(xml, "pckUt") || undefined,
-    ttwg: extractXmlValue(xml, "ttwg") || undefined,
-    wghtUt: extractXmlValue(xml, "wghtUt") || undefined,
-    ldprCd: extractXmlValue(xml, "ldprCd") || undefined,
-    ldprNm: extractXmlValue(xml, "ldprNm") || undefined,
-    dsprCd: extractXmlValue(xml, "dsprCd") || undefined,
-    dsprNm: extractXmlValue(xml, "dsprNm") || undefined,
-    shipNm: extractXmlValue(xml, "shipNm") || undefined,
-    shipNat: extractXmlValue(xml, "shipNat") || undefined,
-    shipNatNm: extractXmlValue(xml, "shipNatNm") || undefined,
-    cntrGcnt: extractXmlValue(xml, "cntrGcnt") || undefined,
-    cntrNo: extractXmlValue(xml, "cntrNo") || undefined,
-    frwrEntsConm: extractXmlValue(xml, "frwrEntsConm") || undefined,
-    etprCstm: extractXmlValue(xml, "etprCstm") || undefined,
-    etprDt: extractXmlValue(xml, "etprDt") || undefined,
+    cargMtNo: v("cargMtNo"),
+    hblNo: v("hblNo"),
+    mblNo: v("mblNo"),
+    cargNm: v("cargNm"),
+    prnm: v("prnm"),
+    cargSttus: v("cargSttus"),
+    cargTp: v("cargTp"),
+    pckGcnt: v("pckGcnt"),
+    pckUt: v("pckUt"),
+    ttwg: v("ttwg"),
+    wghtUt: v("wghtUt"),
+    ldprCd: v("ldprCd"),
+    ldprNm: v("ldprNm"),
+    dsprCd: v("dsprCd"),
+    dsprNm: v("dsprNm"),
+    shipNm: v("shipNm"),
+    shipNat: v("shipNat"),
+    shipNatNm: v("shipNatNm"),
+    cntrGcnt: v("cntrGcnt"),
+    cntrNo: v("cntrNo"),
+    frwrEntsConm: v("frwrEntsConm"),
+    etprCstm: v("etprCstm"),
+    etprDt: v("etprDt"),
     csclPrgsStts: progressItems,
   };
 

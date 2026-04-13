@@ -13,10 +13,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { StatusBadge } from "./status-badge";
 import { StatusTimeline } from "./status-timeline";
-import { formatDateTime, getCurrentClearanceStatus, calcProgressPercent } from "@/lib/utils";
-import { CARGO_STATUS_MAP } from "@/lib/types";
-import type { CargoInfo } from "@/lib/types";
-import { cn } from "@/lib/utils";
+import { cn, formatDateTime, getCurrentClearanceStatus, calcProgressPercent } from "@/lib/utils";
+import { CARGO_STATUS_MAP, type CargoInfo } from "@/lib/types";
 
 interface CargoDetailCardProps {
   cargo: CargoInfo;
