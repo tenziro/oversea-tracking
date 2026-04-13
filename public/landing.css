@@ -157,17 +157,7 @@
       }
     }
 
-    @keyframes float {
-
-      0%,
-      100% {
-        transform: translateY(0);
-      }
-
-      50% {
-        transform: translateY(-10px);
-      }
-    }
+    /* float 키프레임은 JS(rAF + Math.sin)로 이전 */
 
     @keyframes shimmer {
       0% {
@@ -219,7 +209,7 @@
     }
 
     .animate-float {
-      animation: float 5s ease-in-out infinite;
+      will-change: transform;
     }
 
     .anim-pulse {
@@ -590,4 +580,51 @@
 
     [data-theme="light"] .to-zinc-950 {
       --tw-gradient-to: #f8fafc var(--tw-gradient-to-position);
+    }
+
+    /* =====================================================
+       SCROLL PROGRESS BAR
+       ===================================================== */
+    #scroll-progress-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 0%;
+      height: 2px;
+      background: linear-gradient(90deg, #10b981, #34d399);
+      z-index: 9999;
+      pointer-events: none;
+      transition: none;
+    }
+
+    /* =====================================================
+       REVEAL HEADING (수평 슬라이드 강화)
+       ===================================================== */
+    .reveal-heading {
+      opacity: 0;
+      transform: translateY(1rem) translateX(-12px);
+      transition:
+        opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1),
+        transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .reveal-heading.in {
+      opacity: 1;
+      transform: translateY(0) translateX(0);
+    }
+
+    .rd1.reveal-heading.in { transition-delay: 0.06s; }
+    .rd2.reveal-heading.in { transition-delay: 0.12s; }
+    .rd3.reveal-heading.in { transition-delay: 0.18s; }
+
+    /* =====================================================
+       PARALLAX TARGETS
+       ===================================================== */
+    #hero-glow,
+    [data-parallax] {
+      will-change: transform;
+    }
+
+    #hero-left {
+      will-change: opacity, transform;
     }

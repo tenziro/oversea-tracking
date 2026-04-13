@@ -9,6 +9,7 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.min.css">
   <script src="https://code.iconify.design/iconify-icon/2.3.0/iconify-icon.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js"></script>
   <script>
     // Apply theme before paint to avoid flash
     // 'theme' 키는 next-themes(앱)와 공유, 'landing-theme'은 하위 호환
@@ -31,6 +32,7 @@
 </head>
 
 <body class="gradient-page antialiased">
+  <div id="scroll-progress-bar"></div>
   <div class="noise-overlay"></div>
 
   <!-- ==================== NAVIGATION ==================== -->
@@ -66,7 +68,7 @@
       <div class="grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-14 lg:gap-20 items-center">
 
         <!-- Left -->
-        <div class="max-w-2xl">
+        <div id="hero-left" class="max-w-2xl">
           <div class="anim-in inline-flex items-center gap-2 glass rounded-full px-4 py-2 mb-8">
             <span class="w-2 h-2 rounded-full bg-emerald-400 anim-pulse inline-block"></span>
             <span class="text-sm text-zinc-300 font-medium">관세청 Unipass 공식 API 실시간 연동</span>
@@ -120,7 +122,7 @@
         <div class="flex justify-center lg:justify-end anim-in d5">
           <div class="animate-float relative">
             <!-- Ambient glow -->
-            <div class="absolute -inset-8 bg-emerald-500/10 blur-3xl rounded-full pointer-events-none"></div>
+            <div id="hero-glow" class="absolute -inset-8 bg-emerald-500/10 blur-3xl rounded-full pointer-events-none"></div>
 
             <!-- Phone shell -->
             <div class="phone-shell relative w-[310px] p-[11px]">
@@ -260,19 +262,19 @@
             </div>
 
             <!-- Floating tags -->
-            <div class="absolute -right-6 top-24 glass rounded-2xl px-3 py-2.5">
+            <div data-parallax="0.12" class="absolute -right-6 top-24 glass rounded-2xl px-3 py-2.5">
               <div class="flex items-center gap-2">
                 <span class="w-2 h-2 bg-emerald-400 rounded-full anim-pulse inline-block"></span>
                 <span class="text-[12px] text-zinc-200 font-semibold">실시간 조회</span>
               </div>
             </div>
-            <div class="absolute -left-8 bottom-40 glass rounded-2xl px-3 py-2.5">
+            <div data-parallax="0.18" class="absolute -left-8 bottom-40 glass rounded-2xl px-3 py-2.5">
               <div class="flex items-center gap-2">
                 <iconify-icon icon="solar:shield-check-bold" class="text-emerald-400 text-sm"></iconify-icon>
                 <span class="text-[12px] text-zinc-200 font-semibold">공식 API</span>
               </div>
             </div>
-            <div class="absolute -left-4 top-16 glass rounded-2xl px-3 py-2.5">
+            <div data-parallax="0.25" class="absolute -left-4 top-16 glass rounded-2xl px-3 py-2.5">
               <div class="flex items-center gap-2">
                 <iconify-icon icon="solar:smartphone-bold" class="text-emerald-400 text-sm"></iconify-icon>
                 <span class="text-[12px] text-zinc-200 font-semibold">PWA 설치</span>
@@ -289,15 +291,15 @@
     <div class="max-w-7xl mx-auto">
       <div class="grid grid-cols-2 lg:grid-cols-4 gap-10 mb-14">
         <div class="reveal text-center">
-          <p class="text-4xl md:text-5xl font-bold text-emerald-400 mb-2">8단계</p>
+          <p class="text-4xl md:text-5xl font-bold text-emerald-400 mb-2" data-counter="8" data-suffix="단계">8단계</p>
           <p class="text-sm text-zinc-500 leading-snug">신고전부터 통관완료까지<br>전 과정 추적</p>
         </div>
         <div class="reveal rd1 text-center">
-          <p class="text-4xl md:text-5xl font-bold text-emerald-400 mb-2">3가지</p>
+          <p class="text-4xl md:text-5xl font-bold text-emerald-400 mb-2" data-counter="3" data-suffix="가지">3가지</p>
           <p class="text-sm text-zinc-500 leading-snug">화물관리번호·B/L·<br>마스터 B/L 검색</p>
         </div>
         <div class="reveal rd2 text-center">
-          <p class="text-4xl md:text-5xl font-bold text-emerald-400 mb-2">100%</p>
+          <p class="text-4xl md:text-5xl font-bold text-emerald-400 mb-2" data-counter="100" data-suffix="%">100%</p>
           <p class="text-sm text-zinc-500 leading-snug">관세청 Unipass<br>공공 API 기반</p>
         </div>
         <div class="reveal rd3 text-center">
@@ -336,7 +338,7 @@
           <iconify-icon icon="solar:routing-3-bold" class="text-emerald-400 text-[15px]"></iconify-icon>
           <span class="text-sm font-semibold text-emerald-300">이용 방법</span>
         </div>
-        <h2 class="reveal text-4xl md:text-5xl font-bold text-zinc-50 mb-5 leading-tight">딱 3단계로 끝나는<br>간편한 통관 조회</h2>
+        <h2 class="reveal reveal-heading text-4xl md:text-5xl font-bold text-zinc-50 mb-5 leading-tight">딱 3단계로 끝나는<br>간편한 통관 조회</h2>
         <p class="reveal text-lg text-zinc-500 max-w-lg mx-auto leading-relaxed">복잡한 절차 없이, 화물 번호 하나만 있으면 전체 통관 현황을 즉시 확인할 수 있습니다.</p>
       </div>
 
@@ -424,7 +426,7 @@
             <iconify-icon icon="solar:list-check-bold" class="text-emerald-400 text-[15px]"></iconify-icon>
             <span class="text-sm font-semibold text-emerald-300">통관 단계</span>
           </div>
-          <h2 class="reveal text-4xl md:text-5xl font-bold text-zinc-50 mb-6 leading-tight">
+          <h2 class="reveal reveal-heading text-4xl md:text-5xl font-bold text-zinc-50 mb-6 leading-tight">
             신고 전부터<br>
             통관 완료까지<br>
             <span class="shimmer-text">8단계 전부 추적</span>
@@ -567,7 +569,7 @@
           <iconify-icon icon="solar:star-bold" class="text-emerald-400 text-[15px]"></iconify-icon>
           <span class="text-sm font-semibold text-emerald-300">주요 기능</span>
         </div>
-        <h2 class="reveal text-4xl md:text-5xl font-bold text-zinc-50 mb-5 leading-tight">통관 추적에 필요한<br>모든 것을 담았습니다</h2>
+        <h2 class="reveal reveal-heading text-4xl md:text-5xl font-bold text-zinc-50 mb-5 leading-tight">통관 추적에 필요한<br>모든 것을 담았습니다</h2>
         <p class="reveal text-lg text-zinc-500 max-w-xl mx-auto leading-relaxed">수입 화물 관리에 필요한 핵심 기능을 직관적인 인터페이스로 제공합니다.</p>
       </div>
 
@@ -837,7 +839,7 @@
               <span class="text-sm font-semibold text-emerald-300">PWA — Progressive Web App</span>
             </div>
 
-            <h2 class="reveal text-4xl md:text-5xl font-bold text-zinc-50 mb-6 leading-tight">
+            <h2 class="reveal reveal-heading text-4xl md:text-5xl font-bold text-zinc-50 mb-6 leading-tight">
               앱 스토어 없이,<br>
               <span class="shimmer-text">앱처럼 사용하기</span>
             </h2>
@@ -948,7 +950,7 @@
             <span class="text-sm font-semibold text-emerald-300">지금 바로 시작하기</span>
           </div>
 
-          <h2 class="reveal text-4xl md:text-6xl font-bold text-white mb-6 leading-tight">
+          <h2 class="reveal reveal-heading text-4xl md:text-6xl font-bold text-white mb-6 leading-tight">
             내 화물은 지금<br>
             어디쯤 있을까요?
           </h2>
@@ -1033,7 +1035,40 @@
   </footer>
 
   <script>
-    // Intersection observer for reveal animations
+    // ─── Lenis 초기화 ───────────────────────────────────────
+    const lenis = new Lenis({
+      duration: 1.2,
+      easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      smoothWheel: true,
+    });
+
+    // ─── 패럴랙스 대상 캐싱 ─────────────────────────────────
+    const heroSection  = document.querySelector('section');
+    const heroLeft     = document.getElementById('hero-left');
+    const heroGlow     = document.getElementById('hero-glow');
+    const phoneWrapper = document.querySelector('.animate-float');
+    const parallaxTags = document.querySelectorAll('[data-parallax]');
+    const scrollBar    = document.getElementById('scroll-progress-bar');
+    const nav          = document.querySelector('nav');
+
+    // ─── float: rAF 기반 sin 애니메이션 (CSS 키프레임 대체) ──
+    let floatStartTime = null;
+    let floatY = 0;
+
+    // ─── RAF 루프 ────────────────────────────────────────────
+    function raf(time) {
+      lenis.raf(time);
+
+      // float 계산 (5s 주기, -10~0px)
+      if (floatStartTime === null) floatStartTime = time;
+      const elapsed = (time - floatStartTime) / 1000;
+      floatY = -5 + -5 * Math.sin((elapsed / 5) * Math.PI * 2 - Math.PI / 2);
+
+      requestAnimationFrame(raf);
+    }
+    requestAnimationFrame(raf);
+
+    // ─── Intersection Observer (reveal + reveal-heading 공용) ─
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
@@ -1043,28 +1078,93 @@
       });
     }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
 
-    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    document.querySelectorAll('.reveal, .reveal-heading').forEach(el => observer.observe(el));
 
-    // Smooth scroll
+    // ─── 앵커 스크롤 ─────────────────────────────────────────
     document.querySelectorAll('a[href^="#"]').forEach(a => {
       a.addEventListener('click', e => {
         e.preventDefault();
-        const t = document.querySelector(a.getAttribute('href'));
-        if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        lenis.scrollTo(a.getAttribute('href'), { offset: 0 });
       });
     });
 
-    // Nav background on scroll
-    const nav = document.querySelector('nav');
-    function updateNavBg() {
+    // ─── Nav 배경 ────────────────────────────────────────────
+    function updateNavBg(scroll) {
       const el = nav.querySelector('div > div');
-      if (window.scrollY > 60) {
+      if (scroll > 60) {
         el.style.background = getComputedStyle(document.documentElement).getPropertyValue('--c-nav-scroll').trim();
       } else {
         el.style.background = '';
       }
     }
-    window.addEventListener('scroll', updateNavBg, { passive: true });
+
+    // ─── 스크롤 이벤트 핸들러 ────────────────────────────────
+    lenis.on('scroll', ({ scroll, progress }) => {
+      // Nav 배경
+      updateNavBg(scroll);
+
+      // B7: 전역 스크롤 진행 바
+      scrollBar.style.width = (progress * 100) + '%';
+
+      const heroH = heroSection.offsetHeight;
+
+      // A1: 폰 목업 패럴랙스 + float 합성
+      if (phoneWrapper) {
+        const parallaxOffset = scroll * 0.2;
+        phoneWrapper.style.transform = `translateY(${floatY - parallaxOffset}px)`;
+      }
+
+      // A2: 글로우 패럴랙스
+      if (heroGlow) {
+        heroGlow.style.transform = `translateY(${scroll * 0.08}px)`;
+      }
+
+      // A3: 플로팅 태그 개별 패럴랙스
+      parallaxTags.forEach(tag => {
+        const factor = parseFloat(tag.dataset.parallax);
+        tag.style.transform = `translateY(${scroll * factor}px)`;
+      });
+
+      // B4: 히어로 섹션 exit
+      if (heroLeft && heroH > 0) {
+        const heroProgress = Math.max(0, Math.min(1, scroll / heroH));
+        const t = Math.max(0, (heroProgress - 0.5) / 0.5);
+        heroLeft.style.opacity = 1 - t * 0.8;
+        heroLeft.style.transform = `translateY(${-20 * t}px) scale(${1 - 0.03 * t})`;
+      }
+    });
+
+    // ─── B5: Metrics 숫자 카운터 ─────────────────────────────
+    function easeOutExpo(t) {
+      return t === 1 ? 1 : 1 - Math.pow(2, -10 * t);
+    }
+
+    function animateCounter(el) {
+      const target   = parseInt(el.dataset.counter, 10);
+      const suffix   = el.dataset.suffix || '';
+      const duration = 1500;
+      let startTime  = null;
+
+      function step(time) {
+        if (!startTime) startTime = time;
+        const elapsed = Math.min(time - startTime, duration);
+        const t = easeOutExpo(elapsed / duration);
+        el.textContent = Math.round(t * target) + suffix;
+        if (elapsed < duration) requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+    }
+
+    const counterObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          animateCounter(entry.target);
+          counterObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.3 });
+
+    document.querySelectorAll('[data-counter]').forEach(el => counterObserver.observe(el));
   </script>
 
   <!-- Nav active state on scroll -->
@@ -1146,7 +1246,7 @@
       window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
         if (getSaved() === 'system') {
           applyTheme('system');
-          if (window.scrollY > 60) updateNavBg();
+          if (lenis.scroll > 60) updateNavBg(lenis.scroll);
         }
       });
 
@@ -1163,7 +1263,7 @@
         }
         applyTheme(next);
         syncIcon();
-        if (window.scrollY > 60) updateNavBg();
+        if (lenis.scroll > 60) updateNavBg(lenis.scroll);
       });
     })();
   </script>
