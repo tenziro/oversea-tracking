@@ -456,19 +456,23 @@
     }
 
     [data-theme="light"] .text-zinc-400 {
-      color: #64748b;
+      color: #4b5563;
     }
 
     [data-theme="light"] .text-zinc-500 {
-      color: #94a3b8;
+      color: #64748b;
     }
 
     [data-theme="light"] .text-zinc-600 {
-      color: #94a3b8;
+      color: #475569;
     }
 
     [data-theme="light"] .text-zinc-700 {
-      color: #cbd5e1;
+      color: #334155;
+    }
+
+    [data-theme="light"] .text-emerald-300 {
+      color: #047857;
     }
 
     [data-theme="light"] .text-white {
