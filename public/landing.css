@@ -586,6 +586,10 @@
       --tw-gradient-to: #f8fafc var(--tw-gradient-to-position);
     }
 
+    [data-theme="light"] .pwa-overlay {
+      display: none;
+    }
+
     /* =====================================================
        SCROLL PROGRESS BAR
        ===================================================== */
