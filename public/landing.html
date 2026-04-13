@@ -15,7 +15,8 @@
     // 'theme' 키는 next-themes(앱)와 공유, 'landing-theme'은 하위 호환
     (function () {
       var s = localStorage.getItem('theme') || localStorage.getItem('landing-theme');
-      if (!s || s === 'system') s = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      if (!s) s = 'dark';
+      else if (s === 'system') s = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
       document.documentElement.setAttribute('data-theme', s);
     })();
   </script>
@@ -1220,9 +1221,9 @@
       const btn = document.getElementById('theme-toggle');
       const icon = document.getElementById('theme-icon');
 
-      // 저장된 선택값 (dark | light | system), 없으면 system
+      // 저장된 선택값 (dark | light | system), 없으면 dark
       function getSaved() {
-        return localStorage.getItem('theme') || 'system';
+        return localStorage.getItem('theme') || 'dark';
       }
 
       function applyTheme(val) {
