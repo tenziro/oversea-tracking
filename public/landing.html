@@ -1250,10 +1250,10 @@
         }
       });
 
-      // 순환: dark → light → system → dark
+      // 순환: light → dark → system → light
       btn.addEventListener('click', () => {
         const cur = getSaved();
-        const next = cur === 'dark' ? 'light' : cur === 'light' ? 'system' : 'dark';
+        const next = cur === 'light' ? 'dark' : cur === 'dark' ? 'system' : 'light';
         if (next === 'system') {
           localStorage.removeItem('theme');
           localStorage.removeItem('landing-theme');
